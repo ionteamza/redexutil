@@ -7,7 +7,7 @@
 // also see more automated attempt using es6-promisify:
 // https://github.com/evanx/redex/blob/master/lib/redisPromisified.js
 
-console.log(module.filename);
+//console.log(module.filename);
 
 import redis from 'redis';
 import lodash from 'lodash';
