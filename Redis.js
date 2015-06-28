@@ -40,6 +40,8 @@ function createPromise(fn) {
    return new Promise((resolve, reject) => fn(createCallback(resolve, reject)));
 }
 
+exports.instanceCount = 0;
+
 export default class Redis {
 
    constructor(options) {
@@ -47,6 +49,7 @@ export default class Redis {
       if (options) {
          if (options.client) {
             this.client = client;
+            exports.instanceCount += 1;
          } else {
          }
       } else {
@@ -57,11 +60,14 @@ export default class Redis {
    init() {
       if (!this.client) {
          this.client = createClient();
+         exports.instanceCount += 1;
       }
    }
 
    end() {
       if (this.client) {
+         exports.instanceCount -= 1;
+         logger.info('end', exports.instanceCount);
          this.client.end();
          this.client = null;
       }
@@ -69,6 +75,12 @@ export default class Redis {
 
    time() {
       return createPromise(cb => this.client.time(cb));
+   }
+
+   timeSeconds() {
+      return this.time().then(time => {
+         return parseInt(time[0]);
+      });
    }
 
    set(key, value) {
