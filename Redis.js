@@ -42,8 +42,29 @@ function createPromise(fn) {
 
 export default class Redis {
 
-   constructor() {
-      this.client = createClient();
+   constructor(options) {
+      logger.info({options});
+      if (options) {
+         if (options.client) {
+            this.client = client;
+         } else {
+         }
+      } else {
+         this.client = createClient();
+      }
+   }
+
+   start() {
+      if (!this.client) {
+         this.client = createClient();
+      }
+   }
+
+   end() {
+      if (this.client) {
+         this.client.end();
+         this.client = null;
+      }
    }
 
    set(key, value) {
@@ -164,9 +185,6 @@ export default class Redis {
       return multi;
    }
 
-   end() {
-      this.client.end();
-   }
 }
 
 // see test: https://github.com/evanx/redex/blob/master/test/redisPromised.js
