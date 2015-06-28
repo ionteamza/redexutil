@@ -54,7 +54,7 @@ export default class Redis {
       }
    }
 
-   start() {
+   init() {
       if (!this.client) {
          this.client = createClient();
       }
