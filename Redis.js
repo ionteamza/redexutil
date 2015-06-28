@@ -67,6 +67,10 @@ export default class Redis {
       }
    }
 
+   time() {
+      return createPromise(cb => this.client.time(cb));
+   }
+
    set(key, value) {
       //logger.debug('set', key, value);
       return createPromise(cb => this.client.set(key, value, cb));
@@ -87,6 +91,14 @@ export default class Redis {
    sadd(key, member) {
       //logger.debug('sadd', key, member);
       return createPromise(cb => this.client.sadd(key, member, cb));
+   }
+
+   sismember(key, member) {
+      return createPromise(cb => this.client.sismember(key, member, cb));
+   }
+
+   smembers(key, member) {
+      return createPromise(cb => this.client.smembers(key, cb));
    }
 
    srem(key, member) {

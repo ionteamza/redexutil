@@ -1,5 +1,6 @@
 
 import assert from 'assert';
+import lodash from 'lodash';
 
 import Loggers from './Loggers';
 
@@ -31,7 +32,22 @@ var that = module.exports = {
       return '' + parseInt(millis/factors.d) + 'd';
     }
   },
+  fromSeconds(seconds) {
+    return seconds * factors.s;
+  },
+  fromMinutes(minutes) {
+    return minutes * factors.m;
+  },
   parse(millis, defaultValue) {
+    if (lodash.isNumber(millis)) {
+      return millis;
+   } else if (!lodash.isString(millis)) {
+      logger.warn('parse typeof: ' + typeof millis);
+      return defaultValue;
+   }
+    if (/^[0-9]+$/.test(millis)) {
+      return parseInt(millis);
+    }
     let match = millis.match(/^([0-9]+)([a-z]*)$/);
     if (match.length === 3) {
       assert(factors[match[2]], 'factor: ' + match[2]);
