@@ -69,7 +69,7 @@ export default class Redis {
       if (this.client) {
          if (exports.instanceCount > 0) {
             exports.instanceCount -= 1;
-            logger.info('end', exports.instanceCount);
+            logger.info('end: remaining client connections:', exports.instanceCount);
          } else {
             logger.error('end: instanceCount');
          }
