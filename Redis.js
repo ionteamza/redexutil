@@ -54,6 +54,7 @@ export default class Redis {
          }
       } else {
          this.client = createClient();
+         exports.instanceCount += 1;
       }
    }
 
@@ -66,8 +67,12 @@ export default class Redis {
 
    end() {
       if (this.client) {
-         exports.instanceCount -= 1;
-         logger.info('end', exports.instanceCount);
+         if (exports.instanceCount > 0) {
+            exports.instanceCount -= 1;
+            logger.info('end', exports.instanceCount);
+         } else {
+            logger.error('end: instanceCount');
+         }
          this.client.end();
          this.client = null;
       }
