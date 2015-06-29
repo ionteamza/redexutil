@@ -1,20 +1,21 @@
 
+import assert from 'assert';
+import lodash from 'lodash';
+
 const startTime = new Date().getTime();
 
-module.exports = {
-   Asserts: require('./Asserts'),
-   Collections: require('./Collections'),
-   Files: require('./Files'),
-   Loggers: require('./Loggers'),
-   Millis: require('./Millis'),
-   Paths: require('./Paths'),
-   Promises: require('./Promises'),
-   Redis: require('./Redis'),
-   Requests: require('./Requests'),
-   Seconds: require('./Seconds')
-}
+['assert', 'lodash'
+   ].forEach(moduleName => {
+   module.exports[moduleName] = require(moduleName);
+});
+
+['Asserts', 'Collections', 'Errors', 'Files', 'Loggers', 'Millis', 'Maybe', 'Paths',
+   'Promises', 'Redis', 'Requests', 'Seconds', 'YamlFiles'
+   ].forEach(moduleName => {
+      module.exports[moduleName] = require('./' + moduleName);
+});
 
 if (process.env.loggerLevel === 'debug') {
    const duration = new Date().getTime() - startTime;
-   console.log(module.filename, duration);
+   console.log(module.filename, duration, Object.keys(module.exports));
 }

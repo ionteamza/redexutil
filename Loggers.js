@@ -7,7 +7,7 @@ import path from 'path';
 const DefaultLevel = 'info';
 
 const Levels = ['debug', 'info', 'warn', 'error'];
-const ExtraLevels = ['state'];
+const ExtraLevels = ['state', 'digest'];
 const AllLevels = Levels.concat(ExtraLevels);
 
 function createService() {
@@ -19,11 +19,12 @@ function createService() {
          debug: [],
          warn: [],
          error: [],
+         digest: [],
          state: []
       }
    };
 
-   function logging(logger, name, loggerLevel, level, args) {
+   function logging(logger, name, loggerLevel, level, args, count) {
       args = [].slice.call(args); // convert arguments to array
       if (!state.logging.hasOwnProperty(level)) {
          args.splice(0, 0, 'Invalid level: ' + level);
@@ -34,7 +35,11 @@ function createService() {
          state.logging[level].length = state.limit;
       }
       if (logger) {
-         if (lodash.includes(Levels, level)) {
+         if (level === 'digest') {
+            if (count % 5 === 0) {
+               logger.info('digest', count, ...args);
+            }
+         } else if (lodash.includes(Levels, level)) {
             if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
                logger[level].call(logger, ...args);
                //console.info('logging', name, loggerLevel, level, args);
@@ -44,7 +49,11 @@ function createService() {
    }
 
    function decorate(logger, name, level) {
-      return {
+      let count = 0;
+      const service = {
+         get name() {
+            return name;
+         },
          debug() {
             if (level === 'debug') {
                logging(logger, name, level, 'debug', arguments);
@@ -61,8 +70,13 @@ function createService() {
          },
          state() {
             logging(logger, name, level, 'state', arguments);
+         },
+         digest() {
+            count += 1;
+            logging(logger, name, level, 'digest', arguments, count);
          }
-      }
+      };
+      return service;
    }
 
    const service = {

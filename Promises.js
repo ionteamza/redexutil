@@ -31,14 +31,15 @@ module.exports = {
          setTimeout(() => resolve(), millis);
       });
    },
-   timeout(name, timeoutMillis, promise) {
-      if (timeoutMillis) {
+   timeout(name, timeout, promise) {
+      if (timeout) {
          return new Promise((resolve, reject) => {
+            console.warn('timeout', typeof promise);
             promise.then(resolve, reject);
             setTimeout(() => {
-               let message = formatTimeoutErrorMessage(name, timeoutMillis);
+               let message = formatTimeoutErrorMessage(name, timeout);
                reject({name, message});
-            }, timeoutMillis);
+            }, timeout);
          });
       } else {
          return promise;

@@ -9,48 +9,53 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename);
 
-module.exports = {
-   exists(filePath) {
-      logger.debug('exists', filePath);
-      return new Promise((resolve, reject) => {
-         fs.exists(filePath, exists => {
-            logger.debug('exists', filePath, {exists});
-            resolve(exists);
-         });
-      });
-   },
+const Files = {
    stat(path) {
       logger.debug('stat', path);
       return Promises.make(cb => fs.stat(path, cb));
    },
+   existsFile(file) {
+      return Files.stat().then(stats => stats.isFile()).catch(err => {
+         logger.debug('existsFile', err.message);
+         return false;
+      });
+   },
+   existsFileSync(file) {
+      try {
+         return fs.statSync(file).isFile();
+      } catch (err) {
+         logger.debug('existsFileSync', err.message);
+         return false;
+      }
+   },
    watch(dir) {
       logger.debug('watch', dir);
       return new Promise((resolve, reject) => {
-         fs.watch(dir, (fileEvent, filePath) => {
-            logger.debug('watch', fileEvent, filePath);
-            resolve([fileEvent, filePath]);
+         fs.watch(dir, (event, file) => {
+            logger.debug('watch', event, file);
+            resolve([event, file]);
          });
       });
    },
-   readFile(filePath) {
-      logger.debug('readFile', filePath);
+   readFile(file) {
+      logger.debug('readFile', file);
       return new Promise((resolve, reject) => {
-         fs.readFile(filePath, (err, content) => {
-            logger.debug('readFile', filePath, {err});
+         fs.readFile(file, (err, content) => {
+            logger.debug('readFile', file, {err});
             if (err) {
                reject(err);
             } else {
-               logger.debug('readFile resolve:', filePath, content.length);
+               logger.debug('readFile resolve:', file, content.length);
                resolve(content);
             }
          });
       });
    },
-   writeFile(filePath, content) {
-      logger.debug('writeFile', filePath);
+   writeFile(file, content) {
+      logger.debug('writeFile', file);
       return new Promise((resolve, reject) => {
-         fs.writeFile(filePath, content, err => {
-            logger.debug('writeFile', filePath, {err});
+         fs.writeFile(file, content, err => {
+            logger.debug('writeFile', file, {err});
             if (err) {
                reject(err);
             } else {
@@ -60,3 +65,5 @@ module.exports = {
       });
    }
 };
+
+module.exports = Files;
