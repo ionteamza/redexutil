@@ -15,7 +15,7 @@ const Files = {
       return Promises.make(cb => fs.stat(path, cb));
    },
    existsFile(file) {
-      return Files.stat().then(stats => stats.isFile()).catch(err => {
+      return Files.stat(file).then(stats => stats.isFile()).catch(err => {
          logger.debug('existsFile', err.message);
          return false;
       });
