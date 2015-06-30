@@ -4,10 +4,12 @@ import lodash from 'lodash';
 
 const startTime = new Date().getTime();
 
-['assert', 'lodash'
+['assert', 'lodash', 'path',
    ].forEach(moduleName => {
    module.exports[moduleName] = require(moduleName);
 });
+
+module.exports._ = module.exports.lodash;
 
 ['Asserts', 'Collections', 'Errors', 'Files', 'Loggers', 'Millis', 'Maybe', 'Paths',
    'Promises', 'Redis', 'Requests', 'Seconds', 'YamlFiles'
