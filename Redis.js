@@ -71,9 +71,9 @@ export default class Redis {
 
    end() {
       if (this.client) {
-         if (state.clients.size() > 0) {
+         if (state.clients.size > 0) {
             state.clients.delete(this.client);
-            logger.info('end: remaining client connections:', state.clients.size());
+            logger.info('end: remaining client connections:', state.clients.size);
          } else {
             logger.error('end');
          }
