@@ -22,7 +22,7 @@ const state = {
 
 function createClient() {
    let redisClient = redis.createClient();
-   clients.add(redisClient);
+   state.clients.add(redisClient);
    redisClient.on('error', err => {
       logger.error('redis error:', err);
    });
@@ -60,164 +60,164 @@ export default class Redis {
          }
       } else {
          this.client = createClient();
-
       }
-
-      init() {
-         if (!this.client) {
-            this.client = createClient();
-         }
-      }
-
-      end() {
-         if (this.client) {
-            if (that.size() > 0) {
-               state.clients.delete(this.client);
-               logger.info('end: remaining client connections:', that.size());
-            } else {
-               logger.error('end');
-            }
-            this.client.end();
-            this.client = null;
-         }
-      }
-
-      time() {
-         return createPromise(cb => this.client.time(cb));
-      }
-
-      timeSeconds() {
-         return this.time().then(time => {
-            return parseInt(time[0]);
-         });
-      }
-
-      set(key, value) {
-         //logger.debug('set', key, value);
-         return createPromise(cb => this.client.set(key, value, cb));
-      }
-
-      get(key) {
-         return createPromise(cb => this.client.get(key, cb));
-      }
-
-      del(key) {
-         return createPromise(cb => this.client.del(key, cb));
-      }
-
-      expire(key, seconds) {
-         return createPromise(cb => this.client.expire(key, seconds, cb));
-      }
-
-      sadd(key, member) {
-         //logger.debug('sadd', key, member);
-         return createPromise(cb => this.client.sadd(key, member, cb));
-      }
-
-      sismember(key, member) {
-         return createPromise(cb => this.client.sismember(key, member, cb));
-      }
-
-      smembers(key, member) {
-         return createPromise(cb => this.client.smembers(key, cb));
-      }
-
-      srem(key, member) {
-         return createPromise(cb => this.client.srem(key, member, cb));
-      }
-
-      scard(key) {
-         return createPromise(cb => this.client.scard(key, cb));
-      }
-
-      hset(key, field, value) {
-         return createPromise(cb => this.client.hset(key, field, value, cb));
-      }
-
-      hmset(key, value) {
-         return createPromise(cb => this.client.hmset(key, value, cb));
-      }
-
-      hget(key, field) {
-         return createPromise(cb => this.client.hget(key, field, cb));
-      }
-
-      hgetall(key) {
-         return createPromise(cb => this.client.hgetall(key, cb));
-      }
-
-      lindex(key, index) {
-         return createPromise(cb => this.client.lindex(key, index, cb));
-      }
-
-      lset(key, index, value) {
-         return createPromise(cb => this.client.lset(key, index, value, cb));
-      }
-
-      llen(key) {
-         return createPromise(cb => this.client.llen(key, cb));
-      }
-
-      ltrim(key, start, stop) {
-         return createPromise(cb => this.client.ltrim(key, start, stop, cb));
-      }
-
-      lrange(key, start, stop) {
-         return createPromise(cb => this.client.lrange(key, start, stop, cb));
-      }
-
-      lpush(key, value) {
-         return createPromise(cb => this.client.lpush(key, value, cb));
-      }
-
-      rpush(key, value) {
-         return createPromise(cb => this.client.rpush(key, value, cb));
-      }
-
-      lpop(key) {
-         return createPromise(cb => this.client.lpop(key, cb));
-      }
-
-      rpop(key) {
-         return createPromise(cb => this.client.rpop(key, cb));
-      }
-
-      blpop(key, timeout) {
-         return createPromise(cb => this.client.blpop(key, timeout, cb));
-      }
-
-      brpop(key, timeout) {
-         return createPromise(cb => this.client.brpop(key, timeout, cb));
-      }
-
-      rpoplpush(source, destination) {
-         return createPromise(cb => this.client.rpoplpush(source, destination, cb));
-      }
-
-      brpoplpush(source, destination, timeout) {
-         return createPromise(cb => this.client.brpoplpush(source, destination, timeout, cb));
-      }
-
-      zrange(key, stop, start) {
-         return createPromise(cb => this.client.zrange(key, start, stop, cb));
-      }
-
-      zrevrange(key, stop, start) {
-         return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
-      }
-
-      // TODO all the rest, see https://github.com/mranney/node_redis/blob/master/lib/commands.js
-
-      multi() {
-         let multi = this.client.multi();
-         multi.execCallback = multi.exec;
-         multi.execPromise = () => {
-            return createPromise(cb => multi.execCallback(cb));
-         };
-         multi.exec = multi.execPromise;
-         return multi;
-      }
-
    }
 
-   // see test: https://github.com/evanx/redex/blob/master/test/redisPromised.js
+   init() {
+      if (!this.client) {
+         this.client = createClient();
+      }
+   }
+
+   end() {
+      if (this.client) {
+         if (that.size() > 0) {
+            state.clients.delete(this.client);
+            logger.info('end: remaining client connections:', that.size());
+         } else {
+            logger.error('end');
+         }
+         this.client.end();
+         this.client = null;
+      }
+   }
+
+   time() {
+      return createPromise(cb => this.client.time(cb));
+   }
+
+   timeSeconds() {
+      return this.time().then(time => {
+         return parseInt(time[0]);
+      });
+   }
+
+   set(key, value) {
+      //logger.debug('set', key, value);
+      return createPromise(cb => this.client.set(key, value, cb));
+   }
+
+   get(key) {
+      return createPromise(cb => this.client.get(key, cb));
+   }
+
+   del(key) {
+      return createPromise(cb => this.client.del(key, cb));
+   }
+
+   expire(key, seconds) {
+      return createPromise(cb => this.client.expire(key, seconds, cb));
+   }
+
+   sadd(key, member) {
+      //logger.debug('sadd', key, member);
+      return createPromise(cb => this.client.sadd(key, member, cb));
+   }
+
+   sismember(key, member) {
+      return createPromise(cb => this.client.sismember(key, member, cb));
+   }
+
+   smembers(key, member) {
+      return createPromise(cb => this.client.smembers(key, cb));
+   }
+
+   srem(key, member) {
+      return createPromise(cb => this.client.srem(key, member, cb));
+   }
+
+   scard(key) {
+      return createPromise(cb => this.client.scard(key, cb));
+   }
+
+   hset(key, field, value) {
+      return createPromise(cb => this.client.hset(key, field, value, cb));
+   }
+
+   hmset(key, value) {
+      return createPromise(cb => this.client.hmset(key, value, cb));
+   }
+
+   hget(key, field) {
+      return createPromise(cb => this.client.hget(key, field, cb));
+   }
+
+   hgetall(key) {
+      return createPromise(cb => this.client.hgetall(key, cb));
+   }
+
+   lindex(key, index) {
+      return createPromise(cb => this.client.lindex(key, index, cb));
+   }
+
+   lset(key, index, value) {
+      return createPromise(cb => this.client.lset(key, index, value, cb));
+   }
+
+   llen(key) {
+      return createPromise(cb => this.client.llen(key, cb));
+   }
+
+   ltrim(key, start, stop) {
+      return createPromise(cb => this.client.ltrim(key, start, stop, cb));
+   }
+
+   lrange(key, start, stop) {
+      return createPromise(cb => this.client.lrange(key, start, stop, cb));
+   }
+
+   lpush(key, value) {
+      return createPromise(cb => this.client.lpush(key, value, cb));
+   }
+
+   rpush(key, value) {
+      return createPromise(cb => this.client.rpush(key, value, cb));
+   }
+
+   lpop(key) {
+      return createPromise(cb => this.client.lpop(key, cb));
+   }
+
+   rpop(key) {
+      return createPromise(cb => this.client.rpop(key, cb));
+   }
+
+   blpop(key, timeout) {
+      return createPromise(cb => this.client.blpop(key, timeout, cb));
+   }
+
+   brpop(key, timeout) {
+      return createPromise(cb => this.client.brpop(key, timeout, cb));
+   }
+
+   rpoplpush(source, destination) {
+      return createPromise(cb => this.client.rpoplpush(source, destination, cb));
+   }
+
+   brpoplpush(source, destination, timeout) {
+      return createPromise(cb => this.client.brpoplpush(source, destination, timeout, cb));
+   }
+
+   zrange(key, stop, start) {
+      return createPromise(cb => this.client.zrange(key, start, stop, cb));
+   }
+
+   zrevrange(key, stop, start) {
+      return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
+   }
+
+   // TODO all the rest, see https://github.com/mranney/node_redis/blob/master/lib/commands.js
+
+   multi() {
+      let multi = this.client.multi();
+      multi.execCallback = multi.exec;
+      multi.execPromise = () => {
+         return createPromise(cb => multi.execCallback(cb));
+      };
+      multi.exec = multi.execPromise;
+      return multi;
+   }
+
+}
+
+// see test: https://github.com/evanx/redex/blob/master/test/redisPromised.js
