@@ -28,8 +28,8 @@ const Files = {
          return false;
       }
    },
-   watch(dir) {
-      logger.debug('watch', dir);
+   watch(dir, timeout) { // TODO work out how to cancel after timeout
+      logger.debug('watch', dir, timeout);
       return new Promise((resolve, reject) => {
          fs.watch(dir, (event, file) => {
             logger.debug('watch', event, file);
