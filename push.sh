@@ -9,4 +9,5 @@ fi
 git add -A
 git commit -m "$message"
 git push 
+git status
 
