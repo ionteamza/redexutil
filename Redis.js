@@ -12,7 +12,7 @@
 import redis from 'redis';
 import lodash from 'lodash';
 
-import Loggers from './Loggers';
+import Loggers from '../util/Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 

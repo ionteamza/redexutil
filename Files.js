@@ -12,7 +12,7 @@ const logger = Loggers.create(module.filename);
 const Files = {
    stat(path) {
       logger.debug('stat', path);
-      return Promises.make(cb => fs.stat(path, cb));
+      return Promises.promisify(cb => fs.stat(path, cb));
    },
    existsFile(file) {
       return Files.stat(file).then(stats => stats.isFile()).catch(err => {
@@ -28,13 +28,14 @@ const Files = {
          return false;
       }
    },
-   watch(dir, timeout) { // TODO work out how to cancel after timeout
+   watch(dir, timeout) {
       logger.debug('watch', dir, timeout);
       return new Promise((resolve, reject) => {
-         fs.watch(dir, (event, file) => {
+         let watcher = fs.watch(dir, (event, file) => {
             logger.debug('watch', event, file);
             resolve([event, file]);
          });
+
       });
    },
    readFile(file) {

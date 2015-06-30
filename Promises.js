@@ -23,7 +23,7 @@ function generateCallback(resolve, reject) {
 }
 
 module.exports = {
-   make(fn) {
+   promisify(fn) {
       return new Promise((resolve, reject) => fn(generateCallback(resolve, reject)));
    },
    delay(millis) {
