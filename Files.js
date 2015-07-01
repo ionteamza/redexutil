@@ -29,13 +29,17 @@ const Files = {
       }
    },
    watch(dir, timeout) {
-      logger.debug('watch', dir, timeout);
+      logger.info('watch', dir, timeout);
       return new Promise((resolve, reject) => {
          let watcher = fs.watch(dir, (event, file) => {
             logger.debug('watch', event, file);
-            resolve([event, file]);
+            resolve({event, file});
          });
-
+         setTimeout(() => {
+            logger.info('watch timeout', timeout);
+            watcher.close();
+            resolve({});
+         }, timeout);
       });
    },
    readFile(file) {
