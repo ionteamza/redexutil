@@ -12,7 +12,7 @@ function formatTimeoutErrorMessage(name, timeoutMillis) {
    return name + ' (' + timeout + 'ms)';
 }
 
-function generateCallback(resolve, reject) {
+function createCallback(resolve, reject) {
    return (err, reply) => {
       if (err) {
          reject(err);
@@ -23,8 +23,8 @@ function generateCallback(resolve, reject) {
 }
 
 module.exports = {
-   promisify(fn) {
-      return new Promise((resolve, reject) => fn(generateCallback(resolve, reject)));
+   create(fn) {
+      return new Promise((resolve, reject) => fn(createCallback(resolve, reject)));
    },
    delay(millis) {
       return new Promise((resolve, reject) => {

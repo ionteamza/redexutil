@@ -12,7 +12,7 @@ const logger = Loggers.create(module.filename);
 const Files = {
    stat(path) {
       logger.debug('stat', path);
-      return Promises.promisify(cb => fs.stat(path, cb));
+      return Promises.create(cb => fs.stat(path, cb));
    },
    existsFile(file) {
       return Files.stat(file).then(stats => stats.isFile()).catch(err => {
