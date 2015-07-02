@@ -12,7 +12,7 @@ const startTime = new Date().getTime();
 module.exports._ = module.exports.lodash;
 
 ['Asserts', 'Collections', 'Errors', 'Files', 'Loggers', 'Millis', 'Maybe', 'Paths',
-   'Promises', 'Redis', 'Requests', 'Seconds', 'YamlFiles'
+   'Promises', 'Requests', 'Seconds', 'YamlFiles'
    ].forEach(moduleName => {
       module.exports[moduleName] = require('./' + moduleName);
 });
