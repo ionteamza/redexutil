@@ -9,7 +9,7 @@ import path from 'path';
 const DefaultLevel = 'info';
 
 const Levels = ['debug', 'info', 'warn', 'error'];
-const ExtraLevels = ['state', 'digest'];
+const ExtraLevels = ['state', 'digest', 'method'];
 const AllLevels = Levels.concat(ExtraLevels);
 
 function createService() {
@@ -22,7 +22,8 @@ function createService() {
          warn: [],
          error: [],
          digest: [],
-         state: []
+         state: [],
+         method: []
       }
    };
 
@@ -54,7 +55,7 @@ function createService() {
       if (logger) {
          if (level === 'digest') {
             if (count % 5 === 0) {
-               logger.info('digest', count, ...args);
+               logger.debug('digest', count, ...args);
             }
          } else if (lodash.includes(Levels, level)) {
             if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
@@ -89,11 +90,17 @@ function createService() {
             logging(logger, name, level, 'state', arguments);
          },
          digest() {
-            count += 1;
-            logging(logger, name, level, 'digest', arguments, count);
+            if (level === 'debug') {
+               count += 1;
+               logging(logger, name, level, 'digest', arguments, count);
+            }
          },
          method(methodName, param) {
-            return Loggers.create(name + '.' + methodName + '(' + param + ')', level);
+            let label = methodName + '(' + param + ')';
+            if (level === 'debug') {
+               logging(logger, name, level, 'method', [label]);
+            }
+            return Loggers.create(name + '.' + label, level);
          }
       };
       return logr;
