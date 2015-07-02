@@ -24,6 +24,21 @@ function createService() {
       }
    };
 
+   const Loggers = {
+      create(name, level) {
+         name = path.basename(name, '.js');
+         level = level || global.loggerLevel || process.env.loggerLevel || DefaultLevel;
+         if (lodash.includes(Levels, level)) {
+            let logger = bunyan.createLogger({name, level});
+            //logger.info('logger', level, global.loggerLevel);
+            return decorate(logger, name, level);
+         } else {
+            assert(lodash.includes(ExtraLevels, level), 'level: ' + level);
+            return decorate(null, name, level);
+         }
+      }
+   };
+
    function logging(logger, name, loggerLevel, level, args, count) {
       args = [].slice.call(args); // convert arguments to array
       if (!state.logging.hasOwnProperty(level)) {
@@ -50,7 +65,7 @@ function createService() {
 
    function decorate(logger, name, level) {
       let count = 0;
-      const service = {
+      const logr = {
          get name() {
             return name;
          },
@@ -74,26 +89,15 @@ function createService() {
          digest() {
             count += 1;
             logging(logger, name, level, 'digest', arguments, count);
+         },
+         method(methodName, param) {
+            return Loggers.create(name + '.' + methodName + '(' + param + ')', level);
          }
       };
-      return service;
+      return logr;
    }
 
-   const service = {
-      create(name, level) {
-         name = path.basename(name, '.js');
-         level = level || process.env.loggerLevel || DefaultLevel;
-         if (lodash.includes(Levels, level)) {
-            let logger = bunyan.createLogger({name, level});
-            return decorate(logger, name, level);
-         } else {
-            assert(lodash.includes(ExtraLevels, level), 'level: ' + level);
-            return decorate(null, name, level);
-         }
-      }
-   };
-
-   return service;
+   return Loggers;
 };
 
 module.exports = createService();
