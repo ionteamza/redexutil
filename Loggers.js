@@ -57,6 +57,8 @@ function createService() {
             if (count % 5 === 0) {
                logger.debug('digest', count, ...args);
             }
+         } else if (level === 'method') {
+            logger.debug('method', ...args);
          } else if (lodash.includes(Levels, level)) {
             if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
                logger[level].call(logger, ...args);
@@ -96,7 +98,7 @@ function createService() {
             }
          },
          method(methodName, param) {
-            let label = methodName + '(' + param + ')';
+            let label = methodName + '(' + param.toString() + ')';
             if (level === 'debug') {
                logging(logger, name, level, 'method', [label]);
             }
