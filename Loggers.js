@@ -97,10 +97,10 @@ function createService() {
                logging(logger, name, level, 'digest', arguments, count);
             }
          },
-         method(methodName, param) {
-            let label = methodName + '(' + param.toString() + ')';
+         method() {
+            let label = arguments[0] + '(' + arguments[1] + ')';
             if (level === 'debug') {
-               logging(logger, name, level, 'method', [label]);
+               logging(logger, name, level, 'method', arguments);
             }
             return Loggers.create(name + '.' + label, level);
          }
