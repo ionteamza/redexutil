@@ -72,6 +72,8 @@ function decorate(logger, name, level) {
       get name() {
          return name;
       },
+      verbose() {
+      },
       debug() {
          if (level === 'debug') {
             logging(logger, name, level, 'debug', arguments);

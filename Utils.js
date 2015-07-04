@@ -8,8 +8,7 @@ import lodash from 'lodash';
 
 const startTime = new Date().getTime();
 
-['assert', 'lodash', 'path',
-   ].forEach(moduleName => {
+['assert', 'lodash', 'path'].forEach(moduleName => {
    module.exports[moduleName] = require(moduleName);
 });
 
