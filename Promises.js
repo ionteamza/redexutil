@@ -7,10 +7,6 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename);
 
-function formatTimeoutErrorMessage(name, timeoutMillis) {
-   return name + ' (' + timeout + 'ms)';
-}
-
 function createCallback(resolve, reject) {
    return (err, reply) => {
       if (err) {
@@ -30,14 +26,13 @@ module.exports = {
          setTimeout(() => resolve(), millis);
       });
    },
-   timeout(name, timeout, promise) {
+   timeout(reason, timeout, promise) {
       if (timeout) {
          return new Promise((resolve, reject) => {
             console.warn('timeout', typeof promise);
             promise.then(resolve, reject);
             setTimeout(() => {
-               let message = formatTimeoutErrorMessage(name, timeout);
-               reject({name, message});
+               reject(reason + ' (' + timeout + 'ms)');
             }, timeout);
          });
       } else {
