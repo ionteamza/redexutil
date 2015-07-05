@@ -30,8 +30,7 @@ const YamlFiles = {
       try {
          return yaml.safeLoad(fs.readFileSync(file, 'utf8'));
       } catch (e) {
-         logger.error(file);
-         throw Errors.decorate(e);
+         throw Errors.decorate(e, {file});
       }
    }
 };
