@@ -38,5 +38,12 @@ module.exports = {
       } else {
          return promise;
       }
+   },
+   notEmpty(value, reason) {
+      if (!lodash.isEmpty(value)) {
+         return Promise.resolve(value);
+      } else {
+         return Promise.reject(reason);
+      }
    }
 };
