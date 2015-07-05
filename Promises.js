@@ -45,5 +45,12 @@ module.exports = {
       } else {
          return Promise.reject(reason);
       }
+   },
+   isEmpty(value, reason) {
+      if (lodash.isEmpty(value)) {
+         return Promise.resolve(value);
+      } else {
+         return Promise.reject(reason);
+      }
    }
 };
