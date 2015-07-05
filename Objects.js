@@ -8,13 +8,11 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename);
 
 const that = {
-
-   assert(value, message) {
-      assert(value, message);
-   },
-
-   assertNumber(value, message) {
-      assert(!isNaN(value), message);
+   props(object) {
+      return Object.keys(object).map(key => {
+         let value = object[key];
+         return {key, value};
+      });
    }
 }
 
