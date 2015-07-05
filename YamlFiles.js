@@ -5,18 +5,13 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
 
-import Errors from './Errors';
-import Files from './Files';
-import Loggers from './Loggers';
-import Maybe from './Maybe';
-
 const logger = Loggers.create(module.filename);
 
 const that = {
    readFileSyncMaybe(file) {
       logger.debug('readFileSyncMaybe', file);
       if (Files.existsFileSync(file)) {
-         return Maybe.value(YamlFiles.readFileSync(file));
+         return Maybe.define(YamlFiles.readFileSync(file));
       }
       return Maybe.none(file);
    },
