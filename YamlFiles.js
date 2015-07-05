@@ -15,9 +15,10 @@ const YamlFiles = {
    readFileSyncMaybe(file) {
       logger.debug('readFileSyncMaybe', file);
       if (Files.existsFileSync(file)) {
-         return Maybe.resolve(YamlFiles.readFileSync(file));
+         return Promise.resolve(YamlFiles.readFileSync(file));
+      } else {
+         return Promise.reject(file);
       }
-      return Maybe.reject(file);
    },
    readFileSyncDir(dir, file) {
       return YamlFiles.readFileSync(Paths.join(dir, file));
