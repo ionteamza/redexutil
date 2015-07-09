@@ -9,7 +9,7 @@ import path from 'path';
 const DefaultLevel = 'info';
 
 const Levels = ['debug', 'info', 'warn', 'error'];
-const ExtraLevels = ['state', 'digest', 'method'];
+const ExtraLevels = ['state', 'digest', 'child'];
 const AllLevels = Levels.concat(ExtraLevels);
 
 const state = {
@@ -21,7 +21,7 @@ const state = {
       error: [],
       digest: [],
       state: [],
-      method: []
+      child: []
    }
 };
 
@@ -55,8 +55,8 @@ function logging(logger, name, loggerLevel, level, args, count) {
          if (count % 5 === 0) {
             logger.debug('digest', count, ...args);
          }
-      } else if (level === 'method') {
-         logger.debug('method', ...args);
+      } else if (level === 'child') {
+         logger.debug('child', ...args);
       } else if (lodash.includes(Levels, level)) {
          if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
@@ -97,10 +97,10 @@ function decorate(logger, name, level) {
             logging(logger, name, level, 'digest', arguments, count);
          }
       },
-      method() {
+      child() {
          let label = arguments[0] + '(' + arguments[1] + ')';
          if (level === 'debug') {
-            logging(logger, name, level, 'method', arguments);
+            logging(logger, name, level, 'child', arguments);
          }
          return Loggers.create(name + '.' + label, level);
       }
