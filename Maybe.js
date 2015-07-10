@@ -5,14 +5,15 @@
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(module.filename, 'info');
 
-export class Maybe {
+export default class Maybe {
 
-   // function take no arguments and returns value or throws error
-   static create(fn) {
+   // param fn takes no arguments and returns value or throws error
+   static call(fn) {
       try {
          let value = fn();
+         logger.debug('call', value);
          if (typeof value.then === 'function') {
             return value;
          } else {
@@ -74,7 +75,7 @@ export class Maybe {
             if (!rejected) {
                reject(reason);
             }
-         }
+         },
          toString() {
             return `Maybe.reject(${reason})`;
          }
@@ -109,6 +110,4 @@ export class Maybe {
          return Maybe.reject(reason || 'not empty');
       }
    }
-};
-
-module.exports = Maybe;
+}
