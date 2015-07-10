@@ -1,41 +1,30 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-// unused/experimental - for understanding Promises
+// similar to Promise, but synchronously invoked
 
 import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename);
 
-const Maybe = {
+export class Maybe {
 
-   key(object, key, reason) {
-      assert(object, 'object');
-      assert(key, 'key');
-      if (object.hasOwnProperty[key]) {
-         return Maybe.resolve(object[key]);
-      } else {
-         if (!reason) {
-            reason = 'no key: ' + key;
+   // function take no arguments and returns value or throws error
+   static create(fn) {
+      try {
+         let value = fn();
+         if (typeof value.then === 'function') {
+            return value;
+         } else {
+            return Maybe.resolve(value);
          }
-         return Maybe.reject(reason);
+      } catch (err) {
+         logger.warn('call', err);
+         return Maybe.reject(err);
       }
-   },
-   notEmpty(value, reason) {
-      if (!lodash.isEmpty(value)) {
-         return Maybe.resolve(value);
-      } else {
-         return Maybe.reject(reason || 'empty');
-      }
-   },
-   isEmpty(value, reason) {
-      if (lodash.isEmpty(value)) {
-         return Maybe.resolve();
-      } else {
-         return Maybe.reject(reason || 'not empty');
-      }
-   },
-   resolve(value) {
+   }
+
+   static resolve(value) {
       return {
          get has() {
             return true;
@@ -49,17 +38,22 @@ const Maybe = {
             } catch (err) {
                if (err.stack) {
                   logger.warn('resolve', err.stack);
+               } else {
+                  logger.warn('resolve', err);
                }
-               return Maybe.thrown(err);
+               return Maybe.reject(err);
             }
+         },
+         catch(err) {
          },
          toString() {
             return `Maybe.resolve(${value})`;
          }
       };
-   },
-   reject(reason) {
-      logger.warn('reject', reason);
+   }
+
+   static reject(reason) {
+      let rejected = false;
       return {
          get has() {
             return false;
@@ -68,54 +62,52 @@ const Maybe = {
             throw reason;
          },
          then(resolve, reject) {
-            try {
-               if (reject) {
-                  reject(reason);
-                  return Maybe.rejected(reason);
-               } else {
-                  logger.warn('reject', err);
-                  return Maybe.thrown(reason);
-               }
-            } catch (err) {
-               return Maybe.thrown(err, reason);
+            if (reject) {
+               rejected = true;
+               reject(reason);
+            } else {
+               logger.warn('then', reason);
             }
+            return Maybe.reject(reason);
          },
+         catch(reject) {
+            if (!rejected) {
+               reject(reason);
+            }
+         }
          toString() {
             return `Maybe.reject(${reason})`;
          }
       };
-   },
-   rejected(reason) {
-      return {
-         get has() {
-            return false;
-         },
-         get value() {
-            throw reason;
-         },
-         then(resolve, reject) {
-            return Maybe.rejected(reason);
-         },
-         toString() {
-            return `Maybe.reject(${reason})`;
+   }
+
+   static key(object, key, reason) {
+      assert(object, 'object');
+      assert(key, 'key');
+      if (object.hasOwnProperty[key]) {
+         return Maybe.resolve(object[key]);
+      } else {
+         if (!reason) {
+            reason = 'no key: ' + key;
          }
-      };
-   },
-   thrown(error, reason) {
-      return {
-         get has() {
-            return false;
-         },
-         get value() {
-            throw error;
-         },
-         then(resolve, reject) {
-            return Maybe.thrown(error, reason);
-         },
-         toString() {
-            return `Maybe.thrown(${reason})`;
-         }
-      };
+         return Maybe.reject(reason);
+      }
+   }
+
+   static notEmpty(value, reason) {
+      if (!lodash.isEmpty(value)) {
+         return Maybe.resolve(value);
+      } else {
+         return Maybe.reject(reason || 'empty');
+      }
+   }
+
+   static isEmpty(value, reason) {
+      if (lodash.isEmpty(value)) {
+         return Maybe.resolve();
+      } else {
+         return Maybe.reject(reason || 'not empty');
+      }
    }
 };
 
