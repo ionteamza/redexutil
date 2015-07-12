@@ -26,6 +26,9 @@ const state = {
 };
 
 module.exports = {
+   pub() {
+      return state.logging;
+   },
    create(name, level) {
       name = path.basename(name, '.js');
       level = level || global.loggerLevel || process.env.loggerLevel || DefaultLevel;
@@ -46,10 +49,6 @@ function logging(logger, name, loggerLevel, level, args, count) {
       args.splice(0, 0, 'Invalid level: ' + level);
       level = 'warn';
    }
-   state.logging[level].splice(0, 0, args);
-   if (state.logging[level].length > state.limit) { // trim
-      state.logging[level].length = state.limit;
-   }
    if (logger) {
       if (level === 'digest') {
          if (count % 5 === 0) {
@@ -63,6 +62,11 @@ function logging(logger, name, loggerLevel, level, args, count) {
             //console.info('logging', name, loggerLevel, level, args);
          }
       }
+   }
+   args.splice(0, 0, name);
+   state.logging[level].splice(0, 0, args);
+   if (state.logging[level].length > state.limit) { // trim
+      state.logging[level].length = state.limit;
    }
 }
 
