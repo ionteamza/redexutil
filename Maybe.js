@@ -65,15 +65,15 @@ export default class Maybe {
          then(resolve, reject) {
             if (reject) {
                rejected = true;
-               reject(reason);
+               return Maybe.resolve(reject(reason));
             } else {
                logger.warn('then', reason);
+               return Maybe.reject(reason);
             }
-            return Maybe.reject(reason);
          },
          catch(reject) {
             if (!rejected) {
-               reject(reason);
+               return Maybe.resolve(reject(reason));
             }
          },
          toString() {
