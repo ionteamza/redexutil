@@ -6,7 +6,7 @@ import fs from 'fs';
 import Promises from './Promises';
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(module.filename, 'debug');
 
 const Files = {
    stat(path) {
@@ -27,17 +27,21 @@ const Files = {
          return false;
       }
    },
-   watch(dir, timeout) {
-      logger.info('watch', dir, timeout);
+   watchChanged(dir, timeout) {
       return new Promise((resolve, reject) => {
-         let watcher = fs.watch(dir, (event, file) => {
-            logger.debug('watch', event, file);
-            resolve({event, file});
+         let watcher = fs.watch(dir, (eventType, file) => {
+            watcher.close();
+            logger.debug('watch', dir, eventType, file);
+            if (eventType === 'change') {
+               resolve(file);
+            } else {
+               reject(eventType);
+            }
          });
          setTimeout(() => {
-            logger.info('watch timeout', timeout);
             watcher.close();
-            resolve({});
+            logger.debug('watch timeout', dir, timeout);
+            reject('timeout: ' + timeout);
          }, timeout);
       });
    },
