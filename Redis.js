@@ -11,7 +11,7 @@
 import redis from 'redis';
 import lodash from 'lodash';
 
-import Loggers from '../util/Loggers';
+import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
@@ -98,6 +98,10 @@ export default class Redis {
 
    get(key) {
       return createPromise(cb => this.client.get(key, cb));
+   }
+
+   mget(keys) {
+      return createPromise(cb => this.client.mget(keys, cb));
    }
 
    del(key) {
