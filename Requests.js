@@ -24,6 +24,31 @@ module.exports = {
             }
          });
       });
+   },
+   response(options) {
+      logger.debug('request', options);
+      return new Promise((resolve, reject) => {
+         request(options, (err, response, content) => {
+            logger.debug('response', options.url, err || response.statusCode);
+            if (err) {
+               reject(err);
+            } else {
+               resolve([response, content]);
+            }
+         });
+      });
+   },
+   head(url) {
+      logger.debug('head', url);
+      return new Promise((resolve, reject) => {
+         request(options, (err, response) => {
+            logger.debug('response', url, err || response.statusCode);
+            if (err) {
+               reject(err);
+            } else {
+               resolve(response);
+            }
+         });
+      });
    }
-   
 };
