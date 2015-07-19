@@ -1,6 +1,5 @@
-
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redex/LICENSE
+// ISC license, see http://github.com/evanx/redexutil/LICENSE
 
 import fs from 'fs';
 
@@ -28,17 +27,21 @@ const Files = {
          return false;
       }
    },
-   watch(dir, timeout) {
-      logger.info('watch', dir, timeout);
+   watchChanged(dir, timeout) {
       return new Promise((resolve, reject) => {
-         let watcher = fs.watch(dir, (event, file) => {
-            logger.debug('watch', event, file);
-            resolve({event, file});
+         let watcher = fs.watch(dir, (eventType, file) => {
+            watcher.close();
+            logger.debug('watch', dir, eventType, file);
+            if (eventType === 'change') {
+               resolve(file);
+            } else {
+               reject(eventType);
+            }
          });
          setTimeout(() => {
-            logger.info('watch timeout', timeout);
             watcher.close();
-            resolve({});
+            logger.debug('watch timeout', dir, timeout);
+            reject('timeout: ' + timeout);
          }, timeout);
       });
    },
