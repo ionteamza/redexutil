@@ -7,7 +7,7 @@ import fs from 'fs';
 import Promises from './Promises';
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(module.filename, 'info');
 
 const Files = {
    stat(path) {
