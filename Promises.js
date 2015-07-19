@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(module.filename, 'info');
 
 function createCallback(resolve, reject) {
    return (err, reply) => {

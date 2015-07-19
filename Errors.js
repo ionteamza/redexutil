@@ -1,6 +1,8 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
+const logger = Loggers.create(module.filename, 'info');
+
 const Errors = {
    decorate(error, decoration) {
       if (decoration) {

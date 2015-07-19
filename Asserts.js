@@ -5,7 +5,7 @@ import assert from 'assert';
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(module.filename, 'info');
 
 const that = {
 

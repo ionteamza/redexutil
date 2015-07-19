@@ -9,7 +9,7 @@ import Files from './Files';
 import Loggers from './Loggers';
 import Maybe from './Maybe';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(module.filename, 'info');
 
 const YamlFiles = {
    readFileSyncMaybe(file) {
