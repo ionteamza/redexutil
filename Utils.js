@@ -24,5 +24,5 @@ module.exports._ = module.exports.lodash;
 
 if (process.env.loggerLevel === 'debug') {
    const duration = new Date().getTime() - startTime;
-   console.log(module.filename, duration, Object.keys(module.exports));
+   //console.log(module.filename, duration, Object.keys(module.exports));
 }

@@ -201,11 +201,11 @@ export default class Redis {
       return createPromise(cb => this.client.brpoplpush(source, destination, timeout, cb));
    }
 
-   zrange(key, stop, start) {
+   zrange(key, start, stop) {
       return createPromise(cb => this.client.zrange(key, start, stop, cb));
    }
 
-   zrevrange(key, stop, start) {
+   zrevrange(key, start, stop) {
       return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
    }
 
