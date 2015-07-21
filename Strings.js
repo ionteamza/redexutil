@@ -7,9 +7,10 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
-export function props(object) {
-   return Object.keys(object).map(key => {
-      let value = object[key];
-      return {key, value};
-   });
+export function formatNullable(value) {
+   if (value) {
+      return value;
+   } else {
+      return '';
+   }
 }

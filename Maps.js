@@ -7,15 +7,11 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
-const that = {
-   props(object) {
-      let map = new Map();
-      Object.keys(object).forEach(key => {
-         let value = object[key];
-         map.set(key, value);
-      });
-      return map;
-   }
+export function props(object) {
+   let map = new Map();
+   Object.keys(object).forEach(key => {
+      let value = object[key];
+      map.set(key, value);
+   });
+   return map;
 }
-
-module.exports = that;
