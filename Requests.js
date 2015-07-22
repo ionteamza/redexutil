@@ -41,7 +41,7 @@ module.exports = {
    head(url) {
       logger.debug('head', url);
       return new Promise((resolve, reject) => {
-         request(options, (err, response) => {
+         request({url: url, method: 'HEAD'}, (err, response) => {
             logger.debug('response', url, err || response.statusCode);
             if (err) {
                reject(err);
