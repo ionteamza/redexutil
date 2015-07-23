@@ -51,7 +51,6 @@ export default class Redis {
    // if no options, then client is created
 
    constructor(options) {
-      logger.info({options});
       if (options) {
          if (options.client) {
             this.client = createClient();
@@ -60,6 +59,7 @@ export default class Redis {
       } else {
          this.client = createClient();
       }
+      logger.info('construct', state.clients.size, {options});
    }
 
    init() {
