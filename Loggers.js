@@ -43,8 +43,13 @@ module.exports = {
    }
 };
 
-function logging(logger, name, loggerLevel, level, args, count) {
+function logging(logger, name, loggerLevel, context, level, args, count) {
    args = [].slice.call(args); // convert arguments to array
+   if (!lodash.isEmpty(context)) {
+      if (lodash.isArray(context)) {
+         args = context.concat(args);
+      }
+   }
    if (!state.logging.hasOwnProperty(level)) {
       args.splice(0, 0, 'Invalid level: ' + level);
       level = 'warn';
@@ -59,7 +64,7 @@ function logging(logger, name, loggerLevel, level, args, count) {
       } else if (lodash.includes(Levels, level)) {
          if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
-            //console.info('logging', name, loggerLevel, level, args);
+            //console.info('logging', name, loggerLevel, context, level, args);
          }
       }
    }
@@ -72,6 +77,7 @@ function logging(logger, name, loggerLevel, level, args, count) {
 
 function decorate(logger, name, level) {
    let count = 0;
+   let context = [];
    const those = {
       get name() {
          return name;
@@ -80,36 +86,36 @@ function decorate(logger, name, level) {
       },
       debug(arg0) {
          if (level === 'debug') {
-            logging(logger, name, level, 'debug', arguments);
-         }
-         if (typeof arg0 !== 'string') {
-            logging(logger, name, level, 'warn', arguments);
+            logging(logger, name, level, context, 'debug', arguments);
          }
       },
       info() {
-         logging(logger, name, level, 'info', arguments);
+         logging(logger, name, level, context, 'info', arguments);
       },
       warn() {
-         logging(logger, name, level, 'warn', arguments);
+         logging(logger, name, level, context, 'warn', arguments);
       },
       error() {
-         logging(logger, name, level, 'error', arguments);
+         logging(logger, name, level, context, 'error', arguments);
       },
       state() {
-         logging(logger, name, level, 'state', arguments);
+         logging(logger, name, level, context, 'state', arguments);
       },
       digest() {
          if (level === 'debug') {
             count += 1;
-            logging(logger, name, level, 'digest', arguments, count);
+            logging(logger, name, level, context, 'digest', arguments, count);
          }
       },
+      context() {
+         context = [].slice.call(arguments);
+      },
       child() {
-         let label = arguments[0] + '(' + arguments[1] + ')';
+         let childName = [name].concat([].slice.call(arguments)).join('.');
          if (level === 'debug') {
-            logging(logger, name, level, 'child', arguments);
+            logging(logger, name, level, context, 'child', arguments);
          }
-         return Loggers.create(name + '.' + label, level);
+         return Loggers.create(childName, level);
       }
    };
    return those;
