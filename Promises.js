@@ -29,7 +29,7 @@ module.exports = {
    timeout(reason, timeout, promise) {
       if (timeout) {
          return new Promise((resolve, reject) => {
-            console.warn('timeout', typeof promise);
+            logger.warn('timeout', typeof promise);
             promise.then(resolve, reject);
             setTimeout(() => {
                reject(reason + ' (' + timeout + 'ms)');

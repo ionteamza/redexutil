@@ -42,7 +42,6 @@ module.exports = {
       return defaultContentType;
    },
    join(dir, file) {
-      //console.debug('join', dir, file);
       if (lodash.endsWith(dir, '/') && lodash.startsWith(file, '/')) {
          return dir + file.substring(1);
       } else if (lodash.endsWith(dir, '/') || lodash.startsWith(file, '/')) {

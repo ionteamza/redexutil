@@ -32,7 +32,7 @@ const Errors = {
       } else {
          logger.error('start', error);
          if (error.stack) {
-            console.error(error.stack);
+            logger.error(error.stack);
          }
       }
    }

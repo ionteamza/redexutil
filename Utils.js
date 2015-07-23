@@ -21,8 +21,3 @@ module.exports._ = module.exports.lodash;
    ].forEach(moduleName => {
       module.exports[moduleName] = require('./' + moduleName);
 });
-
-if (process.env.loggerLevel === 'debug') {
-   const duration = new Date().getTime() - startTime;
-   //console.log(module.filename, duration, Object.keys(module.exports));
-}
