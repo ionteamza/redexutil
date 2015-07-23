@@ -22,19 +22,8 @@ const Errors = {
          } else {
          }
       } else {
-
       }
       return error;
-   },
-   log(logger, error) {
-      if (error.name === 'AssertionErrorX') {
-         logger.error('Assertion: ' + error.message);
-      } else {
-         logger.error('start', error);
-         if (error.stack) {
-            logger.error(error.stack);
-         }
-      }
    }
 };
 
