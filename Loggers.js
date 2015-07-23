@@ -84,13 +84,15 @@ function decorate(logger, name, level) {
       },
       verbose() {
       },
-      debug(arg0) {
+      debug() {
          if (level === 'debug') {
             logging(logger, name, level, context, 'debug', arguments);
          }
       },
       info() {
-         logging(logger, name, level, context, 'info', arguments);
+         if (level !== 'warn') {
+            logging(logger, name, level, context, 'info', arguments);
+         }
       },
       warn() {
          logging(logger, name, level, context, 'warn', arguments);
