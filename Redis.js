@@ -59,7 +59,7 @@ export default class Redis {
       } else {
          this.client = createClient();
       }
-      logger.info('construct', state.clients.size, {options});
+      logger.info('construct', state.clients.size);
    }
 
    init() {
