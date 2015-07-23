@@ -19,9 +19,7 @@ const state = {
       debug: [],
       warn: [],
       error: [],
-      digest: [],
-      state: [],
-      child: []
+      digest: []
    }
 };
 
@@ -34,7 +32,6 @@ module.exports = {
       level = level || global.loggerLevel || process.env.loggerLevel || DefaultLevel;
       if (lodash.includes(Levels, level)) {
          let logger = bunyan.createLogger({name, level});
-         //logger.info('logger', level, global.loggerLevel);
          return decorate(logger, name, level);
       } else {
          assert(lodash.includes(ExtraLevels, level), 'level: ' + level);
@@ -59,13 +56,12 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
          if (count % 5 === 0) {
             logger.debug('digest', count, ...args);
          }
-      } else if (level === 'child') {
-         logger.debug('child', ...args);
       } else if (lodash.includes(Levels, level)) {
          if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
-            //console.info('logging', name, loggerLevel, context, level, args);
          }
+      } else {
+
       }
    }
    args.splice(0, 0, name);
@@ -114,9 +110,6 @@ function decorate(logger, name, level) {
       },
       child() {
          let childName = [name].concat([].slice.call(arguments)).join('.');
-         if (level === 'debug') {
-            logging(logger, name, level, context, 'child', arguments);
-         }
          return Loggers.create(childName, level);
       }
    };
