@@ -9,17 +9,19 @@
 //console.log(module.filename);
 
 import redis from 'redis';
-import lodash from 'lodash';
 
+import Files from './Files';
 import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
 const state = {
+   count: 0,
    clients: new Set()
 };
 
 function createClient() {
+   state.count++;
    let redisClient = redis.createClient();
    state.clients.add(redisClient);
    redisClient.on('error', err => {
@@ -52,14 +54,25 @@ export default class Redis {
 
    constructor(options) {
       if (options) {
+         if (lodash.isString(options)) {
+            options = {source: options};
+         }
          if (options.client) {
+            this.client = options.client;
+            logger.info('construct wrapper');
+         } else if (options.source) {
+            this.source = Files.basename(options.source);
             this.client = createClient();
+            logger.info('construct', state.count, this.source);
+         } else if (options === {}) {
+            logger.info('construct');
          } else {
+            throw 'Invalid options: ' + options.toString();
          }
       } else {
          this.client = createClient();
+         logger.info('construct', state.count);
       }
-      logger.info('construct', state.clients.size);
    }
 
    init() {
@@ -72,7 +85,7 @@ export default class Redis {
       if (this.client) {
          if (state.clients.size > 0) {
             state.clients.delete(this.client);
-            logger.info('end: remaining client connections:', state.clients.size);
+            logger.info('end', state.clients.size, this.source);
          } else {
             logger.error('end');
          }

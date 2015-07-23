@@ -9,9 +9,17 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename, 'info');
 
 const Files = {
-   stat(path) {
-      logger.debug('stat', path);
-      return Promises.create(cb => fs.stat(path, cb));
+   basename(file) {
+      var matcher = file.match(/([^\/]+)\.[a-z]+$/);
+      if (matcher) {
+         return matcher[1];
+      } else {
+         return file;
+      }
+   },
+   stat(file) {
+      logger.debug('stat', file);
+      return Promises.create(cb => fs.stat(file, cb));
    },
    existsFile(file) {
       return Files.stat(file).then(stats => stats.isFile()).catch(err => {

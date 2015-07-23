@@ -4,10 +4,8 @@
 import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
-import path from 'path';
 
 const DefaultLevel = 'info';
-
 const Levels = ['debug', 'info', 'warn', 'error'];
 const ExtraLevels = ['state', 'digest', 'child'];
 const AllLevels = Levels.concat(ExtraLevels);
@@ -25,12 +23,21 @@ const state = {
    }
 };
 
+function basename(file) {
+   var matcher = file.match(/([^\/]+)\.[a-z]+$/);
+   if (matcher) {
+      return matcher[1];
+   } else {
+      return file;
+   }
+};
+
 module.exports = {
    pub() {
       return state.logging;
    },
    create(name, level) {
-      name = path.basename(name, '.js');
+      name = basename(name);
       level = level || global.loggerLevel || process.env.loggerLevel || DefaultLevel;
       if (lodash.includes(Levels, level)) {
          let logger = bunyan.createLogger({name, level});
