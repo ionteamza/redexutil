@@ -8,10 +8,10 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
-export function gzip(buffer) {
-   return Promises.create(cb => zlib.gzip(buffer, cb));
+export function gzip(string) {
+   return Promises.create(cb => zlib.gzip(string, cb));
 }
 
 export function gunzip(buffer) {
-   return Promises.create(cb => zlib.gunzip(buffer, cb));
+   return Promises.create(cb => zlib.gunzip(new Buffer(buffer), cb));
 }
