@@ -18,9 +18,9 @@ const state = {
    clients: new Set()
 };
 
-function createClient() {
+function createClient(options) {
    state.count++;
-   let redisClient = redis.createClient();
+   let redisClient = redis.createClient(options || {});
    state.clients.add(redisClient);
    redisClient.on('error', err => {
       logger.error('redis error:', err);
@@ -64,6 +64,8 @@ export default class Redis {
             logger.info('construct', state.count, this.source);
          } else if (options === {}) {
             logger.info('construct');
+         } else if (options.return_buffers) {
+            this.client = createClient(options);
          } else {
             throw 'Invalid options: ' + options.toString();
          }
