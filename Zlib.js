@@ -13,5 +13,5 @@ export function gzip(string) {
 }
 
 export function gunzip(buffer) {
-   return Promises.create(cb => zlib.gunzip(new Buffer(buffer), cb));
+   return Promises.create(cb => zlib.gunzip(buffer, cb));
 }
