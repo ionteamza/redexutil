@@ -10,6 +10,9 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename, 'info');
 
 module.exports = {
+   requestJson(url) {
+      return module.exports.request({url: url, json: true});
+   },
    request(options) {
       logger.debug('request', options);
       return new Promise((resolve, reject) => {
