@@ -18,7 +18,7 @@ const factors = {
   d: 60*60*24
 };
 
-var that = module.exports = {
+const that = {
   format(seconds) {
     if (seconds < factors.m) {
       return '' + seconds + 's';
@@ -40,6 +40,9 @@ var that = module.exports = {
     }
     return defaultValue;
   },
+  fromDays(days) {
+    return days * factors.d;
+  },
   assert(seconds, message) {
     message = message + ': ' + seconds;
     assert(seconds, message);
@@ -47,4 +50,6 @@ var that = module.exports = {
     assert(value >= 0, message + ': ' + value);
     return value;
   }
-}
+};
+
+module.exports = that;
