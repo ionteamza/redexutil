@@ -97,7 +97,7 @@ function decorate(logger, name, level) {
             logging(logger, name, level, context, 'info', arguments);
          }
       },
-      warnz() {
+      dev() {
          logging(logger, name, level, context, 'warn', arguments);
       },
       warn() {
