@@ -16,7 +16,7 @@ module.exports._ = module.exports.lodash;
 
 ['Asserts', 'Collections', 'Dates', 'Errors', 'Files',
    'Loggers', 'Maps', 'Millis', 'Maybe', 'Objects',
-   'Paths', 'Promises', 'Requests', 'Seconds',
+   'Paths', 'Promises', 'Requests', 'Seconds', 'Strings',
    'Zlib'
    ].forEach(moduleName => {
       module.exports[moduleName] = require('./' + moduleName);
