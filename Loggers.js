@@ -87,6 +87,8 @@ function decorate(logger, name, level) {
       },
       verbose() {
       },
+      vdebug() {
+      },
       debug() {
          if (level === 'debug') {
             logging(logger, name, level, context, 'debug', arguments);
@@ -96,6 +98,15 @@ function decorate(logger, name, level) {
          if (level !== 'warn') {
             logging(logger, name, level, context, 'info', arguments);
          }
+      },
+      dev() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      dverbose() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      dinfo() {
+         logging(logger, name, level, context, 'warn', arguments);
       },
       warn() {
          logging(logger, name, level, context, 'warn', arguments);
