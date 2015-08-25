@@ -91,8 +91,8 @@ export default class Redis {
          this.client = createClient();
          logger.info('construct', state.count);
       }
-      if (this.client && this.dbNumber) {
-         selectPromise(this.client, this.dbNumber);
+      if (this.client && Redis.dbNumber) {
+         selectPromise(this.client, Redis.dbNumber);
       }
    }
 
@@ -102,8 +102,8 @@ export default class Redis {
       }
       if (options && options.dbNumber) {
          selectPromise(this.client, options.dbNumber);
-      } else if (this.dbNumber) {
-         selectPromise(this.client, this.dbNumber);
+      } else if (Redis.dbNumber) {
+         selectPromise(this.client, Redis.dbNumber);
       }
    }
 
