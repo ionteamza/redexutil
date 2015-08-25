@@ -71,7 +71,7 @@ export default class Redis {
       if (options) {
          if (lodash.isString(options)) {
             this.source = Files.basename(options);
-            this.client = createClient(options);
+            this.client = createClient();
             logger.info('construct', state.count, this.source);
          } else if (options === {}) {
             logger.info('construct defer');
