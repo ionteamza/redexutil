@@ -100,7 +100,7 @@ export default class Redis {
       if (!this.client) {
          this.client = createClient(options);
       }
-      if (options.dbNumber) {
+      if (options && options.dbNumber) {
          selectPromise(this.client, options.dbNumber);
       } else if (this.dbNumber) {
          selectPromise(this.client, this.dbNumber);
