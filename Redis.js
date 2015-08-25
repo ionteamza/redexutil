@@ -19,13 +19,14 @@ const state = {
 };
 
 function selectPromise(client, dbNumber) {
+   logger.debug('select', dbNumber);
    return new Promise((resolve, reject) => {
       client.select(dbNumber, err => {
          if (err) {
-            logger.error('select', this.dbNumber);
+            logger.error('select', dbNumber);
             reject(err);
          } else {
-            logger.info('select', this.dbNumber);
+            logger.info('select', dbNumber);
             resolve();
          }
       });
