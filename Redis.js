@@ -18,15 +18,15 @@ const state = {
    clients: new Set()
 };
 
-function selectPromise(client, dbNumber) {
-   logger.debug('select', dbNumber);
+function selectPromise(client, dbNumber, source) {
+   logger.debug('select', source, dbNumber);
    return new Promise((resolve, reject) => {
       client.select(dbNumber, err => {
          if (err) {
-            logger.error('select', dbNumber);
+            logger.error('select', source, dbNumber);
             reject(err);
          } else {
-            logger.info('select', dbNumber);
+            logger.info('select', source, dbNumber);
             resolve();
          }
       });
@@ -93,7 +93,7 @@ export default class Redis {
          logger.info('construct', state.count);
       }
       if (this.client && Redis.dbNumber) {
-         selectPromise(this.client, Redis.dbNumber);
+         selectPromise(this.client, Redis.dbNumber, this.source);
       }
    }
 
@@ -101,10 +101,8 @@ export default class Redis {
       if (!this.client) {
          this.client = createClient(options);
       }
-      if (options && options.dbNumber) {
-         selectPromise(this.client, options.dbNumber);
-      } else if (Redis.dbNumber) {
-         selectPromise(this.client, Redis.dbNumber);
+      if (Redis.dbNumber) {
+         selectPromise(this.client, Redis.dbNumber, this.source);
       }
    }
 
