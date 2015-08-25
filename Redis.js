@@ -39,7 +39,7 @@ function createClient(options) {
    redisClient.on('error', err => {
       logger.error('redis error:', err);
    });
-   if (options.dbNumber) {
+   if (options && options.dbNumber) {
       selectPromise(redisClient, options.dbNumber);
    }
    return redisClient;
