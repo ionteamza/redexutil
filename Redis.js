@@ -18,21 +18,6 @@ const state = {
    clients: new Set()
 };
 
-function selectPromise(client, dbNumber, source) {
-   logger.debug('select', source, dbNumber);
-   return new Promise((resolve, reject) => {
-      client.select(dbNumber, err => {
-         if (err) {
-            logger.error('select', source, dbNumber);
-            reject(err);
-         } else {
-            logger.info('select', source, dbNumber);
-            resolve();
-         }
-      });
-   });
-}
-
 function createClient(options) {
    state.count++;
    let redisClient = redis.createClient(options || {});
@@ -40,9 +25,6 @@ function createClient(options) {
    redisClient.on('error', err => {
       logger.error('redis error:', err);
    });
-   if (options && options.dbNumber) {
-      selectPromise(redisClient, options.dbNumber);
-   }
    return redisClient;
 }
 
@@ -92,8 +74,8 @@ export default class Redis {
          this.client = createClient();
          logger.info('construct', state.count);
       }
-      if (this.client && Redis.dbNumber) {
-         selectPromise(this.client, Redis.dbNumber, this.source);
+      if (this.client) {
+         this.init(options);
       }
    }
 
@@ -101,8 +83,10 @@ export default class Redis {
       if (!this.client) {
          this.client = createClient(options);
       }
-      if (Redis.dbNumber) {
-         selectPromise(this.client, Redis.dbNumber, this.source);
+      if (Redis.dbNumber) { // use alternative database for all connections
+         this.select(Redis.dbNumber);
+      } else if (options && options.dbNumber) {
+         this.select(options.dbNumber);
       }
    }
 
