@@ -18,6 +18,20 @@ const state = {
    clients: new Set()
 };
 
+function selectPromise(client, dbNumber) {
+   return new Promise((resolve, reject) => {
+      client.select(dbNumber, err => {
+         if (err) {
+            logger.error('select', this.dbNumber);
+            reject(err);
+         } else {
+            logger.info('select', this.dbNumber);
+            resolve();
+         }
+      });
+   });
+}
+
 function createClient(options) {
    state.count++;
    let redisClient = redis.createClient(options || {});
@@ -25,6 +39,9 @@ function createClient(options) {
    redisClient.on('error', err => {
       logger.error('redis error:', err);
    });
+   if (options.dbNumber) {
+      selectPromise(redisClient, options.dbNumber);
+   }
    return redisClient;
 }
 
@@ -53,18 +70,19 @@ export default class Redis {
    constructor(options) {
       if (options) {
          if (lodash.isString(options)) {
-            options = {source: options};
-         }
-         if (options.client) {
+            this.source = Files.basename(options);
+            this.client = createClient(options);
+            logger.info('construct', state.count, this.source);
+         } else if (options === {}) {
+            logger.info('construct defer');
+         } else if (options.client) {
             this.client = options.client;
             logger.info('construct wrapper');
          } else if (options.source) {
             this.source = Files.basename(options.source);
-            this.client = createClient();
+            this.client = createClient(options);
             logger.info('construct', state.count, this.source);
-         } else if (options === {}) {
-            logger.info('construct');
-         } else if (options.return_buffers) {
+         } else if (options.return_buffers || options.dbNumber) {
             this.client = createClient(options);
          } else {
             throw 'Invalid options: ' + options.toString();
@@ -73,12 +91,24 @@ export default class Redis {
          this.client = createClient();
          logger.info('construct', state.count);
       }
+      if (this.client && this.dbNumber) {
+         selectPromise(this.client, this.dbNumber);
+      }
    }
 
-   init() {
+   init(options) {
       if (!this.client) {
-         this.client = createClient();
+         this.client = createClient(options);
       }
+      if (options.dbNumber) {
+         selectPromise(this.client, options.dbNumber);
+      } else if (this.dbNumber) {
+         selectPromise(this.client, this.dbNumber);
+      }
+   }
+
+   select(dbNumber) {
+      return createPromise(cb => this.client.select(dbNumber, cb));
    }
 
    end() {
