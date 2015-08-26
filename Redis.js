@@ -181,7 +181,7 @@ export default class Redis {
 
    lrem(key, count, value) {
       return createPromise(cb => this.client.lrem(key, count, value, cb));
-   }   
+   }
 
    lset(key, index, value) {
       return createPromise(cb => this.client.lset(key, index, value, cb));
@@ -247,14 +247,12 @@ export default class Redis {
 
    multi() {
       let multi = this.client.multi();
-      multi.execCallback = multi.exec;
-      multi.execPromise = () => {
+      multi.execCallback = multi.exec.bind(multi); // TODO
+      multi.exec = function() {
          return createPromise(cb => multi.execCallback(cb));
       };
-      multi.exec = multi.execPromise;
       return multi;
    }
-
 }
 
 // see test: https://github.com/evanx/redex/blob/master/test/redisPromised.js
