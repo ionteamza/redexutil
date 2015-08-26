@@ -179,6 +179,10 @@ export default class Redis {
       return createPromise(cb => this.client.lindex(key, index, cb));
    }
 
+   lrem(key, count, value) {
+      return createPromise(cb => this.client.lrem(key, count, value, cb));
+   }   
+
    lset(key, index, value) {
       return createPromise(cb => this.client.lset(key, index, value, cb));
    }
@@ -229,6 +233,10 @@ export default class Redis {
 
    zrange(key, start, stop) {
       return createPromise(cb => this.client.zrange(key, start, stop, cb));
+   }
+
+   zrem(key, member) {
+      return createPromise(cb => this.client.zrem(key, member, cb));
    }
 
    zrevrange(key, start, stop) {
