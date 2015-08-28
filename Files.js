@@ -2,6 +2,7 @@
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
 import fs from 'fs';
+import _mkdirp from 'mkdirp';
 
 import Promises from './Promises';
 import Loggers from './Loggers';
@@ -9,6 +10,12 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename, 'info');
 
 const Files = {
+   mkdirp(dir) {
+      return Promises.create(cb => _mkdirp(dir, cb));
+   },
+   remove(file) {
+      return Promises.create(cb => fs.unlink(file, cb));
+   },
    basename(file) {
       var matcher = file.match(/([^\/]+)\.[a-z]+$/);
       if (matcher) {
