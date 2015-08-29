@@ -186,6 +186,10 @@ export default class Redis {
       return createPromise(cb => this.client.lindex(key, index, cb));
    }
 
+   linsert(key, position, pivot, value) {
+      return createPromise(cb => this.client.linsert(key, position, pivot, value, cb));
+   }
+
    lrem(key, count, value) {
       return createPromise(cb => this.client.lrem(key, count, value, cb));
    }
