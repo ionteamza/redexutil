@@ -117,25 +117,28 @@ export default class Redis {
       });
    }
 
-   set(key, value) {
-      //logger.debug('set', key, value);
-      return createPromise(cb => this.client.set(key, value, cb));
+   del(key) {
+      return createPromise(cb => this.client.del(key, cb));
    }
 
    get(key) {
       return createPromise(cb => this.client.get(key, cb));
    }
 
-   mget(keys) {
-      return createPromise(cb => this.client.mget(keys, cb));
-   }
-
-   del(key) {
-      return createPromise(cb => this.client.del(key, cb));
+   exists(key) {
+      return createPromise(cb => this.client.exists(key, cb));
    }
 
    expire(key, seconds) {
       return createPromise(cb => this.client.expire(key, seconds, cb));
+   }
+
+   mget(keys) {
+      return createPromise(cb => this.client.mget(keys, cb));
+   }
+
+   set(key, value) {
+      return createPromise(cb => this.client.set(key, value, cb));
    }
 
    sadd(key, member) {
