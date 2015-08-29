@@ -13,10 +13,10 @@ const AllLevels = Levels.concat(ExtraLevels);
 const state = {
    limit: 10,
    logging: {
+      error: [],
+      warn: [],
       info: [],
       debug: [],
-      warn: [],
-      error: [],
       digest: []
    }
 };
