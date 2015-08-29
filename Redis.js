@@ -162,12 +162,8 @@ export default class Redis {
       return createPromise(cb => this.client.scard(key, cb));
    }
 
-   hset(key, field, value) {
-      return createPromise(cb => this.client.hset(key, field, value, cb));
-   }
-
-   hmset(key, value) {
-      return createPromise(cb => this.client.hmset(key, value, cb));
+   hdel(key, field) {
+      return createPromise(cb => this.client.hdel(key, field, cb));
    }
 
    hget(key, field) {
@@ -176,6 +172,14 @@ export default class Redis {
 
    hgetall(key) {
       return createPromise(cb => this.client.hgetall(key, cb));
+   }
+
+   hmset(key, value) {
+      return createPromise(cb => this.client.hmset(key, value, cb));
+   }
+
+   hset(key, field, value) {
+      return createPromise(cb => this.client.hset(key, field, value, cb));
    }
 
    lindex(key, index) {
