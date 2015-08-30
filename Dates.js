@@ -8,7 +8,7 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename, 'info');
 
 const that = {
-   now() {
+   time() {
       return new Date().getTime()
    },
    formatShortISO(value) {
