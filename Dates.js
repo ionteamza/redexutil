@@ -8,13 +8,14 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename, 'info');
 
 const that = {
-
+   now() {
+      return new Date().getTime()
+   },
    formatShortISO(value) {
       assert(value);
       assert(value.constructor.name === 'Date');
       return value.toISOString().substring(0, 16);
    }
-
 }
 
 module.exports = that;
