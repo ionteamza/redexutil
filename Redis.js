@@ -6,6 +6,7 @@
 // also see more automated attempt using es6-promisify:
 // https://github.com/evanx/redex/blob/master/lib/redisPromisified.js
 
+import lodash from 'lodash';
 import redis from 'redis';
 
 import Files from './Files';
