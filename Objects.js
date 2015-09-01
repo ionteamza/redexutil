@@ -14,10 +14,10 @@ export function props(object) {
    });
 }
 
-export function joinProps(object) {
+export function formatKeys(object) {
    if (object) {
       return Object.keys(object).join(' ');
    } else {
       return 'empty';
-   }   
+   }
 }
