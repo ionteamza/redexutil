@@ -9,7 +9,7 @@
 import lodash from 'lodash';
 import redis from 'redis';
 
-import Files from './Files';
+import Paths from './Paths';
 import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
@@ -54,7 +54,7 @@ export default class Redis {
    constructor(options) {
       if (options) {
          if (lodash.isString(options)) {
-            this.source = Files.basename(options);
+            this.source = Paths.basename(options);
             this.client = createClient();
             logger.info('construct', state.count, this.source);
          } else if (options === {}) {

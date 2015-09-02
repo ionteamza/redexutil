@@ -5,7 +5,7 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 
 import Errors from './Errors';
-import Files from './Files';
+import * as Files from './Files';
 import Loggers from './Loggers';
 import Maybe from './Maybe';
 

@@ -49,5 +49,13 @@ module.exports = {
       } else {
          return dir + '/' + file;
       }
-   }
+   },
+   basename(file) {
+      var matcher = file.match(/([^\/]+)\.[a-z]+$/);
+      if (matcher) {
+         return matcher[1];
+      } else {
+         return file;
+      }
+   }   
 };
