@@ -67,7 +67,7 @@ export default class Maybe {
                try {
                   return Maybe.resolve(reject(reason));
                } catch (err) {
-                  logger.warn('then', err);                  
+                  logger.warn('then', err);
                }
             } else {
                logger.warn('then', reason);

@@ -14,7 +14,7 @@ const startTime = new Date().getTime();
 
 module.exports._ = module.exports.lodash;
 
-['Asserts', 'Collections', 'Dates', 'Errors', 'Files',
+['Arrays', 'Asserts', 'Collections', 'Dates', 'Errors', 'Files',
    'Loggers', 'Maps', 'Millis', 'Maybe', 'Numbers', 'Objects',
    'Paths', 'Promises', 'Requests', 'Seconds', 'Strings',
    'Zlib'

@@ -14,16 +14,3 @@ export function map(iterable, fn) {
    }
    return array;
 }
-
-export async function mapAsync(array, fn) {
-   return await* array.map(async (item) => {
-      try {
-         let result = await fn();
-         logger.info('mapAsync', result);
-         return result;
-      } catch (err) {
-         logger.warn('mapAsync', err);
-         throw err;
-      }
-   });
-}
