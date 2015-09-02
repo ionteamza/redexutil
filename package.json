@@ -19,6 +19,6 @@
   "dependencies": {
     "lodash": "^3.9.3",
     "path": "^0.11.14",
-    "request": "^2.58.0"
+    "request": "^2.61.0"
   }
 }
