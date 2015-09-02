@@ -5,15 +5,8 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
-export async function reverse(array) {
-   if (lodash.isArray(array)) {
-      let result = array.slice(0);
-      lodash.reverse(result);
-      return result;
-   } else {
-      logger.warn('reverse empty');
-      return null;
-   }
+export function reverse(array) {
+   return lodash(array).slice(0).reverse().value();
 }
 
 export async function mapAsync(array, fn) {
