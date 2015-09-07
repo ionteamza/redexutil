@@ -34,8 +34,11 @@ module.exports = {
       if (!ext.length) {
          return null;
       }
-      ext = ext.toLowerCase().substring(1);
-      logger.debug('ext', ext);
+      if (ext.startsWith('.')) {
+         logger.warn('getContentType', ext);
+         ext = ext.substring(1);
+      }
+      ext = ext.toLowerCase();
       if (mimeTypes.hasOwnProperty(ext)) {
          return mimeTypes[ext];
       }
@@ -57,5 +60,5 @@ module.exports = {
       } else {
          return file;
       }
-   }   
+   }
 };
