@@ -23,7 +23,8 @@ const mimeTypes = {
    otf: 'application/font-sfnt',
    ttf: 'application/font-sfnt',
    eot: 'application/vnd.ms-fontobject',
-   woff: 'application/font-woff'
+   woff: 'application/font-woff',
+   woff2: 'font/font-woff2'
 };
 
 const defaultContentType = 'application/octet-stream';
