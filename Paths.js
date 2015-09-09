@@ -31,17 +31,16 @@ const defaultContentType = 'application/octet-stream';
 
 module.exports = {
    defaultContentType: defaultContentType,
-   getContentType(ext) {
-      if (!ext.length) {
-         return null;
-      }
-      if (ext.startsWith('.')) {
-         logger.warn('getContentType', ext);
-         ext = ext.substring(1);
-      }
-      ext = ext.toLowerCase();
-      if (mimeTypes.hasOwnProperty(ext)) {
-         return mimeTypes[ext];
+   getContentType(uri) {
+      if (!lodash.isEmpty(uri)) {
+         let ext = path.extname(uri);
+         if (ext) {
+            ext = ext.substring(1);
+            ext = ext.toLowerCase();
+            if (mimeTypes.hasOwnProperty(ext)) {
+               return mimeTypes[ext];
+            }
+         }
       }
       return defaultContentType;
    },
