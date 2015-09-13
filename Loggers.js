@@ -22,6 +22,14 @@ const state = {
    }
 };
 
+function increment(name, prop) {
+   prop = name + '.' + prop;
+   if (!state.counters[prop]) {
+      state.counters[prop] = 0;
+   }
+   state.counters[prop] += 1;
+}
+
 function basename(file) {
    var matcher = file.match(/([^\/]+)\.[a-z]+$/);
    if (matcher) {
@@ -52,6 +60,7 @@ module.exports = {
 };
 
 function logging(logger, name, loggerLevel, context, level, args, count) {
+   increment(name, level);
    args = [].slice.call(args); // convert arguments to array
    if (!lodash.isEmpty(context)) {
       if (lodash.isArray(context)) {
@@ -135,11 +144,7 @@ function decorate(logger, name, level) {
          return Loggers.create(childName, level);
       },
       increment(prop) {
-         prop = name + '.' + prop;
-         if (!state.counters[prop]) {
-            state.counters[prop] = 0;
-         }
-         state.counters[prop] += 1;
+         increment(name, prop);
       }
    };
    return those;
