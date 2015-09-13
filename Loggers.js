@@ -9,7 +9,7 @@ const DefaultLevel = 'info';
 const Levels = ['debug', 'info', 'warn', 'error'];
 const ExtraLevels = ['state', 'digest', 'child'];
 const AllLevels = Levels.concat(ExtraLevels);
-
+const digestLimit = 100;
 const state = {
    limit: 10,
    logging: {
@@ -60,8 +60,8 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
    }
    if (logger) {
       if (level === 'digest') {
-         if (count % 5 === 0) {
-            logger.debug('digest', count, ...args);
+         if (count < digestLimit/10 && count % digestLimit === 0) {
+            logger.info('digest', count, ...args);
          }
       } else if (lodash.includes(Levels, level)) {
          if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
