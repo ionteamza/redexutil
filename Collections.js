@@ -5,16 +5,12 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
-const that = {
-   map(iterable, fn) {
-      //logger.debug('map', typeof iterable);
-      let array = [];
-      for (let item of iterable) {
-         //logger.debug('map item', typeof item, item, fn(item));
-         array.push(fn(item));
-      }
-      return array;
+export function map(iterable, fn) {
+   //logger.debug('map', typeof iterable);
+   let array = [];
+   for (let item of iterable) {
+      //logger.debug('map item', typeof item, item, fn(item));
+      array.push(fn(item));
    }
-};
-
-module.exports = that;
+   return array;
+}

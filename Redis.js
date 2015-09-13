@@ -6,9 +6,10 @@
 // also see more automated attempt using es6-promisify:
 // https://github.com/evanx/redex/blob/master/lib/redisPromisified.js
 
+import lodash from 'lodash';
 import redis from 'redis';
 
-import Files from './Files';
+import Paths from './Paths';
 import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
@@ -53,18 +54,19 @@ export default class Redis {
    constructor(options) {
       if (options) {
          if (lodash.isString(options)) {
-            options = {source: options};
-         }
-         if (options.client) {
+            this.source = Paths.basename(options);
+            this.client = createClient();
+            logger.info('construct', state.count, this.source);
+         } else if (options === {}) {
+            logger.info('construct defer');
+         } else if (options.client) {
             this.client = options.client;
             logger.info('construct wrapper');
          } else if (options.source) {
             this.source = Files.basename(options.source);
-            this.client = createClient();
+            this.client = createClient(options);
             logger.info('construct', state.count, this.source);
-         } else if (options === {}) {
-            logger.info('construct');
-         } else if (options.return_buffers) {
+         } else if (options.return_buffers || options.dbNumber) {
             this.client = createClient(options);
          } else {
             throw 'Invalid options: ' + options.toString();
@@ -73,12 +75,24 @@ export default class Redis {
          this.client = createClient();
          logger.info('construct', state.count);
       }
+      if (this.client) {
+         this.init(options);
+      }
    }
 
-   init() {
+   init(options) {
       if (!this.client) {
-         this.client = createClient();
+         this.client = createClient(options);
       }
+      if (Redis.dbNumber) { // use alternative database for all connections
+         this.select(Redis.dbNumber);
+      } else if (options && options.dbNumber) {
+         this.select(options.dbNumber);
+      }
+   }
+
+   select(dbNumber) {
+      return createPromise(cb => this.client.select(dbNumber, cb));
    }
 
    end() {
@@ -104,25 +118,28 @@ export default class Redis {
       });
    }
 
-   set(key, value) {
-      //logger.debug('set', key, value);
-      return createPromise(cb => this.client.set(key, value, cb));
+   del(key) {
+      return createPromise(cb => this.client.del(key, cb));
    }
 
    get(key) {
       return createPromise(cb => this.client.get(key, cb));
    }
 
-   mget(keys) {
-      return createPromise(cb => this.client.mget(keys, cb));
-   }
-
-   del(key) {
-      return createPromise(cb => this.client.del(key, cb));
+   exists(key) {
+      return createPromise(cb => this.client.exists(key, cb));
    }
 
    expire(key, seconds) {
       return createPromise(cb => this.client.expire(key, seconds, cb));
+   }
+
+   mget(keys) {
+      return createPromise(cb => this.client.mget(keys, cb));
+   }
+
+   set(key, value) {
+      return createPromise(cb => this.client.set(key, value, cb));
    }
 
    sadd(key, member) {
@@ -146,12 +163,8 @@ export default class Redis {
       return createPromise(cb => this.client.scard(key, cb));
    }
 
-   hset(key, field, value) {
-      return createPromise(cb => this.client.hset(key, field, value, cb));
-   }
-
-   hmset(key, value) {
-      return createPromise(cb => this.client.hmset(key, value, cb));
+   hdel(key, field) {
+      return createPromise(cb => this.client.hdel(key, field, cb));
    }
 
    hget(key, field) {
@@ -162,8 +175,24 @@ export default class Redis {
       return createPromise(cb => this.client.hgetall(key, cb));
    }
 
+   hmset(key, value) {
+      return createPromise(cb => this.client.hmset(key, value, cb));
+   }
+
+   hset(key, field, value) {
+      return createPromise(cb => this.client.hset(key, field, value, cb));
+   }
+
    lindex(key, index) {
       return createPromise(cb => this.client.lindex(key, index, cb));
+   }
+
+   linsert(key, position, pivot, value) {
+      return createPromise(cb => this.client.linsert(key, position, pivot, value, cb));
+   }
+
+   lrem(key, count, value) {
+      return createPromise(cb => this.client.lrem(key, count, value, cb));
    }
 
    lset(key, index, value) {
@@ -218,6 +247,10 @@ export default class Redis {
       return createPromise(cb => this.client.zrange(key, start, stop, cb));
    }
 
+   zrem(key, member) {
+      return createPromise(cb => this.client.zrem(key, member, cb));
+   }
+
    zrevrange(key, start, stop) {
       return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
    }
@@ -226,14 +259,12 @@ export default class Redis {
 
    multi() {
       let multi = this.client.multi();
-      multi.execCallback = multi.exec;
-      multi.execPromise = () => {
+      multi.execCallback = multi.exec.bind(multi); // TODO
+      multi.exec = function() {
          return createPromise(cb => multi.execCallback(cb));
       };
-      multi.exec = multi.execPromise;
       return multi;
    }
-
 }
 
 // see test: https://github.com/evanx/redex/blob/master/test/redisPromised.js

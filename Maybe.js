@@ -37,13 +37,12 @@ export default class Maybe {
             try {
                return Maybe.resolve(resolve(value));
             } catch (err) {
-               if (err.stack) {
-                  logger.warn('resolve', err.stack);
-               } else {
-                  logger.warn('resolve', err);
-               }
+               logger.warn('resolve error:', err);
                return Maybe.reject(err);
             }
+         },
+         elseValue(defaultValue) {
+            return value;
          },
          catch(err) {
          },
@@ -65,11 +64,18 @@ export default class Maybe {
          then(resolve, reject) {
             if (reject) {
                rejected = true;
-               return Maybe.resolve(reject(reason));
+               try {
+                  return Maybe.resolve(reject(reason));
+               } catch (err) {
+                  logger.warn('then', err);
+               }
             } else {
                logger.warn('then', reason);
                return Maybe.reject(reason);
             }
+         },
+         elseValue(defaultValue) {
+            throw reason;
          },
          catch(reject) {
             if (!rejected) {

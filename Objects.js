@@ -13,3 +13,11 @@ export function props(object) {
       return {key, value};
    });
 }
+
+export function formatKeys(object) {
+   if (object) {
+      return Object.keys(object).join(' ');
+   } else {
+      return 'empty';
+   }
+}

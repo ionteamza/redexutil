@@ -15,6 +15,11 @@ module.exports = {
    },
    request(options) {
       logger.debug('request', options);
+      if (lodash.isObject(options)) {
+         if (options.lastModified) {
+            options.headers = {'If-Modified-Since': options.lastModified};
+         }
+      }
       return new Promise((resolve, reject) => {
          request(options, (err, response, content) => {
             logger.debug('response', options.url, err || response.statusCode);
@@ -41,11 +46,16 @@ module.exports = {
          });
       });
    },
-   head(url) {
-      logger.debug('head', url);
+   head(options) {
+      if (typeof options === 'string') {
+         options = {url: options};
+      }
+      assert(options.url, 'url');
+      options.method = 'HEAD';
+      logger.debug('head', options);
       return new Promise((resolve, reject) => {
-         request({url: url, method: 'HEAD'}, (err, response) => {
-            logger.debug('response', url, err || response.statusCode);
+         request(options, (err, response) => {
+            logger.debug('response', options.url, err || response.statusCode);
             if (err) {
                reject(err);
             } else {

@@ -12,14 +12,23 @@ const AllLevels = Levels.concat(ExtraLevels);
 const digestLimit = 100;
 const state = {
    limit: 10,
+   counters: {},
    logging: {
+      error: [],
+      warn: [],
       info: [],
       debug: [],
-      warn: [],
-      error: [],
       digest: []
    }
 };
+
+function increment(name, prop) {
+   prop = name + '.' + prop;
+   if (!state.counters[prop]) {
+      state.counters[prop] = 0;
+   }
+   state.counters[prop] += 1;
+}
 
 function basename(file) {
    var matcher = file.match(/([^\/]+)\.[a-z]+$/);
@@ -28,11 +37,14 @@ function basename(file) {
    } else {
       return file;
    }
-};
+}
 
 module.exports = {
    pub() {
-      return state.logging;
+      return Object.assign({}, {counters: state.counters}, state.logging);
+   },
+   counters() {
+      return state.counters;
    },
    create(name, level) {
       name = basename(name);
@@ -48,6 +60,7 @@ module.exports = {
 };
 
 function logging(logger, name, loggerLevel, context, level, args, count) {
+   increment(name, level);
    args = [].slice.call(args); // convert arguments to array
    if (!lodash.isEmpty(context)) {
       if (lodash.isArray(context)) {
@@ -87,6 +100,8 @@ function decorate(logger, name, level) {
       },
       verbose() {
       },
+      vdebug() {
+      },
       debug() {
          if (level === 'debug') {
             logging(logger, name, level, context, 'debug', arguments);
@@ -98,6 +113,12 @@ function decorate(logger, name, level) {
          }
       },
       dev() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      dverbose() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      dinfo() {
          logging(logger, name, level, context, 'warn', arguments);
       },
       warn() {
@@ -121,6 +142,9 @@ function decorate(logger, name, level) {
       child() {
          let childName = [name].concat([].slice.call(arguments)).join('.');
          return Loggers.create(childName, level);
+      },
+      increment(prop) {
+         increment(name, prop);
       }
    };
    return those;
