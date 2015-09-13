@@ -142,6 +142,14 @@ export default class Redis {
       return createPromise(cb => this.client.set(key, value, cb));
    }
 
+   setex(key, seconds, value) {
+      return createPromise(cb => this.client.setex(key, seconds, value, cb));
+   }
+
+   setnx(key, value) {
+      return createPromise(cb => this.client.setnx(key, value, cb));
+   }
+
    sadd(key, member) {
       //logger.debug('sadd', key, member);
       return createPromise(cb => this.client.sadd(key, member, cb));
