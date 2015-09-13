@@ -12,6 +12,7 @@ const AllLevels = Levels.concat(ExtraLevels);
 
 const state = {
    limit: 10,
+   counters: {},
    logging: {
       error: [],
       warn: [],
@@ -28,11 +29,14 @@ function basename(file) {
    } else {
       return file;
    }
-};
+}
 
 module.exports = {
    pub() {
-      return state.logging;
+      return Object.assign({}, {counters: state.counters}, state.logging);
+   },
+   counters() {
+      return state.counters;
    },
    create(name, level) {
       name = basename(name);
@@ -129,6 +133,13 @@ function decorate(logger, name, level) {
       child() {
          let childName = [name].concat([].slice.call(arguments)).join('.');
          return Loggers.create(childName, level);
+      },
+      increment(prop) {
+         prop = name + '.' + prop;
+         if (!state.counters[prop]) {
+            state.counters[prop] = 0;
+         }
+         state.counters[prop] += 1;
       }
    };
    return those;
