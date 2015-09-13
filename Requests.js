@@ -46,10 +46,14 @@ module.exports = {
          });
       });
    },
-   head(url) {
-      logger.debug('head', url);
+   head(options) {
+      if (typeof options === 'string') {
+         options = {url: options};
+      }
+      options.method = 'HEAD';
+      logger.debug('head', options);
       return new Promise((resolve, reject) => {
-         request({url: url, method: 'HEAD'}, (err, response) => {
+         request(options, (err, response) => {
             logger.debug('response', url, err || response.statusCode);
             if (err) {
                reject(err);
