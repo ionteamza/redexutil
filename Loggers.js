@@ -79,9 +79,15 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
       } else if (lodash.includes(Levels, level)) {
          if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
+            if (level === 'error') {
+               if (args[0]) {
+                  if (lodash.isError(args[0])) {
+                     logger[level].call(logger, ...args);
+                  }
+               }
+            }
          }
       } else {
-
       }
    }
    args.splice(0, 0, name);
