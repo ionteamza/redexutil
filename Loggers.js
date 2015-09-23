@@ -80,10 +80,11 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
          if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
             if (level === 'error') {
-               if (args[0]) {
-                  if (lodash.isError(args[0])) {
-                     logger[level].call(logger, ...args);
-                  }
+               if (lodash.isError(args[0])) {
+                  logger[level].call(logger, ...args);
+               }
+               if (lodash.isError(args[1])) {
+                  logger[level].call(logger, ...args);
                }
             }
          }
