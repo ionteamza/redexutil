@@ -191,6 +191,10 @@ export default class Redis {
       return createPromise(cb => this.client.hset(key, field, value, cb));
    }
 
+   hsetnx(key, field, value) {
+      return createPromise(cb => this.client.hsetnx(key, field, value, cb));
+   }
+
    lindex(key, index) {
       return createPromise(cb => this.client.lindex(key, index, cb));
    }
