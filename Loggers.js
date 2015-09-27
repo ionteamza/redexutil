@@ -122,7 +122,19 @@ function decorate(logger, name, level) {
       dev() {
          logging(logger, name, level, context, 'warn', arguments);
       },
+      wverbose() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      wdebug() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      winfo() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
       dverbose() {
+         logging(logger, name, level, context, 'warn', arguments);
+      },
+      ddebug() {
          logging(logger, name, level, context, 'warn', arguments);
       },
       dinfo() {
