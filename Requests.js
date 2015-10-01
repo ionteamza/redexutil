@@ -47,8 +47,10 @@ export function response(options) {
          logger.debug('response', options.url, err || response.statusCode);
          if (err) {
             reject(err);
-         } else {
+         } else if (response.statusCode === 200) {
             resolve([response, content]);
+         } else {
+            resolve([response]);
          }
       });
    });
