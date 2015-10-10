@@ -5,6 +5,13 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(module.filename, 'info');
 
+export function length(array, defaultValue) {
+   if (!array) {
+      return defaultValue;
+   }
+   return array.length;
+}
+
 export function reverse(array) {
    return lodash(array).slice(0).reverse().value();
 }
