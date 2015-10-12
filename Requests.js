@@ -45,7 +45,7 @@ export function response(options) {
    if (typeof options === 'string') {
       url = options;
       options = {url};
-   } else (typeof options === 'object') {
+   } else if (typeof options === 'object') {
       url = options.url;
    } else {
       throw 'Invalid request options type: ' + (typeof options);
