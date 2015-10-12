@@ -41,10 +41,19 @@ export function request(options) {
 }
 
 export function response(options) {
+   let url;
+   if (typeof options === 'string') {
+      url = options;
+      options = {url};
+   } else (typeof options === 'object') {
+      url = options.url;
+   } else {
+      throw 'Invalid request options type: ' + (typeof options);
+   }
    logger.debug('request', options);
    return new Promise((resolve, reject) => {
       _request(options, (err, response, content) => {
-         logger.debug('response', options.url, err || response.statusCode);
+         logger.debug('response', url, err || response.statusCode);
          if (err) {
             reject(err);
          } else if (response.statusCode === 200) {
