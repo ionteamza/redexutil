@@ -159,7 +159,7 @@ export default class Redis {
       return createPromise(cb => this.client.sismember(key, member, cb));
    }
 
-   smembers(key, member) {
+   smembers(key) {
       return createPromise(cb => this.client.smembers(key, cb));
    }
 
