@@ -151,7 +151,6 @@ export default class Redis {
    }
 
    sadd(key, member) {
-      //logger.debug('sadd', key, member);
       return createPromise(cb => this.client.sadd(key, member, cb));
    }
 
