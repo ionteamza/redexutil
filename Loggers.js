@@ -140,6 +140,11 @@ function decorate(logger, name, level) {
       dinfo() {
          logging(logger, name, level, context, 'warn', arguments);
       },
+      tdebug() {
+         if (process.env.envType === 'test') {
+            logging(logger, name, level, context, 'info', arguments);
+         }
+      },
       warn() {
          logging(logger, name, level, context, 'warn', arguments);
       },
