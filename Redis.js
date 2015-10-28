@@ -134,8 +134,16 @@ export default class Redis {
       return createPromise(cb => this.client.expire(key, seconds, cb));
    }
 
+   keys(match) {
+      return createPromise(cb => this.client.keys(match, cb));
+   }
+
    mget(keys) {
       return createPromise(cb => this.client.mget(keys, cb));
+   }
+
+   scan(cursor, match, count) {
+      return createPromise(cb => this.client.scan(cursor, match, count, cb));
    }
 
    set(key, value) {
