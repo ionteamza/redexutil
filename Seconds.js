@@ -19,6 +19,7 @@ const factors = {
 };
 
 const that = {
+  factors: factors,   
   format(seconds) {
     if (seconds < factors.m) {
       return '' + seconds + 's';
