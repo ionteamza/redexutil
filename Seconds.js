@@ -30,8 +30,8 @@ const that = {
       return '' + parseInt(seconds/factors.d) + 'd';
     }
   },
-  parse(seconds, defaultValue) {
-    let match = seconds.match(/^([0-9]+)([a-z]*)$/);
+  parse(string, defaultValue) {
+    let match = string.match(/^([0-9]+)([a-z]*)$/);
     if (match.length === 3) {
       assert(factors[match[2]], 'factor: ' + match[2]);
       let value = parseInt(match[1]);
@@ -39,6 +39,12 @@ const that = {
       return value * factor;
     }
     return defaultValue;
+  },
+  fromMinutes(minutes) {
+    return minutes * factors.m;
+  },
+  fromHours(hours) {
+    return hours * factors.h;
   },
   fromDays(days) {
     return days * factors.d;
