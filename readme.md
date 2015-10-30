@@ -1,4 +1,3 @@
 
-forked from https://github.com/evanx/redexutil
+# redexutil
 
-for ionteam at Independent Media 
