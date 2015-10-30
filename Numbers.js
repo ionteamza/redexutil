@@ -1,4 +1,5 @@
 
+const logger = Loggers.create(module.filename);
 
 export function parseInt(value, defaultValue) {
    if (value) {
