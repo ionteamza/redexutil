@@ -186,6 +186,10 @@ export default class Redis {
       return createPromise(cb => this.client.hget(key, field, cb));
    }
 
+   hmget(key, fields) {
+      return createPromise(cb => this.client.hmget(key, fields, cb));
+   }
+
    hgetall(key) {
       return createPromise(cb => this.client.hgetall(key, cb));
    }
