@@ -47,8 +47,11 @@ class Promises {
       return Promise.all(values.map(fn));
    }
 
-   staggered(period, values, fn) {
-      let delay = Math.floor(period/values.length);
+   staggered(maxPeriod, totalPeriod, values, fn) {
+      if (lodash.isEmpty(values)) {
+         return Promise.resolve([]);
+      }
+      let delay = Math.min(maxPeriod, Math.floor(totalPeriod/values.length));
       logger.tdebug('staggered', delay);
       return Promise.all(values.map(async (value, index) => {
          await this.delay(delay);
