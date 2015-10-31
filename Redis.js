@@ -271,6 +271,7 @@ export default class Redis {
    }
 
    zadd(key, score, member) {
+      logger.info('zadd', key, score, member);
       return createPromise(cb => this.client.zadd(key, score, member, cb));
    }
 
