@@ -52,7 +52,7 @@ class Promises {
          return Promise.resolve([]);
       }
       let delay = Math.floor(totalPeriod/values.length);
-      logger.tdebug('staggered', maxDelay, delay, values.length);
+      logger.debug('staggered', maxDelay, delay, values.length);
       return Promise.all(values.map(async (value, index) => {
          await this.delay(Math.min(maxDelay, delay));
          return fn(value);
@@ -67,14 +67,14 @@ class Promises {
       return new Promise((resolve, reject) => {
          let results = [];
          function next(result) {
-            logger.tdebug('series next', result, results.length, values.length);
+            logger.debug('series next', result, results.length, values.length);
             results.push(result);
             if (lodash.isEmpty(values)) {
                resolve(results);
             }
             fn(values.shift()).then(next).catch(reject);
          }
-         logger.tdebug('series start', values.length);
+         logger.debug('series start', values.length);
          return fn(values.shift()).then(next).catch(reject);
       });
    }
