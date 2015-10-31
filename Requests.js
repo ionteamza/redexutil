@@ -10,22 +10,15 @@ import Loggers from './Loggers';
 const logger = Loggers.create(module.filename);
 
 export function requestJson(options) {
-   if (typeof options === 'string') {
-      options = {url: options};
-   }
-   logger.debug('requestJson', options);
-   assert(options.url, 'url');
+   options = processOptions(options);
    options.json = true;
+   logger.debug('requestJson', options);
    return request(options);
 }
 
 export function request(options) {
+   options = processOptions(options);
    logger.debug('request', options);
-   if (lodash.isObject(options)) {
-      if (options.lastModified) {
-         options.headers = {'If-Modified-Since': options.lastModified};
-      }
-   }
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
          logger.debug('response', options.url || options, err || response.statusCode);
@@ -41,19 +34,11 @@ export function request(options) {
 }
 
 export function response(options) {
-   let url;
-   if (typeof options === 'string') {
-      url = options;
-      options = {url};
-   } else if (typeof options === 'object') {
-      url = options.url;
-   } else {
-      throw 'Invalid request options type: ' + (typeof options);
-   }
+   options = processOptions(options);
    logger.debug('request', options);
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
-         logger.debug('response', url, err || response.statusCode);
+         logger.debug('response', options.url, err || response.statusCode);
          if (err) {
             reject(err);
          } else if (response.statusCode === 200) {
@@ -66,10 +51,7 @@ export function response(options) {
 }
 
 export function head(options) {
-   if (typeof options === 'string') {
-      options = {url: options};
-   }
-   assert(options.url, 'url');
+   options = processOptions(options);
    options.method = 'HEAD';
    logger.debug('head', options);
    return new Promise((resolve, reject) => {
@@ -82,4 +64,18 @@ export function head(options) {
          }
       });
    });
+}
+
+function processOptions(options) {
+   if (typeof options === 'string') {
+      return {url: options};
+   } else if (typeof options === 'object') {
+      assert(options.url, 'url');
+      if (options.lastModified) {
+         options.headers = {'If-Modified-Since': options.lastModified};
+      }
+      return options;
+   } else {
+      throw 'Invalid request options type: ' + (typeof options);
+   }
 }
