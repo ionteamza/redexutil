@@ -270,6 +270,11 @@ export default class Redis {
       return createPromise(cb => this.client.brpoplpush(source, destination, timeout, cb));
    }
 
+   zadd(key, score, member) {
+      //logger.tdebug('zadd', key, score, member);
+      return createPromise(cb => this.client.zadd(key, score, member, cb));
+   }
+
    zrange(key, start, stop) {
       return createPromise(cb => this.client.zrange(key, start, stop, cb));
    }
