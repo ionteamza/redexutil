@@ -178,6 +178,10 @@ export default class Redis {
       return createPromise(cb => this.client.scard(key, cb));
    }
 
+   ttl(key) {
+      return createPromise(cb => this.client.ttl(key, cb));
+   }
+
    hdel(key, ...fields) {
       return createPromise(cb => this.client.hdel(key, fields, cb));
    }
