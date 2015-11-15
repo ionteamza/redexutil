@@ -5,10 +5,10 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-const DefaultLevel = 'info';
-const Levels = ['debug', 'info', 'warn', 'error'];
-const ExtraLevels = ['state', 'digest', 'child'];
-const AllLevels = Levels.concat(ExtraLevels);
+const defaultLevel = 'info';
+const levels = ['debug', 'info', 'warn', 'error'];
+const extraLevels = ['state', 'digest', 'child'];
+const allLevels = levels.concat(extraLevels);
 const digestLimit = 100;
 const state = {
    limit: 10,
@@ -48,12 +48,12 @@ module.exports = {
    },
    create(name, level) {
       name = basename(name);
-      level = level || global.loggerLevel || process.env.loggerLevel || DefaultLevel;
-      if (lodash.includes(Levels, level)) {
+      level = level || global.loggerLevel || process.env.loggerLevel || defaultLevel;
+      if (lodash.includes(levels, level)) {
          let logger = bunyan.createLogger({name, level});
          return decorate(logger, name, level);
       } else {
-         assert(lodash.includes(ExtraLevels, level), 'level: ' + level);
+         assert(lodash.includes(extraLevels, level), 'level: ' + level);
          return decorate(null, name, level);
       }
    }
@@ -76,8 +76,8 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
          if (count < digestLimit/10 && count % digestLimit === 0) {
             logger.info('digest', count, ...args);
          }
-      } else if (lodash.includes(Levels, level)) {
-         if (Levels.indexOf(level) >= Levels.indexOf(loggerLevel)) {
+      } else if (lodash.includes(levels, level)) {
+         if (levels.indexOf(level) >= levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
             if (level === 'error') {
                if (lodash.isError(args[0])) {
