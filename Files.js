@@ -74,6 +74,9 @@ const Files = {
          });
       });
    },
+   readFileString(file) {
+      return Files.readFile(file).then(content => content.toString());
+   },
    writeFile(file, content) {
       logger.debug('writeFile', file);
       return new Promise((resolve, reject) => {
