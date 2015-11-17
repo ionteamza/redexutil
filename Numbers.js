@@ -1,7 +1,7 @@
 
 import * as Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(__filename);
 
 export function parseInt(value, defaultValue) {
    if (value) {

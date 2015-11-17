@@ -5,7 +5,7 @@ import assert from 'assert';
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 export function props(object) {
    let map = new Map();

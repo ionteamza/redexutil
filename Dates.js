@@ -4,7 +4,7 @@
 import assert from 'assert';
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 export function time() {
    return new Date().getTime()

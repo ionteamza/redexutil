@@ -7,7 +7,7 @@ import _mkdirp from 'mkdirp';
 import Promises from './Promises';
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 const Files = {
    mkdirp(dir) {

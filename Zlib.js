@@ -6,7 +6,7 @@ import zlib from 'zlib';
 import Promises from './Promises';
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 export function gzip(string) {
    return Promises.create(cb => zlib.gzip(string, cb));

@@ -12,7 +12,7 @@ import redis from 'redis';
 import Paths from './Paths';
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 const state = {
    count: 0,

@@ -7,7 +7,7 @@ import lodash from 'lodash';
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(__filename);
 
 export function requestJson(options) {
    options = processOptions(options);

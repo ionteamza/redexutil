@@ -3,9 +3,6 @@
 
 // warning this automatically loads a number of modules in global
 
-import assert from 'assert';
-import lodash from 'lodash';
-
 const startTime = new Date().getTime();
 
 ['assert', 'lodash', 'path'].forEach(moduleName => {
