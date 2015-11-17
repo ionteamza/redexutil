@@ -11,6 +11,8 @@ const startTime = new Date().getTime();
 
 module.exports._ = module.exports.lodash;
 
+global.Loggers = require('./Loggers');
+
 ['Arguments', 'Arrays', 'Asserts', 'Collections', 'Dates', 'Errors',
    'Loggers', 'Maps', 'Millis', 'Maybe', 'Numbers', 'Objects',
    'Paths', 'Promises', 'Requests', 'Seconds', 'Strings',

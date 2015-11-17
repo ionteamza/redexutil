@@ -1,9 +1,8 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-// a more explicit promisification for redis client
-
-// also see more automated attempt using es6-promisify:
+// A more explicit promisification for redis client.
+// Also see more automated attempt using es6-promisify:
 // https://github.com/evanx/redex/blob/master/lib/redisPromisified.js
 
 import lodash from 'lodash';
