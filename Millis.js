@@ -1,11 +1,6 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-import assert from 'assert';
-import lodash from 'lodash';
-
-import Loggers from './Loggers';
-
 const logger = Loggers.create(__filename, 'info');
 
 function getMessage(millis, message) {

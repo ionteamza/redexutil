@@ -1,7 +1,7 @@
+// Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
+// ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-import * as Loggers from './Loggers';
-
-const logger = Loggers.create(__filename);
+const logger = Loggers.create(__filename, 'info');
 
 export function parseInt(value, defaultValue) {
    if (value) {
