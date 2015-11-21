@@ -16,6 +16,10 @@ export function requestJson(options) {
    return request(options);
 }
 
+export function json(options) {
+   return requestJson(options);
+}
+
 export function request(options) {
    options = processOptions(options);
    logger.debug('request', options);
