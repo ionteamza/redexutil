@@ -9,15 +9,15 @@ import Loggers from './Loggers';
 
 const logger = Loggers.create(__filename);
 
-export function requestJson(options) {
+export function requestJson(options) { // TODO deprecated
+   return json(options);
+}
+
+export function json(options) {
    options = processOptions(options);
    options.json = true;
    logger.debug('requestJson', options);
    return request(options);
-}
-
-export function json(options) {
-   return requestJson(options);
 }
 
 export function request(options) {
