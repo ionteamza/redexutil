@@ -1,6 +1,4 @@
 
-import * as Loggers from './Loggers';
-
 const logger = Loggers.create(module.filename);
 
 export function parseInt(value, defaultValue) {
