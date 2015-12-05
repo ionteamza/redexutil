@@ -41,6 +41,19 @@ var that = {
    fromDays(days) {
       return days * factors.d;
    },
+   time(date) {
+      if (date) {
+         return data.getTime();
+      } else {
+         return new Date().getTime();
+      }
+   },
+   isElapsed(startTime, duration, currentTime) {
+      if (!currentTime) {
+         currentTime = new Date().getTime();
+      }
+      return currentTime - startTime > duration;
+   }
    parse(millis, defaultValue) {
       if (lodash.isNumber(millis)) {
          return millis;
