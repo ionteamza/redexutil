@@ -54,8 +54,9 @@ var that = {
       }
       if (duration) {
          return currentTime - time > duration;
+      } else {
+         return time < currentTime;
       }
-      return time < currentTime;
    },
    parse(millis, defaultValue) {
       if (lodash.isNumber(millis)) {
