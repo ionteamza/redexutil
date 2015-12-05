@@ -48,11 +48,14 @@ var that = {
          return new Date().getTime();
       }
    },
-   isElapsed(startTime, duration, currentTime) {
+   isElapsed(time, duration, currentTime) {
       if (!currentTime) {
          currentTime = new Date().getTime();
       }
-      return currentTime - startTime > duration;
+      if (duration) {
+         return currentTime - time > duration;
+      }
+      return time < currentTime;
    },
    parse(millis, defaultValue) {
       if (lodash.isNumber(millis)) {
