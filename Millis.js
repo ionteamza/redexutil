@@ -55,7 +55,7 @@ var that = {
       if (duration) {
          return currentTime - time > duration;
       } else {
-         return time < currentTime;
+         return currentTime > time;
       }
    },
    parse(millis, defaultValue) {
