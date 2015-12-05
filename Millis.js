@@ -35,6 +35,12 @@ var that = {
    fromMinutes(minutes) {
       return minutes * factors.m;
    },
+   fromHours(hours) {
+      return hours * factors.h;
+   },
+   fromDays(days) {
+      return days * factors.d;
+   },
    parse(millis, defaultValue) {
       if (lodash.isNumber(millis)) {
          return millis;
