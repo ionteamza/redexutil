@@ -53,7 +53,7 @@ var that = {
          currentTime = new Date().getTime();
       }
       return currentTime - startTime > duration;
-   }
+   },
    parse(millis, defaultValue) {
       if (lodash.isNumber(millis)) {
          return millis;
