@@ -14,6 +14,12 @@ export function reverse(array) {
    return lodash(array).slice(0).reverse().value();
 }
 
+export function pushIf(array, value, condition) {
+   if (condition || value) {
+      array.push(value);
+   }
+}
+
 export async function mapAsync(array, fn) {
    return await* array.map(async (item) => {
       try {
