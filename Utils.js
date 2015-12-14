@@ -13,21 +13,21 @@ module.exports._ = module.exports.lodash;
 global.Loggers = require('./Loggers');
 
 Object.assign(module.exports, {
-  Arguments: require('Arguments'),
-  Arrays: require('Arrays'),
-  Asserts: require('Asserts'),
-  Collections: require('Collections'),
-  Dates: require('Dates'),
-  Errors: require('Errors'),
-  Maps: require('Maps'),
-  Millis: require('Millis'),
-  Maybe: require('Maybe'),
-  Numbers: require('Numbers'),
-  Objects: require('Objects'),
-  Paths: require('Paths'),
-  Promises: require('Promises'),
-  Requests: require('Requests'),
-  Seconds: require('Seconds'),
-  Strings: require('Strings')
+  Arguments: require('./Arguments'),
+  Arrays: require('./Arrays'),
+  Asserts: require('./Asserts'),
+  Collections: require('./Collections'),
+  Dates: require('./Dates'),
+  Errors: require('./Errors'),
+  Maps: require('./Maps'),
+  Millis: require('./Millis'),
+  Maybe: require('./Maybe'),
+  Numbers: require('./Numbers'),
+  Objects: require('./Objects'),
+  Paths: require('./Paths'),
+  Promises: require('./Promises'),
+  Requests: require('./Requests'),
+  Seconds: require('./Seconds'),
+  Strings: require('./Strings')
 });
 
