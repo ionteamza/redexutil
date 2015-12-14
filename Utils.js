@@ -1,20 +1,33 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-['assert', 'lodash', 'path'].forEach(moduleName => {
-   module.exports[moduleName] = require(moduleName);
-});
+module.exports = {
+  assert: require('assert'),
+  path: require('path'),
+  lodash: require('lodash')
+};
+
 
 module.exports._ = module.exports.lodash;
 
-//global.Loggers = require('./Loggers');
+global.Loggers = require('./Loggers');
 
-['Arguments', 'Arrays', 'Asserts', 'Collections', 'Dates', 'Errors',
-   'Maps', 'Millis', 'Maybe', 'Numbers', 'Objects',
-   'Paths', 'Promises', 'Requests', 'Seconds', 'Strings',
-   'Zlib'
-   ]
-.forEach(moduleName => {
-   module.exports[moduleName] = require('./' + moduleName);
+Object.assign(module.exports, {
+  Arguments: require('Arguments'),
+  Arrays: require('Arrays'),
+  Asserts: require('Asserts'),
+  Collections: require('Collections'),
+  Dates: require('Dates'),
+  Errors: require('Errors'),
+  Maps: require('Maps'),
+  Millis: require('Millis'),
+  Maybe: require('Maybe'),
+  Numbers: require('Numbers'),
+  Objects: require('Objects'),
+  Paths: require('Paths'),
+  Promises: require('Promises'),
+  Requests: require('Requests'),
+  Seconds: require('Seconds'),
+  Strings: require('Strings')
 });
 

@@ -3,7 +3,11 @@
 
 // warning this automatically loads a number of modules in global
 
-global.Loggers = require('./Loggers');
+global.assert = require('assert');
+global.path = require('path');
+global.lodash = require('lodash');
+global._ = global.lodash;
 
+global.Loggers = require('./Loggers');
 Object.assign(global, require('./Utils'));
 
