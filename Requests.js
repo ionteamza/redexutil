@@ -7,18 +7,22 @@ import lodash from 'lodash';
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(module.filename);
+const logger = Loggers.create(__filename, 'info');
 
-export function requestJson(options) {
+export function requestJson(options) { // TODO deprecated
+   return json(options);
+}
+
+export function json(options) {
    options = processOptions(options);
    options.json = true;
-   logger.debug('requestJson', options);
+   logger.debug('json', options.url);
    return request(options);
 }
 
 export function request(options) {
    options = processOptions(options);
-   logger.debug('request', options);
+   logger.vdebug('request', options);
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
          logger.debug('response', options.url || options, err || response.statusCode);

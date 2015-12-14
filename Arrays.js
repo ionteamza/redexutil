@@ -1,9 +1,7 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-import Loggers from './Loggers';
-
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 export function length(array, defaultValue) {
    if (!array) {
@@ -16,14 +14,20 @@ export function reverse(array) {
    return lodash(array).slice(0).reverse().value();
 }
 
+export function pushIf(array, value, condition) {
+   if (condition || value) {
+      array.push(value);
+   }
+}
+
 export async function mapAsync(array, fn) {
    return await* array.map(async (item) => {
       try {
          let result = await fn();
-         logger.info('mapAsync', result);
+         logger.debug('mapAsync', result);
          return result;
       } catch (err) {
-         logger.warn('mapAsync', err);
+         logger.debug('mapAsync', err);
          throw err;
       }
    });

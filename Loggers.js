@@ -79,13 +79,9 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
       } else if (lodash.includes(levels, level)) {
          if (levels.indexOf(level) >= levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
-            if (level === 'error') {
-               if (lodash.isError(args[0])) {
-                  logger[level].call(logger, ...args);
-               }
-               if (lodash.isError(args[1])) {
-                  logger[level].call(logger, ...args);
-               }
+            let error = findError(args);
+            if (error) {
+               logger[level].call(logger, error);
             }
          }
       } else {
@@ -95,6 +91,16 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
    state.logging[level].splice(0, 0, args);
    if (state.logging[level].length > state.limit) { // trim
       state.logging[level].length = state.limit;
+   }
+}
+
+function findError(args) {
+   if (lodash.isError(args[0])) {
+      return args[0];
+   } else if (lodash.isError(args[1])) {
+      return args[1];
+   } else if (lodash.isError(args[args.length - 1])) {
+      return args[args.length - 1];
    }
 }
 

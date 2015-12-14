@@ -1,12 +1,7 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
-import assert from 'assert';
-import lodash from 'lodash';
-
-import Loggers from './Loggers';
-
-const logger = Loggers.create(module.filename, 'info');
+const logger = Loggers.create(__filename, 'info');
 
 function getMessage(millis, message) {
    return message + ': ' + millis;
@@ -39,6 +34,29 @@ var that = {
    },
    fromMinutes(minutes) {
       return minutes * factors.m;
+   },
+   fromHours(hours) {
+      return hours * factors.h;
+   },
+   fromDays(days) {
+      return days * factors.d;
+   },
+   time(date) {
+      if (date) {
+         return data.getTime();
+      } else {
+         return new Date().getTime();
+      }
+   },
+   isElapsed(time, duration, currentTime) {
+      if (!currentTime) {
+         currentTime = new Date().getTime();
+      }
+      if (duration) {
+         return currentTime - time > duration;
+      } else {
+         return currentTime > time;
+      }
    },
    parse(millis, defaultValue) {
       if (lodash.isNumber(millis)) {
