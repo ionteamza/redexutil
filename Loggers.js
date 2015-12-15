@@ -79,9 +79,12 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
       } else if (lodash.includes(levels, level)) {
          if (levels.indexOf(level) >= levels.indexOf(loggerLevel)) {
             logger[level].call(logger, ...args);
-            let error = findError(args);
+            let error = findArgsError(args);
             if (error) {
-               logger[level].call(logger, error);
+               if (error.code && error.code === 'ETIMEOUT') {
+               } else {
+                  logger[level].call(logger, error);
+               }
             }
          }
       } else {
@@ -94,7 +97,7 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
    }
 }
 
-function findError(args) {
+function findArgsError(args) {
    if (lodash.isError(args[0])) {
       return args[0];
    } else if (lodash.isError(args[1])) {
