@@ -30,4 +30,3 @@ Object.assign(module.exports, {
   Seconds: require('./Seconds'),
   Strings: require('./Strings')
 });
-
