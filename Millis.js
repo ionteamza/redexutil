@@ -33,8 +33,6 @@ var that = {
          return '' + parseInt(millis/factors.h) + 'h';
       } else {
          return '' + parseInt(millis/factors.d) + 'd';
-      } else {
-         return 'millis:' + millis;
       }
    },
    fromSeconds(seconds) {
