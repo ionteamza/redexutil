@@ -28,6 +28,7 @@ export function request(options) {
       requestf(options, (err, response, content) => {
          logger.debug('response', options.url || options, err || response.statusCode);
          if (err) {
+            err.url = options.url;
             reject(err);
          } else if (response.statusCode !== 200) {
             reject({statusCode: response.statusCode});
