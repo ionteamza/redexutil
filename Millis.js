@@ -54,6 +54,16 @@ var that = {
          return new Date().getTime();
       }
    },
+   getElapsedDuration(time, currentTime) {
+      if (!currentTime) {
+         currentTime = new Date().getTime();
+      }
+      if (currentTime > time) {
+         return currentTime - time;
+      } else {
+         return 0;
+      }
+   },
    isElapsed(time, duration, currentTime) {
       if (!currentTime) {
          currentTime = new Date().getTime();
