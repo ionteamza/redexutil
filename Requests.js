@@ -28,10 +28,10 @@ export function request(options) {
       requestf(options, (err, response, content) => {
          logger.debug('response', options.url || options, err || response.statusCode);
          if (err) {
-            err.url = options.url;
+            err.options = options;
             reject(err);
          } else if (response.statusCode !== 200) {
-            reject({statusCode: response.statusCode});
+            reject({options: options, statusCode: response.statusCode});
          } else {
             if (Millis.isElapsed(startTime, 8000)) {
                logger.warn('request', Millis.formatElapsed(startTime), options.url);
