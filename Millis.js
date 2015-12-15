@@ -16,7 +16,13 @@ const factors = {
 };
 
 var that = {
-   format(millis) {
+   format(millis) { // TODO deprecate
+      return that.formatDuration(millis);
+   },
+   formatTimestamp(epoch) {
+      return new Date(epoch).toISOString();
+   },
+   formatDuration(millis) {
       if (millis < factors.s) {
          return '' + millis + 'ms';
       } else if (millis < factors.m) {
@@ -27,6 +33,8 @@ var that = {
          return '' + parseInt(millis/factors.h) + 'h';
       } else {
          return '' + parseInt(millis/factors.d) + 'd';
+      } else {
+         return 'millis:' + millis;
       }
    },
    fromSeconds(seconds) {
@@ -56,6 +64,14 @@ var that = {
          return currentTime - time > duration;
       } else {
          return currentTime > time;
+      }
+   },
+   formatElapsed(time) {
+      let currentTime = new Date().getTime();
+      if (time > currentTime) {
+         return that.formatDuration(time - currentTime);
+      } else {
+         return '0ms';
       }
    },
    parse(millis, defaultValue) {

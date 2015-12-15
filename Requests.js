@@ -23,6 +23,7 @@ export function json(options) {
 export function request(options) {
    options = processOptions(options);
    logger.vdebug('request', options);
+   let startTime = new Date().getTime();
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
          logger.debug('response', options.url || options, err || response.statusCode);
@@ -31,6 +32,9 @@ export function request(options) {
          } else if (response.statusCode !== 200) {
             reject({statusCode: response.statusCode});
          } else {
+            if (Millis.isElapsed(startTime, 8000)) {
+               logger.warn('request', Millis.formatElapsed(startTime), options.url);
+            }
             resolve(content);
          }
       });
