@@ -37,23 +37,31 @@ function getStats(name) {
 
 function increment(name, prop) {
    let stats = getStats(name);
-   let value = stats.counts[prop] || 0;
-   value += 1;
-   stats.counts[prop] = value;
-   return value;
+   let count = stats.counts[prop] || 0;
+   count += 1;
+   stats.counts[prop] = count;
+   return count;
 }
 
-function peak(name, prop, value) {
-   let count = increment(name, prop);
+function timer(name, prop, value) {
    let stats = getStats(name);
+   let count = stats.counts[prop] || 0;
+   count += 1;
+   stats.counts[prop] = count;
+   //
    let average = stats.averages[prop];
-   average = ((count - 1) * average + value)/count;
+   if (!average) {
+      average = value;
+   } else if (count > 1) {
+      average = ((count - 1) * average + value)/count;
+   }
    stats.averages[prop] = average;
+   //
+   let peak = stats.peaks[prop];
    if (!stats.peaks.hasOwnProperty(prop)) {
       stats.peaks[prop] = value;
       return value;
    }
-   let peak = stats.peaks[prop];
    if (value > peak) {
       stats.peaks[prop] = value;
       peak = value;
@@ -214,7 +222,7 @@ function decorate(logger, name, level) {
       peak(prop, value) {
          return peak(name, prop, value);
       },
-      time(prop, time) {
+      timer(prop, time) {
          return peak(name, prop, new Date().getTime() - time);
       }
    };
