@@ -4,13 +4,29 @@
 const logger = Loggers.create(__filename, 'info');
 
 export default class Store {
-   counts = {};
+   values = {};
+
+   has(key) {
+      return this.values.hasOwnProperty(key);
+   }
+
+   value(key) {
+      return this.values[key];
+   }
 
    incr(key) {
-      if (!this.counts[key]) {
-         this.counts[key] = 1;
+      if (!this.has(key)) {
+         this.values[key] = 1;
       } else {
-         this.counts[key] += 1;
+         this.values[key] += 1;
+      }
+   }
+
+   max(key, value) {
+      if (!this.has(key)) {
+         this.values[key] = value;
+      } else if (value > this.values[key]) {
+         this.values[key] = value;
       }
    }
 }
