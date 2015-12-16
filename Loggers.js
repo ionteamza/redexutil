@@ -117,8 +117,8 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
       } else {
       }
    }
-   args.splice(0, 0, name);
-   state.logging[level].splice(0, 0, args);
+   let message = [name, new Date().toISOString(), ...args];
+   state.logging[level].splice(0, 0, message);
    if (state.logging[level].length > state.limit) { // trim
       state.logging[level].length = state.limit;
    }
@@ -206,8 +206,8 @@ function decorate(logger, name, level) {
       increment(prop) {
          return increment(name, prop);
       },
-      peak(prop, time) {
-         return peak(name, prop, time);
+      peak(prop, value) {
+         return peak(name, prop, value);
       }
    };
    return those;
