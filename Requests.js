@@ -26,7 +26,8 @@ export function request(options) {
    let startTime = new Date().getTime();
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
-         logger.debug('response', options.url || options, err || response.statusCode);
+         let duration = Millis.getElapsedDuration(startTime);
+         logger.debug('response', options.url || options, err || response.statusCode, duration);
          if (err) {
             err.options = options;
             err.duration = Millis.getElapsedDuration(startTime);
@@ -34,8 +35,8 @@ export function request(options) {
          } else if (response.statusCode !== 200) {
             reject({options: options, statusCode: response.statusCode});
          } else {
-            if (Millis.isElapsed(startTime, 8000)) {
-               logger.warn('request', Millis.formatElapsed(startTime), options.url);
+            if (duration > 8000) {
+               logger.warn('request slow', Millis.formatDuration(duration), options.url);
             }
             resolve(content);
          }
