@@ -117,7 +117,8 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
       } else {
       }
    }
-   let message = [name, new Date().toISOString(), ...args];
+   let date = new Date().toISOString().substring(0, 16);
+   let message = [date, name, ...args];
    state.logging[level].splice(0, 0, message);
    if (state.logging[level].length > state.limit) { // trim
       state.logging[level].length = state.limit;
