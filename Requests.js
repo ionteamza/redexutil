@@ -86,6 +86,6 @@ function processOptions(options) {
       }
       return options;
    } else {
-      throw 'Invalid request options type: ' + (typeof options);
+      throw {message: 'Invalid request options', options: options};
    }
 }
