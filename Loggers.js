@@ -43,7 +43,7 @@ function increment(name, prop) {
    return count;
 }
 
-function timer(name, prop, value) {
+function peak(name, prop, value) {
    let stats = getStats(name);
    let count = stats.counts[prop] || 0;
    count += 1;
