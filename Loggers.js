@@ -26,7 +26,8 @@ function getStats(name) {
    let stats = state.stats[name];
    if (!stats) {
       stats = {
-         counters: {},
+         counts: {},
+         averages: {},
          peaks: {},
       };
       state.stats[name] = stats;
@@ -43,8 +44,11 @@ function increment(name, prop) {
 }
 
 function peak(name, prop, value) {
-   increment(name, prop);
+   let count = increment(name, prop);
    let stats = getStats(name);
+   let average = stats.averages[prop];
+   average = ((count - 1) * average + value)/count;
+   stats.averages[prop] = average;
    if (!stats.peaks.hasOwnProperty(prop)) {
       stats.peaks[prop] = value;
       return value;
@@ -209,6 +213,9 @@ function decorate(logger, name, level) {
       },
       peak(prop, value) {
          return peak(name, prop, value);
+      },
+      time(prop, time) {
+         return peak(name, prop, new Date().getTime() - time);
       }
    };
    return those;
