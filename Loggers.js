@@ -12,7 +12,7 @@ const allLevels = levels.concat(extraLevels);
 const digestLimit = 100;
 const state = {
    limit: 10,
-   counters: {},
+   stats: {},
    logging: {
       error: [],
       warn: [],
@@ -22,12 +22,39 @@ const state = {
    }
 };
 
-function increment(name, prop) {
-   prop = name + '.' + prop;
-   if (!state.counters[prop]) {
-      state.counters[prop] = 0;
+function getStats(name) {
+   let stats = state.stats[name];
+   if (!stats) {
+      stats = {
+         counters: {},
+         peaks: {},
+      };
+      state.stats[name] = stats;
    }
-   state.counters[prop] += 1;
+   return stats;
+}
+
+function increment(name, prop) {
+   let stats = getStats(name);
+   let value = stats.counters[prop] || 0;
+   value += 1;
+   stats.counters[prop] = value;
+   return value;
+}
+
+function peak(name, prop, value) {
+   increment(name, prop);
+   let stats = getStats(name);
+   if (!stats.peaks.hasOwnProperty(prop)) {
+      stats.peaks[prop] = value;
+      return value;
+   }
+   let peak = stats.peaks[prop];
+   if (value > peak) {
+      stats.peaks[prop] = value;
+      peak = value;
+   }
+   return peak;
 }
 
 function basename(file) {
@@ -41,7 +68,7 @@ function basename(file) {
 
 module.exports = {
    pub() {
-      return Object.assign({}, {counters: state.counters}, state.logging);
+      return Object.assign({}, state.stats, state.logging);
    },
    counters() {
       return state.counters;
@@ -177,7 +204,10 @@ function decorate(logger, name, level) {
          return Loggers.create(childName, level);
       },
       increment(prop) {
-         increment(name, prop);
+         return increment(name, prop);
+      },
+      peak(prop, time) {
+         return peak(name, prop, time);
       }
    };
    return those;
