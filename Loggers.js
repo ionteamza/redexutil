@@ -37,9 +37,9 @@ function getStats(name) {
 
 function increment(name, prop) {
    let stats = getStats(name);
-   let value = stats.counters[prop] || 0;
+   let value = stats.counts[prop] || 0;
    value += 1;
-   stats.counters[prop] = value;
+   stats.counts[prop] = value;
    return value;
 }
 
@@ -74,8 +74,8 @@ module.exports = {
    pub() {
       return Object.assign({}, state.stats, state.logging);
    },
-   counters() {
-      return state.counters;
+   counters() { // TODO deprecate
+      return {};
    },
    create(name, level) {
       name = basename(name);
