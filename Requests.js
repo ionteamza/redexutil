@@ -30,7 +30,7 @@ export function request(options) {
          logger.debug('response', options.url || options, err || response.statusCode, duration);
          if (err) {
             err.options = options;
-            err.duration = Millis.getElapsedDuration(startTime);
+            err.duration = duration;
             reject(err);
          } else if (response.statusCode !== 200) {
             reject({options: options, statusCode: response.statusCode});
