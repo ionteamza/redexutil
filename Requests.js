@@ -27,7 +27,7 @@ export function request(options) {
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
          let duration = Millis.getElapsedDuration(startTime);
-         logger.debug('response', options.url || options, err || response.statusCode, duration);
+         logger.debug('response', options.url || options, err || response.statusCode, Millis.formatDuration(duration));
          if (err) {
             err.options = options;
             err.duration = duration;
@@ -47,9 +47,15 @@ export function request(options) {
 export function response(options) {
    options = processOptions(options);
    logger.debug('request', options);
+   let startTime = new Date().getTime();
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {
-         logger.debug('response', options, err || response.statusCode);
+         let duration = Millis.getElapsedDuration(startTime);
+         if (duration > options.slow) {
+            logger.warn('request slow', options.url, err || response.statusCode, Millis.formatDuration(duration));
+         } else {
+            logger.debug('response', options, err || response.statusCode, Millis.formatDuration(duration));
+         }
          if (err) {
             reject(err);
          } else if (response.statusCode === 200) {
