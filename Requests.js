@@ -35,9 +35,7 @@ export function request(options) {
          } else if (response.statusCode !== 200) {
             reject({options: options, statusCode: response.statusCode});
          } else {
-            if (duration < options.slowlog) {
-            } else if (duration < 8000) {
-            } else {
+            if (duration > options.slow) {
                logger.warn('request slow', Millis.formatDuration(duration), options.url);
             }
             resolve(content);
@@ -81,11 +79,14 @@ export function head(options) {
 
 function processOptions(options) {
    if (typeof options === 'string') {
-      return {url: options};
+      return {url: options, slow: 8000};
    } else if (typeof options === 'object') {
       assert(options.url, 'url');
       if (options.lastModified) {
          options.headers = {'If-Modified-Since': options.lastModified};
+      }
+      if (!options.slow) {
+         options.slow = 8000;
       }
       return options;
    } else {
