@@ -35,7 +35,9 @@ export function request(options) {
          } else if (response.statusCode !== 200) {
             reject({options: options, statusCode: response.statusCode});
          } else {
-            if (duration > 8000) {
+            if (duration < options.slowlog) {
+            } else if (duration < 8000) {
+            } else {
                logger.warn('request slow', Millis.formatDuration(duration), options.url);
             }
             resolve(content);
