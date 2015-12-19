@@ -21,7 +21,7 @@ const state = {
 };
 
 function createClient(options) {
-   let redisClient = redis.createClient(7777, 'localhost');
+   let redisClient;
    state.count++;
    options = Object.assign({}, state.globalDefaultOptions, options || {}, state.globalOverrideOptions);
    if (options.url) {

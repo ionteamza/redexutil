@@ -1,4 +1,10 @@
 
+if [ -d util ]
+then
+  cd util
+  pwd
+fi
+
 if [ $# -gt 0 ]
 then
   message="$*"
