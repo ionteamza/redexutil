@@ -21,9 +21,21 @@ const state = {
 };
 
 function createClient(options) {
+   let redisClient = redis.createClient(7777, 'localhost');
    state.count++;
+   options = Object.assign({}, state.globalDefaultOptions, options || {}, state.globalOverrideOptions);
+   if (options.url) {
+      let match = options.url.match(/^redis:\/\/([^:]+):([0-9]+)$/);
+      if (match) {
+         options.host = match[1];
+         options.port = parseInt(match[2]);
+         redisClient = redis.createClient(options.port, options.host);
+      }
+   }
+   if (!redisClient) {
+      redisClient = redis.createClient(options);
+   }
    logger.info('createClient', state.count, options);
-   let redisClient = redis.createClient(Object.assign({}, state.globalDefaultOptions, options || {}, state.globalOverrideOptions));
    state.clients.add(redisClient);
    redisClient.on('error', err => {
       logger.error('redis error:', err);
