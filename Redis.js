@@ -15,12 +15,15 @@ const logger = Loggers.create(__filename, 'info');
 
 const state = {
    count: 0,
-   clients: new Set()
+   clients: new Set(),
+   globalDefaultOptions: {},
+   globalOverrideOptions: {}
 };
 
 function createClient(options) {
    state.count++;
-   let redisClient = redis.createClient(options || {});
+   logger.info('createClient', state.count, options);
+   let redisClient = redis.createClient(Object.assign({}, state.globalDefaultOptions, options || {}, state.globalOverrideOptions));
    state.clients.add(redisClient);
    redisClient.on('error', err => {
       logger.error('redis error:', err);
@@ -46,11 +49,16 @@ function createPromise(fn) {
 
 export default class Redis {
 
+   static async start(initialState) {
+      Object.assign(state, initialState);
+   }
+
    // @param client
    // client maybe null e.g. if constructed with empty options object i.e. {}
    // if no options, then client is created
 
    constructor(options) {
+      logger.info('Redis constructor', options);
       if (options) {
          if (lodash.isString(options)) {
             this.source = Paths.basename(options);
@@ -83,8 +91,8 @@ export default class Redis {
       if (!this.client) {
          this.client = createClient(options);
       }
-      if (Redis.dbNumber) { // use alternative database for all connections
-         this.select(Redis.dbNumber);
+      if (global.redisNumber) { // use alternative database for all connections
+         this.select(global.redisNumber);
       } else if (options && options.dbNumber) {
          this.select(options.dbNumber);
       }
