@@ -36,10 +36,10 @@ function createClient(options) {
       redisClient = redis.createClient(options);
    }
    logger.info('createClient', state.count, options);
-   state.clients.add(redisClient);
    redisClient.on('error', err => {
-      logger.error('redis error:', err);
+      logger.error('redis error', err);
    });
+   state.clients.add(redisClient);
    return redisClient;
 }
 
