@@ -65,7 +65,7 @@ function peak(logger, name, prop, value) {
    if (value > peak) {
       stats.peaks[prop] = value;
       peak = value;
-      logger.info(name, 'peak', prop, value, count, average);
+      logger.info('peak', prop, value, count, average);
    }
    return peak;
 }
