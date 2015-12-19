@@ -15,12 +15,27 @@ const logger = Loggers.create(__filename, 'info');
 
 const state = {
    count: 0,
-   clients: new Set()
+   clients: new Set(),
+   globalDefaultOptions: {},
+   globalOverrideOptions: {}
 };
 
 function createClient(options) {
+   let redisClient = redis.createClient(7777, 'localhost');
    state.count++;
-   let redisClient = redis.createClient(options || {});
+   options = Object.assign({}, state.globalDefaultOptions, options || {}, state.globalOverrideOptions);
+   if (options.url) {
+      let match = options.url.match(/^redis:\/\/([^:]+):([0-9]+)$/);
+      if (match) {
+         options.host = match[1];
+         options.port = parseInt(match[2]);
+         redisClient = redis.createClient(options.port, options.host);
+      }
+   }
+   if (!redisClient) {
+      redisClient = redis.createClient(options);
+   }
+   logger.info('createClient', state.count, options);
    state.clients.add(redisClient);
    redisClient.on('error', err => {
       logger.error('redis error:', err);
@@ -46,11 +61,16 @@ function createPromise(fn) {
 
 export default class Redis {
 
+   static async start(initialState) {
+      Object.assign(state, initialState);
+   }
+
    // @param client
    // client maybe null e.g. if constructed with empty options object i.e. {}
    // if no options, then client is created
 
    constructor(options) {
+      logger.info('Redis constructor', options);
       if (options) {
          if (lodash.isString(options)) {
             this.source = Paths.basename(options);
@@ -83,8 +103,8 @@ export default class Redis {
       if (!this.client) {
          this.client = createClient(options);
       }
-      if (Redis.dbNumber) { // use alternative database for all connections
-         this.select(Redis.dbNumber);
+      if (global.redisNumber) { // use alternative database for all connections
+         this.select(global.redisNumber);
       } else if (options && options.dbNumber) {
          this.select(options.dbNumber);
       }
@@ -163,6 +183,10 @@ export default class Redis {
 
    sismember(key, member) {
       return createPromise(cb => this.client.sismember(key, member, cb));
+   }
+
+   sinter(key, members) {
+      return createPromise(cb => this.client.sinter(key, members, cb));
    }
 
    smembers(key) {
