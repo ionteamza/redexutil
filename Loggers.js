@@ -35,7 +35,7 @@ function getStats(name) {
    return stats;
 }
 
-function increment(name, prop) {
+function increment(logger, name, prop) {
    let stats = getStats(name);
    let count = stats.counts[prop] || 0;
    count += 1;
@@ -43,7 +43,7 @@ function increment(name, prop) {
    return count;
 }
 
-function peak(name, prop, value) {
+function peak(logger, name, prop, value) {
    let stats = getStats(name);
    let count = stats.counts[prop] || 0;
    count += 1;
@@ -65,6 +65,7 @@ function peak(name, prop, value) {
    if (value > peak) {
       stats.peaks[prop] = value;
       peak = value;
+      logger.info(name, 'peak', prop, value, count, average);
    }
    return peak;
 }
@@ -99,7 +100,7 @@ module.exports = {
 };
 
 function logging(logger, name, loggerLevel, context, level, args, count) {
-   increment(name, level);
+   increment(logger, name, level);
    args = [].slice.call(args); // convert arguments to array
    if (!lodash.isEmpty(context)) {
       if (lodash.isArray(context)) {
@@ -217,13 +218,13 @@ function decorate(logger, name, level) {
          return Loggers.create(childName, level);
       },
       increment(prop) {
-         return increment(name, prop);
+         return increment(logger, name, prop);
       },
       peak(prop, value) {
-         return peak(name, prop, value);
+         return peak(logger, name, prop, value);
       },
       timer(prop, time) {
-         return peak(name, prop, new Date().getTime() - time);
+         return peak(logger, name, prop, new Date().getTime() - time);
       }
    };
    return those;
