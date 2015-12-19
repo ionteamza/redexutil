@@ -185,6 +185,10 @@ export default class Redis {
       return createPromise(cb => this.client.sismember(key, member, cb));
    }
 
+   sinter(key, members) {
+      return createPromise(cb => this.client.sinter(key, members, cb));
+   }
+
    smembers(key) {
       return createPromise(cb => this.client.smembers(key, cb));
    }
