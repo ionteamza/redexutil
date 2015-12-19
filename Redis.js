@@ -15,12 +15,18 @@ const logger = Loggers.create(__filename, 'info');
 
 const state = {
    count: 0,
-   clients: new Set()
+   clients: new Set(),
+   globalDefaultOptions = {},
+   globalOverrideOptions = {}
 };
+
+export function init(initialState) {
+   Object.assign(state, initialState);
+}
 
 function createClient(options) {
    state.count++;
-   let redisClient = redis.createClient(options || {});
+   let redisClient = redis.createClient(Object.assign({}, state.globalDefaultOptions, options || {}, state.globalOverrideOptions));
    state.clients.add(redisClient);
    redisClient.on('error', err => {
       logger.error('redis error:', err);
