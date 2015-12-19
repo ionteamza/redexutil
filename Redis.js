@@ -1,4 +1,4 @@
-s Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
+// Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
 // A more explicit promisification for redis client.
