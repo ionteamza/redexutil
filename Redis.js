@@ -1,4 +1,4 @@
-// Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
+s Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redexutil/LICENSE
 
 // A more explicit promisification for redis client.
@@ -163,6 +163,10 @@ export default class Redis {
 
    sismember(key, member) {
       return createPromise(cb => this.client.sismember(key, member, cb));
+   }
+
+   sinter(key, members) {
+      return createPromise(cb => this.client.sinter(key, members, cb));
    }
 
    smembers(key) {
