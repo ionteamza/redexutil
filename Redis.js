@@ -68,7 +68,7 @@ export default class Redis {
          } else if (options.return_buffers || options.dbNumber) {
             this.client = createClient(options);
          } else {
-            throw 'Invalid options: ' + options.toString();
+            throw 'Invalid Redis options: ' + options.toString();
          }
       } else {
          this.client = createClient();
