@@ -73,7 +73,7 @@ export default class Redis {
             this.source = Files.basename(options.source);
             this.client = createClient(options);
             logger.info('construct', state.count, this.source);
-         } else if (options.return_buffers || options.dbNumber) {
+         } else if (options.return_buffers || options.dbNumber || options.url) {
             this.client = createClient(options);
          } else {
             throw 'Invalid options: ' + options.toString();
