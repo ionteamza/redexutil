@@ -15,7 +15,7 @@ function createPropPair(key, value) {
    return pair;
 }
 
-export function excludeProps(object, regex) {
+export function excludeKeys(object, regex) {
    let props = lodash.compact(Object.keys(object).filter(key => !regex.test(key))
    .map(key => createPropPair(key, object[key])));
    return Object.assign({}, ...props);
