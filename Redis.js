@@ -40,6 +40,9 @@ function createClient(options) {
       logger.error('redis error', err);
    });
    state.clients.add(redisClient);
+   if (options.select) {
+      redisClient.select(options.select);
+   }
    return redisClient;
 }
 
