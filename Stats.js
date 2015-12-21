@@ -38,6 +38,16 @@ export default class Stats {
       }, Millis.fromDays(1));
    }
 
+   log(period, sample) {
+      this.logger.info('log', period, {
+         previous: sample.publish(),
+         session: this.session.publish(),
+         day: this.day.publish(),
+         hour: this.hour.publish()
+      });
+   }
+
+
    publish() {
       return {
          startTime: Dates.formatShortISO(this.startTime),
@@ -51,10 +61,6 @@ export default class Stats {
             minute: this.previous.minute.publish(),
          }
       };
-   }
-
-   log(period, sample) {
-      this.logger.info(period, sample, this.hour, this.day, this.session, this.previous);
    }
 
    end() {
