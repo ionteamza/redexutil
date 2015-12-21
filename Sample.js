@@ -4,7 +4,7 @@
 const logger = Loggers.create(__filename, 'info');
 
 export default class Sample {
-   values = {};
+   counts = {};
    averages = {};
    peaks = {};
    totals = {};
@@ -16,35 +16,35 @@ export default class Sample {
 
    publish() {
       return {
-         startTime: Dates.formatShortISO(startTime),
-         values: values,
-         averages: averages,
-         peaks: peaks
+         startTime: Dates.formatShortISO(this.startTime),
+         counts: this.counts,
+         averages: this.averages,
+         peaks: this.peaks
       };
    }
 
    has(key) {
-      return this.values.hasOwnProperty(key);
+      return this.counts.hasOwnProperty(key);
    }
 
    value(key) {
-      return this.values[key];
+      return this.counts[key];
    }
 
    incr(key) {
       if (!this.has(key)) {
-         this.values[key] = 1;
+         this.counts[key] = 1;
       } else {
-         this.values[key] += 1;
+         this.counts[key] += 1;
       }
-      return this.values[key];
+      return this.counts[key];
    }
 
    max(key, value) {
       if (!this.has(key)) {
-         this.values[key] = value;
-      } else if (value > this.values[key]) {
-         this.values[key] = value;
+         this.counts[key] = value;
+      } else if (value > this.counts[key]) {
+         this.counts[key] = value;
       }
    }
 

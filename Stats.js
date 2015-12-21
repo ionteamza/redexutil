@@ -9,14 +9,17 @@ export default class Stats {
    day = new Sample('day');
    session = new Sample('session');
 
-   constructor(source, logger, options) {
+   constructor(logger, options) {
       this.logger = logger;
       this.previous = {hour: this.hour, minute: this.minute, day: this.day};
-      this.startTime = options.startTime || new Date().getTime();
-      if (options.monitorInterval) {
-         this.intervalId = setInterval(async => {
-            this.log('monitor', this.minute);
-         }, options.monitorInterval);
+      this.startTime = new Date().getTime();
+      if (options) {
+         this.startTime = options.startTime || this.startTime;
+         if (options.monitorInterval) {
+            this.intervalId = setInterval(async => {
+               this.log('monitor', this.minute);
+            }, options.monitorInterval);
+         }
       }
       this.minuteIntervalId = setInterval(async => {
          this.log('minute', this.previous.minute);
@@ -37,7 +40,7 @@ export default class Stats {
 
    publish() {
       return {
-         startTime: Dates.formatShortISO(startTime),
+         startTime: Dates.formatShortISO(this.startTime),
          session: this.session.publish(),
          day: this.day.publish(),
          hour: this.hour.publish(),
