@@ -3,8 +3,10 @@
 
 const logger = Loggers.create(__filename, 'info');
 
-export default class Store {
+export default class Sample {
    values = {};
+   averages = {};
+   totals = {};
 
    has(key) {
       return this.values.hasOwnProperty(key);
