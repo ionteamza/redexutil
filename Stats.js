@@ -17,12 +17,12 @@ export default class Stats {
          this.startTime = options.startTime || this.startTime;
          if (options.monitorInterval) {
             this.intervalId = setInterval(async => {
-               this.log('monitor', this.minute);
+               this.logger.debug('monitor', this.minute.publish());
             }, options.monitorInterval);
          }
       }
       this.minuteIntervalId = setInterval(async => {
-         this.log('minute', this.previous.minute);
+         this.logger.info('minute', this.previous.minute.publish(), this.minute.publish());
          this.previous.minute = this.minute;
          this.minute = new Sample('minute');
       }, Millis.fromMinutes(1));
@@ -30,12 +30,12 @@ export default class Stats {
          this.log('hour', this.previous.hour);
          this.previous.hour = this.hour;
          this.hour = new Sample('hour');
-      }, 20000 + 0*Millis.fromHours(1));
+      }, Millis.fromHours(1));
       this.dayIntervalId = setInterval(async => {
          this.log('day', this.previous.day);
          this.previous.day = this.day;
          this.day = new Sample('day');
-      }, 40000 + 0*Millis.fromDays(1));
+      }, Millis.fromDays(1));
    }
 
    publish() {
