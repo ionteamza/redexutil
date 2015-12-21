@@ -9,6 +9,9 @@ export function time() {
 
 export function formatShortISO(value) {
    assert(value);
+   if (Numbers.isInteger(value)) {
+      value = new Date(value);
+   }
    assert(value.constructor.name === 'Date');
    return value.toISOString().substring(0, 16);
 }

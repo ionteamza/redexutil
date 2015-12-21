@@ -9,8 +9,18 @@ export default class Sample {
    peaks = {};
    totals = {};
 
-   constructor(startTime) {
+   constructor(name, startTime) {
+      this.name = name;
       this.startTime = startTime || new Date().getTime();
+   }
+
+   publish() {
+      return {
+         startTime: Dates.formatShortISO(startTime),
+         values: values,
+         averages: averages,
+         peaks: peaks
+      };
    }
 
    has(key) {

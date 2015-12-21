@@ -7,10 +7,7 @@ module.exports = {
   lodash: require('lodash')
 };
 
-
 module.exports._ = module.exports.lodash;
-
-global.Loggers = require('./Loggers');
 
 Object.assign(module.exports, {
   Arguments: require('./Arguments'),
@@ -28,5 +25,6 @@ Object.assign(module.exports, {
   Promises: require('./Promises'),
   Requests: require('./Requests'),
   Seconds: require('./Seconds'),
+  Stats: require('./Stats'),
   Strings: require('./Strings')
 });
