@@ -94,6 +94,9 @@ export default class Stats {
    }
 
    time(key, startTime) {
+      this.hour.time(key, startTime);
+      this.minute.time(key, startTime);
+      this.day.time(key, startTime);
       this.session.time(key, startTime);
    }
 }
