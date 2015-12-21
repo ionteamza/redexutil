@@ -80,6 +80,9 @@ function basename(file) {
 }
 
 module.exports = {
+   publish() {
+      return Object.assign({}, state.stats, state.logging);
+   },
    pub() {
       return Object.assign({}, state.stats, state.logging);
    },
