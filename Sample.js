@@ -6,6 +6,7 @@ const logger = Loggers.create(__filename, 'info');
 export default class Sample {
    counts = {};
    averages = {};
+   slow = {};
    peaks = {};
    totals = {};
 
@@ -19,6 +20,7 @@ export default class Sample {
          startTime: Dates.formatShortISO(this.startTime),
          counts: this.counts,
          averages: this.averages,
+         slow: this.slow,
          peaks: this.peaks
       };
    }
@@ -60,7 +62,7 @@ export default class Sample {
       let peak = this.peaks[key];
       if (!peak) {
          this.peaks[key] = value;
-         peak = value;
+         peak = value;////
       } else if (value > peak) {
          this.peaks[key] = value;
          peak = value;
@@ -70,10 +72,21 @@ export default class Sample {
 
    }
 
-   time(key, startTime) {
-      if (!startTime) {
-         startTime = this.startTime;
+   time(key, options) {
+      let startTime = this.startTime;
+      if (options) {
+         if (options.startTime) {
+            startTime = options.startTime;
+         }
       }
-      this.peak(key, new Date().getTime() - startTime);
+      let duration = Millis.getElapsedDuration(startTime);
+      if (options) {
+         if (options.slowLimit) {
+            if (duration > options.slowLimit) {
+               Objects.incr(this.slow, key);
+            }
+         }
+      }
+      this.peak(key, duration);
    }
 }

@@ -8,12 +8,16 @@ export default class Stats {
    minute = new Sample('minute');
    day = new Sample('day');
    session = new Sample('session');
+   startTime = new Date().getTime();
+   options = {
+      slowLimit: 1000
+   };
 
    constructor(logger, options) {
       this.logger = logger;
       this.previous = {hour: this.hour, minute: this.minute, day: this.day};
-      this.startTime = new Date().getTime();
       if (options) {
+         Object.assign(this.options, options);
          this.startTime = options.startTime || this.startTime;
          if (options.monitorInterval) {
             this.intervalId = setInterval(async => {
@@ -93,10 +97,19 @@ export default class Stats {
       this.session.peak(key, value);
    }
 
-   time(key, startTime) {
-      this.hour.time(key, startTime);
-      this.minute.time(key, startTime);
-      this.day.time(key, startTime);
-      this.session.time(key, startTime);
+   time(key, options) {
+      if (options) {
+         if (Numbers.isInteger(options)) {
+            options = Object.assign({startTime: options}, this.options);
+         } else {
+            options = Object.assign({startTime: this.startTime}, this.options, options);
+         }
+      } else {
+         options = this.options;
+      }
+      this.hour.time(key, options);
+      this.minute.time(key, options);
+      this.day.time(key, options);
+      this.session.time(key, options);
    }
 }

@@ -15,6 +15,15 @@ function createPropPair(key, value) {
    return pair;
 }
 
+export function incr(object, key) {
+   if (Numbers.isInteger(object[key])) {
+      object[key] += 1;
+   } else {
+      object[key] = 1;
+   }
+   return object[key];
+}
+
 export function excludeKeys(object, regex) {
    let props = lodash.compact(Object.keys(object).filter(key => !regex.test(key))
    .map(key => createPropPair(key, object[key])));
