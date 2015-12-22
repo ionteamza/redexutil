@@ -53,7 +53,21 @@ export default class Stats {
 
 
    publish(period) {
-      if (period) {
+      if (!period || period === 'session') {
+         return {
+            startTime: Dates.formatShortISO(this.startTime),
+            currentTime: new Date().toISOString(),
+            session: this.session.publish(),
+            day: this.day.publish(),
+            hour: this.hour.publish(),
+            minute: this.minute.publish(),
+            previous: {
+               day: this.previous.day.publish(),
+               hour: this.previous.hour.publish(),
+               minute: this.previous.minute.publish(),
+            }
+         };
+      } else {
          return {
             period: period,
             startTime: Dates.formatShortISO(this[period].startTime),
@@ -66,20 +80,6 @@ export default class Stats {
                day:this.previous.day.publish(),
                hour: this.previous.hour.publish(),
                minute: this.previous.minute.publish()
-            }
-         };
-      } else {
-         return {
-            startTime: Dates.formatShortISO(this.startTime),
-            currentTime: new Date().toISOString(),
-            session: this.session.publish(),
-            day: this.day.publish(),
-            hour: this.hour.publish(),
-            minute: this.minute.publish(),
-            previous: {
-               day: this.previous.day.publish(),
-               hour: this.previous.hour.publish(),
-               minute: this.previous.minute.publish(),
             }
          };
       }
