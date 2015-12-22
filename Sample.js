@@ -19,9 +19,9 @@ export default class Sample {
       return {
          startTime: Dates.formatShortISO(this.startTime),
          counts: this.counts,
-         averages: this.averages,
          slow: this.slow,
-         peaks: this.peaks
+         peaks: this.peaks,
+         averages: this.averages
       };
    }
 

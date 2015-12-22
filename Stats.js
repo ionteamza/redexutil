@@ -52,19 +52,34 @@ export default class Stats {
    }
 
 
-   publish() {
-      return {
-         startTime: Dates.formatShortISO(this.startTime),
-         session: this.session.publish(),
-         day: this.day.publish(),
-         hour: this.hour.publish(),
-         minute: this.minute.publish(),
-         previous: {
-            day: this.previous.day.publish(),
-            hour: this.previous.hour.publish(),
-            minute: this.previous.minute.publish(),
-         }
-      };
+   publish(period) {
+      if (period) {
+         return {
+            period: period,
+            startTime: Dates.formatShortISO(this[period].startTime),
+            current: this[period].publish(),
+            session: this.session.publish(),
+            day: this.day.publish(),
+            previous: {
+               day:this.previous.day.publish(),
+               hour: this.previous.hour.publish(),
+               minute: this.previous.minute.publish()
+            }
+         };
+      } else {
+         return {
+            startTime: Dates.formatShortISO(this.startTime),
+            session: this.session.publish(),
+            day: this.day.publish(),
+            hour: this.hour.publish(),
+            minute: this.minute.publish(),
+            previous: {
+               day: this.previous.day.publish(),
+               hour: this.previous.hour.publish(),
+               minute: this.previous.minute.publish(),
+            }
+         };
+      }
    }
 
    end() {
