@@ -58,9 +58,10 @@ export default class Stats {
             period: period,
             startTime: Dates.formatShortISO(this[period].startTime),
             current: this[period].publish(),
+            previous: this.previous[period].publish(),
             session: this.session.publish(),
             day: this.day.publish(),
-            previous: {
+            previousPeriods: {
                day:this.previous.day.publish(),
                hour: this.previous.hour.publish(),
                minute: this.previous.minute.publish()
