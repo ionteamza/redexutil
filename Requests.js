@@ -88,8 +88,13 @@ function processOptions(options) {
       return {url: options, slow: 8000};
    } else if (typeof options === 'object') {
       assert(options.url, 'url');
+      options.headers = options.headers || {};
       if (options.lastModified) {
-         options.headers = {'If-Modified-Since': options.lastModified};
+         Object.assign(options.headers, {'If-Modified-Since': options.lastModified});
+      }
+      if (options.username && options.password) {
+         let auth = 'Basic ' + new Buffer(options.username + ':' + options.password).toString('base64');
+         Object.assign(options.headers, {'Authorization': auth});    
       }
       if (!options.slow) {
          options.slow = 8000;
