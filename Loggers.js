@@ -221,6 +221,9 @@ function decorate(logger, name, level) {
          return Loggers.create(childName, level);
       },
       increment(prop) {
+         if (level === 'debug') {
+            logging(logger, name, level, context, 'debug', ['increment', ...arguments]);
+         }
          return increment(logger, name, prop);
       },
       peak(prop, value) {

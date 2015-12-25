@@ -38,9 +38,6 @@ export function props(object) {
 }
 
 export function formatKeys(object) {
-   if (object) {
-      return Object.keys(object).join(' ');
-   } else {
-      return 'empty';
-   }
+   logger.warn('formatKeys deprecated');
+   return ObjectLogs.formatKeys(object);
 }

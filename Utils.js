@@ -20,6 +20,7 @@ Object.assign(module.exports, {
   Millis: require('./Millis'),
   Maybe: require('./Maybe'),
   Numbers: require('./Numbers'),
+  ObjectLogs: require('./ObjectLogs'),
   Objects: require('./Objects'),
   Paths: require('./Paths'),
   Promises: require('./Promises'),
