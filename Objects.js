@@ -30,10 +30,14 @@ export function excludeKeys(object, regex) {
    return Object.assign({}, ...props);
 }
 
-export function props(object) {
+export function props(object, predicate) {
    return Object.keys(object).map(key => {
-      let value = object[key];
-      return {key, value};
+      if (lodash.isArray(predicate)) {
+      } else if (predicate.constructor.name === 'RegExp') {         
+      } else {
+         let value = object[key];
+         return {key, value};
+      }
    });
 }
 

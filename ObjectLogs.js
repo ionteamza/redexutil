@@ -5,11 +5,17 @@ import lodash from 'lodash';
 
 const logger = Loggers.create(__filename, 'info');
 
-export function formatKeys(object) {
+export function formatKeys(object, predicate) {
    if (!object) {
       return 'empty~object';
    } else {
-      return Object.keys(object).join(' ');
+      if (lodash.isArray(predicate)) {
+         return Object.keys(object).filter(key => lodash.includes(predicate, key)).join(' ');
+      } else if (predicate.constructor.name === 'RegExp') {
+         return Object.keys(object).filter(key => predicate.test(key).join(' ');
+      } else {
+         return Object.keys(object).join(' ');
+      }
    }
 }
 

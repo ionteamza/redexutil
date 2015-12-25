@@ -5,6 +5,8 @@ then
   pwd
 fi
 
+pwd | grep '\/util$' || exit 1
+
 if [ $# -gt 0 ]
 then
   message="$*"

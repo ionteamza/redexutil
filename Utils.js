@@ -11,6 +11,7 @@ module.exports._ = module.exports.lodash;
 
 Object.assign(module.exports, {
   Arguments: require('./Arguments'),
+  ArrayLogs: require('./ArrayLogs'),
   Arrays: require('./Arrays'),
   Asserts: require('./Asserts'),
   Collections: require('./Collections'),
