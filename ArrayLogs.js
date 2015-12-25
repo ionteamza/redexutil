@@ -5,18 +5,13 @@ import lodash from 'lodash';
 
 const logger = Loggers.create(__filename, 'info');
 
-export function mapMatching(array, regex) {
+export function formatProps(array, predicate) {
    if (lodash.isEmpty(array)) {
       return 'empty~array';
+   } else if (!lodash.isArray(array)) {
+      return 'invalid~arrray';
    } else {
-      return Object.keys(object).join(' ');
-   }
-}
-
-export function formatType(object) {
-   if (!object) {
-      return 'empty~object';
-   } else {
-      return Object.keys(object).join(' ');
+      return array.map(item => Objects.keys(item, predicate)
+      .map(key => '@' + key + '=' + ObjectLogs.formatString(item[key])).join(' '));
    }
 }

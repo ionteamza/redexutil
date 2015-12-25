@@ -30,14 +30,33 @@ export function excludeKeys(object, regex) {
    return Object.assign({}, ...props);
 }
 
+export function filter(value, predicate) {
+   if (!predicate) {
+   } else if (lodash.isFunction(predicate)) {
+      return predicate(value);
+   } else if (lodash.isArray(predicate)) {
+      return lodash.includes(predicate, value);
+   } else if (lodash.isObject(predicate)) {
+      if (predicate.constructor) {
+         if (predicate.constructor.name === 'RegExp') {
+            if (value) {
+               return predicate.test(value.toString());
+            }
+         }
+      }
+   } else {
+   }
+   return true;
+}
+
+export function keys(object, predicate) {
+   return Object.keys(object).filter(key => filter(key, predicate));
+}
+
 export function props(object, predicate) {
    return Object.keys(object).map(key => {
-      if (lodash.isArray(predicate)) {
-      } else if (predicate.constructor.name === 'RegExp') {         
-      } else {
-         let value = object[key];
-         return {key, value};
-      }
+      let value = object[key];
+      return {key, value};
    });
 }
 
