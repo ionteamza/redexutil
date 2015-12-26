@@ -12,7 +12,12 @@ export function formatString(object) {
    } else if (typeof object === 'string') {
       string = object;
    } else if (typeof object === 'object') {
-      return object.constructor.name + '~object';
+      if (object.constructor) {
+         return object.constructor.name + '~object';
+      } else {
+         logger.error('formatString', object);
+         return object.toString();
+      }
    } else if (lodash.isArray(object)) {
       return object.length + '~array';
    } else {
@@ -28,15 +33,15 @@ export function formatString(object) {
 export function formatKeys(object, predicate) {
    if (!object) {
       return 'empty~object';
-   } else {
+   } else if (predicate) {
       if (lodash.isArray(predicate)) {
          return Object.keys(object).filter(key => lodash.includes(predicate, key)).join(' ');
-      } else if (predicate.constructor.name === 'RegExp') {
+      } else if (predicate.constructor && predicate.constructor.name === 'RegExp') {
          return Object.keys(object).filter(key => predicate.test(key)).join(' ');
       } else {
-         return Object.keys(object).join(' ');
       }
    }
+   return Object.keys(object).join(' ');
 }
 
 export function formatType(object) {
