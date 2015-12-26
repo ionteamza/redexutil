@@ -7,7 +7,7 @@ import lodash from 'lodash';
 
 import Loggers from './Loggers';
 
-const logger = Loggers.create(__filename, 'debug');
+const logger = Loggers.create(__filename, 'info');
 
 export function requestJson(options) { // TODO deprecated
    return json(options);
