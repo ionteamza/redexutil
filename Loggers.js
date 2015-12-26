@@ -146,11 +146,7 @@ function findArgsError(args) {
       return args[0];
    } else if (isError(args[1])) {
       return args[1];
-<<<<<<< HEAD
-   } else if (lodash.isError(args[args.length - 1])) { // TODO
-=======
    } else if (isError(args[args.length - 1])) {
->>>>>>> 3c208e0df29d18901d67b98f064cb6d1619bae3b
       return args[args.length - 1];
    }
 }
