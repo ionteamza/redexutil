@@ -146,7 +146,7 @@ function findArgsError(args) {
       return args[0];
    } else if (lodash.isError(args[1])) {
       return args[1];
-   } else if (lodash.isError(args[args.length - 1])) {
+   } else if (lodash.isError(args[args.length - 1])) { // TODO
       return args[args.length - 1];
    }
 }
