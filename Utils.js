@@ -28,5 +28,6 @@ Object.assign(module.exports, {
   Requests: require('./Requests'),
   Seconds: require('./Seconds'),
   Stats: require('./Stats'),
-  Strings: require('./Strings')
+  Strings: require('./Strings'),
+  Urls: require('./Urls')
 });
