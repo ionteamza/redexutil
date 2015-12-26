@@ -152,7 +152,7 @@ function findArgsError(args) {
 }
 
 function isError(value) {
-   if (value.constructor && value.constructor.name === 'Error' && value.stack) {
+   if (value && value.constructor && value.constructor.name && value.constructor.name === 'Error' && value.stack) {
       return true;
    } else {
       return lodash.isError(value);
