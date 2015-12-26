@@ -142,12 +142,20 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
 }
 
 function findArgsError(args) {
-   if (lodash.isError(args[0])) {
+   if (isError(args[0])) {
       return args[0];
-   } else if (lodash.isError(args[1])) {
+   } else if (isError(args[1])) {
       return args[1];
-   } else if (lodash.isError(args[args.length - 1])) {
+   } else if (isError(args[args.length - 1])) {
       return args[args.length - 1];
+   }
+}
+
+function isError(value) {
+   if (value.constructor && value.constructor.name === 'Error' && value.stack) {
+      return true;
+   } else {
+      return lodash.isError(value);
    }
 }
 
