@@ -143,7 +143,7 @@ function logging(logger, name, loggerLevel, context, level, args, count) {
 
 function findArgsError(args) {
    if (isError(args[0])) {
-      return args[0];
+      //return args[0];
    } else if (isError(args[1])) {
       return args[1];
    } else if (isError(args[args.length - 1])) {
@@ -152,7 +152,7 @@ function findArgsError(args) {
 }
 
 function isError(value) {
-   if (value && value.constructor && value.constructor.name && value.constructor.name === 'Error' && value.stack) {
+   if (value && value.constructor && /Error/.test(value.constructor.name) && value.stack) {
       return true;
    } else {
       return lodash.isError(value);
