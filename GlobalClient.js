@@ -5,13 +5,20 @@
 
 module.exports = {
    Arguments: require('./Arguments'),
+   ArrayLogs: require('./ArrayLogs'),
    Arrays: require('./Arrays'),
-   Asserts: require('./Asserts'),
+   Collections: require('./Collections'),
    Dates: require('./Dates'),
+   Errors: require('./Errors'),
    Maps: require('./Maps'),
    Millis: require('./Millis'),
+   Maybe: require('./Maybe'),
    Numbers: require('./Numbers'),
+   ObjectLogs: require('./ObjectLogs'),
    Objects: require('./Objects'),
+   Promises: require('./Promises'),
+   Requests: require('./Requests'),
    Seconds: require('./Seconds'),
-   Strings: require('./Strings')
+   Strings: require('./Strings'),
+   Urls: require('./Urls')
 };
