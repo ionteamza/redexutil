@@ -37,7 +37,7 @@ function createClient(options) {
    }
    logger.info('createClient', state.count, options);
    redisClient.on('error', err => {
-      logger.error('redis error', err);
+      logger.error('redis', err);
    });
    state.clients.add(redisClient);
    if (options.select) {
@@ -161,6 +161,7 @@ export default class Redis {
    }
 
    mget(keys) {
+      //logger.info('mget', lodash.isArray(keys), keys);
       return createPromise(cb => this.client.mget(keys, cb));
    }
 

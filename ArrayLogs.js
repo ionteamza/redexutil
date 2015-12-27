@@ -9,9 +9,19 @@ export function formatProps(array, predicate) {
    if (lodash.isEmpty(array)) {
       return 'empty~array';
    } else if (!lodash.isArray(array)) {
-      return 'invalid~arrray';
+      return 'invalid~array';
    } else {
       return array.map(item => Objects.keys(item, predicate)
       .map(key => '@' + key + '=' + ObjectLogs.formatString(item[key])).join(' '));
+   }
+}
+
+export function length(array) {
+   if (lodash.isEmpty(array)) {
+      return 'empty~array';
+   } else if (!lodash.isArray(array)) {
+      return 'invalid~array';
+   } else {
+      return array.length + '~' + ObjectLogs.formatString(array[0]);
    }
 }
