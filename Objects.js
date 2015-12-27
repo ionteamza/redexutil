@@ -54,10 +54,20 @@ export function keys(object, predicate) {
 }
 
 export function props(object, predicate) {
-   return Object.keys(object).map(key => {
+   return lodash.compact(Object.keys(object).map(key => {
       let value = object[key];
-      return {key, value};
-   });
+      if (filter(value, predicate)) {
+         return {key, value};
+      }
+   }));
+}
+export function assignPairs(pairs, predicate) {
+   const target = {};
+   return lodash.compact(pairs.map(pair => {
+      if (pair.value) {
+         targe[pair.key] = pair.value;
+      }
+   }));
 }
 
 export function formatKeys(object) {
