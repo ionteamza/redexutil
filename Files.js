@@ -4,8 +4,8 @@
 import fs from 'fs';
 import _mkdirp from 'mkdirp';
 
-import Promises from './Promises';
 import Loggers from './Loggers';
+import Promises from './Promises';
 
 const logger = Loggers.create(__filename, 'info');
 

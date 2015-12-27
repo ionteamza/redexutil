@@ -3,8 +3,6 @@
 
 // similar to Promise, but synchronously invoked
 
-import Loggers from './Loggers';
-
 const logger = Loggers.create(__filename, 'info');
 
 export default class Option {
@@ -13,5 +11,5 @@ export default class Option {
       this.has = has;
       this.value = value;
    }
-   
+
 }

@@ -17,7 +17,6 @@ module.exports = {
    ObjectLogs: require('./ObjectLogs'),
    Objects: require('./Objects'),
    Promises: require('./Promises'),
-   Requests: require('./Requests'),
    Seconds: require('./Seconds'),
    Strings: require('./Strings'),
    Urls: require('./Urls')
