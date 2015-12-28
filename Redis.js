@@ -144,6 +144,10 @@ export default class Redis {
       return createPromise(cb => this.client.del(key, cb));
    }
 
+   dump(key) {
+      return createPromise(cb => this.client.dump(key, cb));
+   }
+
    get(key) {
       return createPromise(cb => this.client.get(key, cb));
    }
@@ -163,6 +167,10 @@ export default class Redis {
    mget(keys) {
       //logger.info('mget', lodash.isArray(keys), keys);
       return createPromise(cb => this.client.mget(keys, cb));
+   }
+
+   restore(key, ttl, value) {
+      return createPromise(cb => this.client.restore(key, ttl, value, cb));
    }
 
    scan(cursor, match, count) {
