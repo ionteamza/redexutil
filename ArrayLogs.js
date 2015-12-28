@@ -22,6 +22,6 @@ export function length(array) {
    } else if (!lodash.isArray(array)) {
       return 'invalid~array';
    } else {
-      return array.length + '~' + ObjectLogs.formatString(array[0]);
+      return array.length;
    }
 }
