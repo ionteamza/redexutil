@@ -49,10 +49,10 @@ function createClient(options) {
 function createCallback(resolve, reject) {
    return (err, reply) => {
       if (err) {
-         logger.debug('redis reject error:', err);
+         logger.warn('redis reject error', err);
          reject(err);
       } else {
-         logger.debug('redis resolve:', reply);
+         logger.debug('redis resolve', reply);
          resolve(reply);
       }
    };
@@ -166,7 +166,7 @@ export default class Redis {
    }
 
    scan(cursor, match, count) {
-      return createPromise(cb => this.client.scan(cursor, match, count, cb));
+      return createPromise(cb => this.client.scan(cursor, 'match', match, 'count', count, cb));
    }
 
    set(key, value) {
