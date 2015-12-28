@@ -25,3 +25,13 @@ export function length(array) {
       return array.length;
    }
 }
+
+export function first(array, predicate) {
+   if (lodash.isEmpty(array)) {
+      return 'empty~array';
+   } else if (!lodash.isArray(array)) {
+      return 'invalid~array';
+   } else {
+      return ObjectLogs.formatValues(array[0], predicate);
+   }
+}

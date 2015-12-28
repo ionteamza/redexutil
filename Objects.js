@@ -53,6 +53,17 @@ export function keys(object, predicate) {
    return Object.keys(object).filter(key => filter(key, predicate));
 }
 
+export function extract(object, predicate) {
+   let result = {};
+   lodash.compact(Object.keys(object).forEach(key => {
+      let value = object[key];
+      if (filter(value, predicate)) {
+         result[key] = value;
+      }
+   }));
+   return result;
+}
+
 export function props(object, predicate) {
    return lodash.compact(Object.keys(object).map(key => {
       let value = object[key];
@@ -61,6 +72,7 @@ export function props(object, predicate) {
       }
    }));
 }
+
 export function assignPairs(pairs, predicate) {
    const target = {};
    return lodash.compact(pairs.map(pair => {

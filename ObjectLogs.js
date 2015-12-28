@@ -21,10 +21,10 @@ export function formatString(object) {
    } else if (lodash.isArray(object)) {
       return object.length + '~array';
    } else {
-      return object.toString();
+      string = object.toString();
    }
    if (/\s/.test(string)) {
-      return '"' + string + '"';
+      return 'string~' + string.length;
    } else {
       return string;
    }
@@ -34,14 +34,22 @@ export function formatKeys(object, predicate) {
    if (!object) {
       return 'empty~object';
    } else if (predicate) {
-      if (lodash.isArray(predicate)) {
-         return Object.keys(object).filter(key => lodash.includes(predicate, key)).join(' ');
-      } else if (predicate.constructor && predicate.constructor.name === 'RegExp') {
-         return Object.keys(object).filter(key => predicate.test(key)).join(' ');
-      } else {
-      }
+      return Objects.keys(object, predicate).join(' ');
+   } else {
+      return Object.keys(object).join(' ');
    }
-   return Object.keys(object).join(' ');
+}
+
+export function formatValues(object, predicate) {
+   if (!object) {
+      return 'empty~object';
+   } else {
+      return Objects.keys(object, predicate).map(key => {
+         let value = object[key];
+         logger.warn('formatValues', key, value);
+         return key + '@' + formatString(value);
+      }).join(' ');
+   }
 }
 
 export function formatType(object) {
