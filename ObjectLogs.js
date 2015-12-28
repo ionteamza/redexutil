@@ -47,7 +47,7 @@ export function formatValues(object, predicate) {
       return Objects.keys(object, predicate).map(key => {
          let value = object[key];
          logger.warn('formatValues', key, value);
-         return key + '@' + formatString(value);
+         return key + '#s' + formatString(value);
       }).join(' ');
    }
 }
