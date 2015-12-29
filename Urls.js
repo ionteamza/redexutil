@@ -1,4 +1,5 @@
 
+const logger = Loggers.create(__filename);
 const urlRegex = /https?:\/\/([^\/]+)(\/\S+)$/;
 
 export function pathname(url) {
