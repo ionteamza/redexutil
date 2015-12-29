@@ -12,11 +12,11 @@ export function pathname(url) {
 }
 
 export function hostname(url) {
-   let match = url.match(/https?:\/\/([^\/]+)(\/\S+)$/);
+   let match = url.match(/https?:\/\/([^\/]+)(\/\S+)?$/);
    if (match) {
       return match[1];
    } else {
-      logger.error('hostname', url);
+      logger.error('hostname', url, match);
    }
 }
 
