@@ -243,3 +243,4 @@ function decorate(logger, name, level) {
    };
    return those;
 }
+
