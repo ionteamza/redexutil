@@ -72,7 +72,7 @@ export function head(options) {
    options.method = 'HEAD';
    logger.debug('head', options);
    return new Promise((resolve, reject) => {
-      request(options, (err, response) => {
+      requestf(options, (err, response) => {
          logger.debug('response', options.url, err || response.statusCode);
          if (err) {
             reject(err);
@@ -94,7 +94,7 @@ function processOptions(options) {
       }
       if (options.username && options.password) {
          let auth = 'Basic ' + new Buffer(options.username + ':' + options.password).toString('base64');
-         Object.assign(options.headers, {'Authorization': auth});    
+         Object.assign(options.headers, {'Authorization': auth});
       }
       if (!options.slow) {
          options.slow = 8000;

@@ -4,17 +4,20 @@
 const logger = Loggers.create(__filename, 'info');
 
 export function time() {
-   return new Date().getTime()
+   return new Date().getTime();
 }
 
 export function formatShortISO(value) {
-   if (value) {
-      if (Numbers.isInteger(value)) {
-         value = new Date(value);
-      }
-      if (value.constructor.name === 'Date') {
-         return value.toISOString().substring(0, 16);
-      }
+   if (!value) {
    }
-   return 'InvalidDate';
+   if (Numbers.isInteger(value)) {
+      value = new Date(value);
+   }
+   if (typeof value === 'string') {
+      value = new Date(value);
+   }
+   if (value.constructor.name === 'Date') {
+      return value.toISOString().substring(0, 16);
+   }
+   return '';
 }

@@ -11,6 +11,7 @@ module.exports._ = module.exports.lodash;
 
 Object.assign(module.exports, {
   Arguments: require('./Arguments'),
+  ArrayLogs: require('./ArrayLogs'),
   Arrays: require('./Arrays'),
   Asserts: require('./Asserts'),
   Collections: require('./Collections'),
@@ -20,11 +21,13 @@ Object.assign(module.exports, {
   Millis: require('./Millis'),
   Maybe: require('./Maybe'),
   Numbers: require('./Numbers'),
+  ObjectLogs: require('./ObjectLogs'),
   Objects: require('./Objects'),
   Paths: require('./Paths'),
   Promises: require('./Promises'),
   Requests: require('./Requests'),
   Seconds: require('./Seconds'),
   Stats: require('./Stats'),
-  Strings: require('./Strings')
+  Strings: require('./Strings'),
+  Urls: require('./Urls')
 });

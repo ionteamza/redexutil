@@ -37,7 +37,7 @@ function createClient(options) {
    }
    logger.info('createClient', state.count, options);
    redisClient.on('error', err => {
-      logger.error('redis error', err);
+      logger.error('redis', err);
    });
    state.clients.add(redisClient);
    if (options.select) {
@@ -49,10 +49,10 @@ function createClient(options) {
 function createCallback(resolve, reject) {
    return (err, reply) => {
       if (err) {
-         logger.debug('redis reject error:', err);
+         logger.warn('redis reject error', err);
          reject(err);
       } else {
-         logger.debug('redis resolve:', reply);
+         logger.debug('redis resolve', reply);
          resolve(reply);
       }
    };
@@ -144,6 +144,10 @@ export default class Redis {
       return createPromise(cb => this.client.del(key, cb));
    }
 
+   dump(key) {
+      return createPromise(cb => this.client.dump(key, cb));
+   }
+
    get(key) {
       return createPromise(cb => this.client.get(key, cb));
    }
@@ -161,11 +165,16 @@ export default class Redis {
    }
 
    mget(keys) {
+      //logger.info('mget', lodash.isArray(keys), keys);
       return createPromise(cb => this.client.mget(keys, cb));
    }
 
+   restore(key, ttl, value) {
+      return createPromise(cb => this.client.restore(key, ttl, value, cb));
+   }
+
    scan(cursor, match, count) {
-      return createPromise(cb => this.client.scan(cursor, match, count, cb));
+      return createPromise(cb => this.client.scan(cursor, 'match', match, 'count', count, cb));
    }
 
    set(key, value) {
