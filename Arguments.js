@@ -4,3 +4,15 @@
 export function createArray(args) {
    return Array.prototype.slice.call(args);
 }
+
+export function joinColon() {
+   return Array.prototype.slice.call(arguments).join(':');
+}
+
+export function joinDash() {
+   return Array.prototype.slice.call(arguments).join('-');
+}
+
+export function joinSpace() {
+   return Array.prototype.slice.call(arguments).join(' ');
+}

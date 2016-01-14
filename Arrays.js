@@ -32,3 +32,19 @@ export async function mapAsync(array, fn) {
       }
    });
 }
+
+export function joinColon(array) {
+   return array.join(':');
+}
+
+export function joinDash(array) {
+   return array.join('-');
+}
+
+export function joinSpace(array) {
+   return array.join(' ');
+}
+
+export function padLeftZero(array, length) {
+   return array.map(item => Strings.padLeftZero(item, 2));
+}
