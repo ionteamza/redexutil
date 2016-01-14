@@ -44,7 +44,3 @@ export function joinDash(array) {
 export function joinSpace(array) {
    return array.join(' ');
 }
-
-export function padLeftZero(array, length) {
-   return array.map(item => Strings.padLeftZero(item, 2));
-}
