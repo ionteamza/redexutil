@@ -11,6 +11,8 @@ export function formatString(object) {
       return 'empty~object';
    } else if (typeof object === 'string') {
       string = object;
+   } else if (lodash.isArray(object)) {
+      return object.length + '~array';
    } else if (typeof object === 'object') {
       if (object.constructor) {
          return object.constructor.name + '~object';
@@ -18,8 +20,6 @@ export function formatString(object) {
          logger.error('formatString', object);
          return object.toString();
       }
-   } else if (lodash.isArray(object)) {
-      return object.length + '~array';
    } else {
       string = object.toString();
    }
