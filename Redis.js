@@ -333,12 +333,12 @@ export default class Redis {
    // TODO all the rest, see https://github.com/mranney/node_redis/blob/master/lib/commands.js
 
    multi() {
-      let multi = this.client.multi();
-      multi.execCallback = multi.exec.bind(multi); // TODO
-      multi.exec = function() {
-         return createPromise(cb => multi.execCallback(cb));
+      let multi_ = this.client.multi();
+      multi_.execCallback = multi.exec.bind(multi_); // TODO
+      multi_.exec = function() {
+         return createPromise(cb => multi_.execCallback(cb));
       };
-      return multi;
+      return multi_;
    }
 }
 
