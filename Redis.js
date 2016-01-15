@@ -334,7 +334,7 @@ export default class Redis {
 
    multi() {
       let multi_ = this.client.multi();
-      multi_.execCallback = multi.exec.bind(multi_); // TODO
+      multi_.execCallback = multi_.exec.bind(multi_); // TODO
       multi_.exec = function() {
          return createPromise(cb => multi_.execCallback(cb));
       };
