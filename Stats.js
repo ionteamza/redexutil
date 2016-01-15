@@ -4,16 +4,16 @@
 import Sample from './Sample';
 
 export default class Stats {
-   hour = new Sample('hour');
-   minute = new Sample('minute');
-   day = new Sample('day');
-   session = new Sample('session');
-   startTime = new Date().getTime();
-   options = {
-      slowLimit: 1000
-   };
 
    constructor(logger, options) {
+      this.hour = new Sample('hour');
+      this.minute = new Sample('minute');
+      this.day = new Sample('day');
+      this.session = new Sample('session');
+      this.startTime = new Date().getTime();
+      this.options = {
+         slowLimit: 1000
+      };
       this.logger = logger;
       this.previous = {hour: this.hour, minute: this.minute, day: this.day};
       if (options) {
