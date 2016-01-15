@@ -4,15 +4,15 @@
 const logger = Loggers.create(__filename, 'info');
 
 export default class Sample {
-   counts = {};
-   averages = {};
-   slow = {};
-   peaks = {};
-   totals = {};
 
    constructor(name, startTime) {
       this.name = name;
       this.startTime = startTime || new Date().getTime();
+      this.counts = {};
+      this.averages = {};
+      this.slow = {};
+      this.peaks = {};
+      this.totals = {};
    }
 
    publish() {
