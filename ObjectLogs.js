@@ -30,6 +30,28 @@ export function formatString(object) {
    }
 }
 
+export function valueProps(object) {
+   if (!object) {
+      return 'empty';
+   }
+   let result = {};
+   if (!Object.keys(object).length) {
+      return 'empty~props';
+   }
+   Object.keys(object).forEach(key => {
+      let value = object[key];
+      if (!value) {
+         value = 'empty';
+      } else if (lodash.isObject(value)) {
+         value = 'object:' + Object.keys(value).join(',');
+      } else if (lodash.isArray(value)) {
+         value = 'array:' + array.length;
+      }
+      result[key] = value;
+   });
+   return result;
+}
+
 export function formatKeys(object, predicate) {
    if (!object) {
       return 'empty~object';
