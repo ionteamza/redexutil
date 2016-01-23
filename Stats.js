@@ -12,7 +12,7 @@ export default class Stats {
       this.session = new Sample('session');
       this.startTime = new Date().getTime();
       this.options = {
-         slowLimit: 1000
+         slowLimit: 200
       };
       this.logger = logger;
       this.previous = {hour: this.hour, minute: this.minute, day: this.day};
