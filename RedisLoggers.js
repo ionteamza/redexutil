@@ -9,8 +9,6 @@ import Redis from './Redis';
 
 const defaultLevel = 'info';
 const levels = ['debug', 'info', 'warn', 'error'];
-const extraLevels = ['state', 'digest', 'child', 'start', 'complete'];
-const allLevels = levels.concat(extraLevels);
 const digestLimit = 100;
 let redis;
 
@@ -35,8 +33,9 @@ export function create(name, level) {
 }
 
 export async function start(options) {
-   if (options.redis) {
-      redis
+   assert(options.redis, 'options.redis');
+   assert(options.redis, 'options.redis');
+   redis = new Redis(options.redis);
    }
 }
 
@@ -44,69 +43,12 @@ export function end() {
    redis.end();
 }
 
-function getStats(name) {
-   let stats = state.stats[name];
-   if (!stats) {
-      stats = {
-         counts: {},
-         averages: {},
-         peaks: {},
-      };
-      state.stats[name] = stats;
-   }
-   return stats;
-}
-
-function increment(logger, name, prop) {
-   let stats = getStats(name);
-   let count = stats.counts[prop] || 0;
-   count += 1;
-   stats.counts[prop] = count;
-   return count;
-}
-
-function peak(logger, name, prop, value) {
-   let stats = getStats(name);
-   let count = stats.counts[prop] || 0;
-   count += 1;
-   stats.counts[prop] = count;
-   //
-   let average = stats.averages[prop];
-   if (!average) {
-      average = value;
-   } else if (count > 1) {
-      average = ((count - 1) * average + value)/count;
-   }
-   stats.averages[prop] = average;
-   //
-   let peak = stats.peaks[prop];
-   if (!stats.peaks.hasOwnProperty(prop)) {
-      stats.peaks[prop] = value;
-      return value;
-   }
-   if (value > peak) {
-      stats.peaks[prop] = value;
-      peak = value;
-      logger.info('peak', prop, value, count, average);
-   }
-   return peak;
-}
-
-function basename(file) {
-   var matcher = file.match(/([^\/]+)\.[a-z]+$/);
-   if (matcher) {
-      return matcher[1];
-   } else {
-      return file;
-   }
-}
-
 class RedisLogger {
 
    constructor(name, level) {
       this.name = basename(name);
       this.level = level || global.loggerLevel || process.env.loggerLevel || defaultLevel;
-      this.logger = bunyan.createLogger({name, level});
+      this.logger = bunyan.createLogger({this.name, this.level});
       this.count = 0;
       this.time = 0;
    }
@@ -157,15 +99,15 @@ class RedisLogger {
       if (level === 'debug') {
          this.log('debug', ['increment', ...arguments]);
       }
-      return increment(this.logger, name, prop);
+      return increment(this.logger, this.name, prop);
    }
 
    peak(prop, value) {
-      return peak(this.logger, name, prop, value);
+      return peak(this.logger, this.name, prop, value);
    }
 
    timer(prop, time) {
-      return peak(this.logger, name, prop, new Date().getTime() - time);
+      return peak(this.logger, this.name, prop, new Date().getTime() - time);
    }
 
    debug() {
@@ -225,7 +167,7 @@ class RedisLogger {
    }
 
    log(level, args) {
-      increment(this.logger, name, level);
+      increment(this.logger, this.name, level);
       args = [].slice.call(args); // convert arguments to array
       if (!lodash.isEmpty(this.context)) {
          if (lodash.isArray(this.context)) {
@@ -248,11 +190,10 @@ class RedisLogger {
                   }
                }
             }
-         } else {
          }
       }
       let date = new Date().toISOString().substring(0, 16);
-      let message = [date, name, ...args];
+      let message = [date, this.name, ...args];
       state.logging[level].splice(0, 0, message);
       if (state.logging[level].length > state.limit) { // trim
          state.logging[level].length = state.limit;
@@ -273,5 +214,62 @@ function isError(value) {
       return true;
    } else {
       return lodash.isError(value);
+   }
+}
+
+function getStats(name) {
+   let stats = state.stats[name];
+   if (!stats) {
+      stats = {
+         counts: {},
+         averages: {},
+         peaks: {},
+      };
+      state.stats[name] = stats;
+   }
+   return stats;
+}
+
+function increment(logger, name, prop) {
+   let stats = getStats(name);
+   let count = stats.counts[prop] || 0;
+   count += 1;
+   stats.counts[prop] = count;
+   return count;
+}
+
+function peak(logger, name, prop, value) {
+   let stats = getStats(name);
+   let count = stats.counts[prop] || 0;
+   count += 1;
+   stats.counts[prop] = count;
+   //
+   let average = stats.averages[prop];
+   if (!average) {
+      average = value;
+   } else if (count > 1) {
+      average = ((count - 1) * average + value)/count;
+   }
+   stats.averages[prop] = average;
+   //
+   let peak = stats.peaks[prop];
+   if (!stats.peaks.hasOwnProperty(prop)) {
+      stats.peaks[prop] = value;
+      return value;
+   }
+   if (value > peak) {
+      stats.peaks[prop] = value;
+      peak = value;
+      logger.info('peak', prop, value, count, average);
+   }
+   return peak;
+}
+
+function basename(file) {
+   var matcher = file.match(/([^\/]+)\.[a-z]+$/);
+   if (matcher) {
+      return matcher[1];
+   } else {
+      return file;
    }
 }
