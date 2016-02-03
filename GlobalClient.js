@@ -10,6 +10,7 @@ module.exports = {
    Collections: require('./Collections'),
    Dates: require('./Dates'),
    Errors: require('./Errors'),
+   ExpireMap: require('./ExpireMap'),
    Maps: require('./Maps'),
    Millis: require('./Millis'),
    Maybe: require('./Maybe'),

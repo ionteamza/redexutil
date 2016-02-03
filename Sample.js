@@ -4,15 +4,15 @@
 const logger = Loggers.create(__filename, 'info');
 
 export default class Sample {
-   counts = {};
-   averages = {};
-   slow = {};
-   peaks = {};
-   totals = {};
 
    constructor(name, startTime) {
       this.name = name;
       this.startTime = startTime || new Date().getTime();
+      this.counts = {};
+      this.averages = {};
+      this.slow = {};
+      this.peaks = {};
+      this.totals = {};
    }
 
    publish() {
@@ -59,16 +59,16 @@ export default class Sample {
       this.totals[key] = total;
       let average = total/count;
       this.averages[key] = average;
-      let peak = this.peaks[key];
-      if (!peak) {
+      let peak_ = this.peaks[key];
+      if (!peak_) {
          this.peaks[key] = value;
-         peak = value;////
-      } else if (value > peak) {
+         peak_ = value;////
+      } else if (value > peak_) {
          this.peaks[key] = value;
-         peak = value;
-         logger.info('peak', this.startTime, key, peak, count, average);
+         peak_ = value;
+         logger.info('peak', this.startTime, key, peak_, count, average);
       }
-      return peak;
+      return peak_;
 
    }
 

@@ -199,8 +199,8 @@ function decorate(logger, name, level) {
       ddebug() {
          log(logger, name, level, context, 'warn', arguments);
       },
-      dinfo() {
-         log(logger, name, level, context, 'warn', arguments);
+      dinfo() { // TODO deprecated
+         log(logger, name, level, context, 'error', arguments);
       },
       tdebug() {
          if (process.env.envType === 'test') {

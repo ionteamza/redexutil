@@ -11,6 +11,8 @@ export function formatString(object) {
       return 'empty~object';
    } else if (typeof object === 'string') {
       string = object;
+   } else if (lodash.isArray(object)) {
+      return object.length + '~array';
    } else if (typeof object === 'object') {
       if (object.constructor) {
          return object.constructor.name + '~object';
@@ -18,8 +20,6 @@ export function formatString(object) {
          logger.error('formatString', object);
          return object.toString();
       }
-   } else if (lodash.isArray(object)) {
-      return object.length + '~array';
    } else {
       string = object.toString();
    }
@@ -28,6 +28,28 @@ export function formatString(object) {
    } else {
       return string;
    }
+}
+
+export function valueProps(object) {
+   if (!object) {
+      return 'empty';
+   }
+   let result = {};
+   if (!Object.keys(object).length) {
+      return 'empty~props';
+   }
+   Object.keys(object).forEach(key => {
+      let value = object[key];
+      if (!value) {
+         value = 'empty';
+      } else if (lodash.isObject(value)) {
+         value = 'object:' + Object.keys(value).join(',');
+      } else if (lodash.isArray(value)) {
+         value = 'array:' + array.length;
+      }
+      result[key] = value;
+   });
+   return result;
 }
 
 export function formatKeys(object, predicate) {

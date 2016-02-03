@@ -21,7 +21,7 @@ export function pushIf(array, value, condition) {
 }
 
 export async function mapAsync(array, fn) {
-   return await* array.map(async (item) => {
+   return Promise.all(array.map(async (item) => {
       try {
          let result = await fn();
          logger.debug('mapAsync', result);
@@ -30,5 +30,17 @@ export async function mapAsync(array, fn) {
          logger.debug('mapAsync', err);
          throw err;
       }
-   });
+   }));
+}
+
+export function joinColon(array) {
+   return array.join(':');
+}
+
+export function joinDash(array) {
+   return array.join('-');
+}
+
+export function joinSpace(array) {
+   return array.join(' ');
 }
