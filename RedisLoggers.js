@@ -5,8 +5,6 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-import Redis from './Redis';
-
 const defaultLevel = 'info';
 const levels = ['debug', 'info', 'warn', 'error'];
 const digestLimit = 100;
@@ -24,6 +22,15 @@ const state = {
    }
 };
 
+export async function start(options) {
+   assert(options.redis, 'options.redis');
+   redis = new Redis(options.redis);
+}
+
+export function end() {
+   redis.end();
+}
+
 export function publish() {
    return Object.assign({}, state.stats, state.logging);
 }
@@ -32,28 +39,17 @@ export function create(name, level) {
    return new RedisLogger(name, level);
 }
 
-export async function start(options) {
-   assert(options.redis, 'options.redis');
-   assert(options.redis, 'options.redis');
-   redis = new Redis(options.redis);
-   }
-}
-
-export function end() {
-   redis.end();
-}
-
 class RedisLogger {
 
    constructor(name, level) {
       this.name = basename(name);
       this.level = level || global.loggerLevel || process.env.loggerLevel || defaultLevel;
-      this.logger = bunyan.createLogger({this.name, this.level});
+      this.logger = bunyan.createLogger({name: this.name, level: this.level});
       this.count = 0;
       this.time = 0;
    }
 
-   get name() {
+   getName() {
       return this.name;
    }
 
@@ -62,7 +58,7 @@ class RedisLogger {
    }
 
    digest() {
-      if (level === 'debug') {
+      if (this.level === 'debug') {
          this.count += 1;
          if (this.count < digestLimit/10 && this.count % digestLimit === 0) {
             this.log('debug', arguments, 'digest:' + this.count);
@@ -71,14 +67,14 @@ class RedisLogger {
    }
 
    start() {
-      if (level === 'debug') {
+      if (this.level === 'debug') {
          this.time = new Date().getTime();
          this.log('debug', ['start', ...arguments]);
       }
    }
 
    end() {
-      if (level === 'debug') {
+      if (this.level === 'debug') {
          let duration = 0;
          let logLevel = 'debug';
          if (!this.time) {
@@ -96,7 +92,7 @@ class RedisLogger {
    }
 
    increment(prop) {
-      if (level === 'debug') {
+      if (this.level === 'debug') {
          this.log('debug', ['increment', ...arguments]);
       }
       return increment(this.logger, this.name, prop);
@@ -111,13 +107,13 @@ class RedisLogger {
    }
 
    debug() {
-      if (level === 'debug') {
+      if (this.level === 'debug') {
          this.log('debug', arguments);
       }
    }
 
    info() {
-      if (level !== 'warn') {
+      if (this.level !== 'warn') {
          this.log('info', arguments);
       }
    }
