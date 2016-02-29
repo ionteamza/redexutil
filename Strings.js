@@ -27,7 +27,7 @@ export function joinColon() { // deprecated
    return Array.prototype.slice.call(arguments).join(':');
 }
 
-export function extract(string, regex) {
+export function extractRegex(string, regex) {
    let match = string.match(regex);
    if (match && match.length > 1) {
       return match[1];
