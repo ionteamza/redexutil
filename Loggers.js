@@ -132,7 +132,7 @@ function decorate(logger, name, level) {
             log(logger, name, level, context, 'debug', ['start', ...arguments]);
          }
       },
-      complete() {
+      end() {
          if (level === 'debug') {
             let duration = 0;
             let logLevel = 'debug';

@@ -8,8 +8,8 @@
 import lodash from 'lodash';
 import redis from 'redis';
 
-import Paths from './Paths';
 import Loggers from './Loggers';
+import Paths from './Paths';
 
 const logger = Loggers.create(__filename, 'info');
 
