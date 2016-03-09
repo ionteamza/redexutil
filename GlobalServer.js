@@ -26,6 +26,7 @@ Object.assign(module.exports, {
   Objects: require('./Objects'),
   Paths: require('./Paths'),
   Promises: require('./Promises'),
+  Regexes: require('./Regexes'),
   Requests: require('./Requests'),
   Seconds: require('./Seconds'),
   Stats: require('./Stats'),
