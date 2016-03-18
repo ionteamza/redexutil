@@ -15,7 +15,7 @@ export function sha(sha) {
    }
 }
 
-export function formatString(object) {
+export function format(object) {
    let string;
    if (!object) {
       return 'empty~object';
@@ -25,9 +25,9 @@ export function formatString(object) {
       return 'array~' + object.length;
    } else if (typeof object === 'object') {
       if (object.constructor) {
-         return object.constructor.name + '~object';
+         return object.constructor.name + '~constructor';
       } else {
-         logger.error('formatString', object);
+         logger.error('format', object);
          return object.toString();
       }
    } else {
@@ -42,20 +42,20 @@ export function formatString(object) {
 
 export function valueProps(object) {
    if (!object) {
-      return 'empty';
+      return [];
    }
    let result = {};
    if (!Object.keys(object).length) {
-      return 'empty~props';
+      return [];
    }
    Object.keys(object).forEach(key => {
       let value = object[key];
       if (!value) {
          value = 'empty';
       } else if (lodash.isObject(value)) {
-         value = 'object:' + Object.keys(value).join(',');
+         value = Object.keys(value).join(',');
       } else if (lodash.isArray(value)) {
-         value = 'array:' + array.length;
+         value = 'array~' + array.length;
       }
       result[key] = value;
    });
@@ -64,7 +64,7 @@ export function valueProps(object) {
 
 export function formatKeys(object, predicate) {
    if (!object) {
-      return 'empty~object';
+      return 'empty~keys';
    } else if (predicate) {
       return Objects.keys(object, predicate).join(' ');
    } else {
@@ -74,19 +74,19 @@ export function formatKeys(object, predicate) {
 
 export function formatValues(object, predicate) {
    if (!object) {
-      return 'empty~object';
+      return 'empty~values';
    } else {
       return Objects.keys(object, predicate).map(key => {
          let value = object[key];
          logger.warn('formatValues', key, value);
-         return key + '#s' + formatString(value);
+         return key + ':' + format(value);
       }).join(' ');
    }
 }
 
 export function formatType(object) {
    if (!object) {
-      return 'empty~object';
+      return 'empty~type';
    } else {
       return Object.keys(object).join(' ');
    }
