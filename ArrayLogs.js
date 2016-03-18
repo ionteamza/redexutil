@@ -12,7 +12,7 @@ export function formatProps(array, predicate) {
       return 'invalid~array';
    } else {
       return array.map(item => Objects.keys(item, predicate)
-      .map(key => '@' + key + '=' + ObjectLogs.format(item[key])).join(' '));
+      .map(key => key + '=' + ObjectLogs.format(item[key])).join(' '));
    }
 }
 
