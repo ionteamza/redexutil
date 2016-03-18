@@ -14,7 +14,7 @@ else
   message="update"
 fi
 
-if git remote -v | grep 'github.com:ionteamza/redexutil\.git$'
+if git remote -v | head -1 | grep 'https://github.com/ionteamza/redexutil.git$'
 then
   git remote set-url origin git@github.com:ionteamza/redexutil.git
   git remote -v
