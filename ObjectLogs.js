@@ -5,6 +5,16 @@ import lodash from 'lodash';
 
 const logger = Loggers.create(__filename, 'info');
 
+export function sha(sha) {
+   if (typeof sha !== 'string') {
+      return typeof sha + '~sha'
+   } else if (sha.length > 6) {
+      return sha.slice(-6);
+   } else {
+      return 'sha~' + sha.length;
+   }
+}
+
 export function format(object) {
    let string;
    if (!object) {
