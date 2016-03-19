@@ -5,6 +5,14 @@ import lodash from 'lodash';
 
 const logger = Loggers.create(__filename, 'info');
 
+export function hhmm(date) {
+   if (!date) {
+      return 'empty~date';
+   } else {
+      return new Date(date).toISOString().substring(10, 14);
+   }
+}
+
 export function sha(sha) {
    if (typeof sha !== 'string') {
       return typeof sha + '~sha'
