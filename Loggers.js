@@ -188,7 +188,9 @@ function decorate(logger, name, level) {
          log(logger, name, level, context, 'warn', arguments);
       },
       wdebug() {
-         log(logger, name, level, context, 'warn', arguments);
+         if (global.envType === 'dev') {
+            log(logger, name, level, context, 'warn', arguments);
+         }
       },
       winfo() {
          log(logger, name, level, context, 'warn', arguments);
