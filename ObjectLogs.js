@@ -5,6 +5,29 @@ import lodash from 'lodash';
 
 const logger = Loggers.create(__filename, 'info');
 
+export function join(array) {
+   if (!lodash.isArray(array)) {
+      return 'invalid~array';
+   } else if (lodash.isEmpty(array)) {
+      return 'empty~array';
+   } else {
+      return array.join(' ');
+   }
+}
+
+export function keys(object) {
+   if (!object) {
+      return 'none~keys';
+   } else {
+      const keys = Object.keys(object);
+      if (lodash.isEmpty(keys)) {
+         return 'empty~keys';
+      } else {
+         return keys.join(' ');
+      }
+   }
+}
+
 export function hhmm(date) {
    if (!date) {
       return 'empty~date';
