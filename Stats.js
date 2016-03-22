@@ -26,7 +26,7 @@ export default class Stats {
          }
       }
       this.minuteIntervalId = setInterval(async => {
-         this.logger.info('minute', this.previous.minute.publish(), this.minute.publish());
+         this.logger.vdebug('minute', this.previous.minute.publish(), this.minute.publish());
          this.previous.minute = this.minute;
          this.minute = new Sample('minute');
       }, Millis.fromMinutes(1));
