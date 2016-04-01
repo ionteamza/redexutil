@@ -19,6 +19,7 @@ Object.assign(module.exports, {
   Errors: require('./Errors'),
   ExpireMap: require('./ExpireMap'),
   Maps: require('./Maps'),
+  Modules: require('./Modules'),
   Millis: require('./Millis'),
   Maybe: require('./Maybe'),
   Numbers: require('./Numbers'),

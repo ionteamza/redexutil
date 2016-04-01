@@ -9,7 +9,7 @@ module.exports = {
 
 module.exports._ = module.exports.lodash;
 
-Object.assign(module.exports, {
+Object.assign(module.exports, Modules.getDefaultExports({
   Arguments: require('./Arguments'),
   ArrayLogs: require('./ArrayLogs'),
   Arrays: require('./Arrays'),
@@ -19,8 +19,9 @@ Object.assign(module.exports, {
   Errors: require('./Errors'),
   ExpireMap: require('./ExpireMap'),
   Maps: require('./Maps'),
-  Millis: require('./Millis'),
   Maybe: require('./Maybe'),
+  Millis: require('./Millis'),
+  Modules: require('./Modules'),
   Numbers: require('./Numbers'),
   ObjectLogs: require('./ObjectLogs'),
   Objects: require('./Objects'),
