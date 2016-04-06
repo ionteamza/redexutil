@@ -171,6 +171,8 @@ function decorate(logger, name, level) {
             log(logger, name, level, context, 'info', arguments);
          }
       },
+      ndebug() {
+      },
       verbose() {
       },
       vdebug() {
@@ -195,19 +197,13 @@ function decorate(logger, name, level) {
       winfo() {
          log(logger, name, level, context, 'warn', arguments);
       },
-      dverbose() {
-         log(logger, name, level, context, 'warn', arguments);
+      dverbose() { // TODO deprecated
       },
-      ddebug() {
-         log(logger, name, level, context, 'warn', arguments);
+      ddebug() { // TODO deprecated
       },
       dinfo() { // TODO deprecated
-         log(logger, name, level, context, 'error', arguments);
       },
-      tdebug() {
-         if (process.env.envType === 'test') {
-            log(logger, name, level, context, 'info', arguments);
-         }
+      tdebug() { // TODO deprecated
       }
    };
    return those;
