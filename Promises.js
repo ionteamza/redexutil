@@ -68,10 +68,10 @@ class Promises {
             if (lodash.isEmpty(values)) {
                resolve(results);
             }
-            fn(values.shift()).then(next, reject);
+            fn(values.shift()).then(next).catch(reject);
          }
          logger.debug('series start', values.length);
-         return fn(values.shift()).then(next, reject);
+         return fn(values.shift()).then(next).catch(reject);
       });
    }
 
