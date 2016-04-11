@@ -118,14 +118,7 @@ class RedisLogger {
       }
    }
 
-   verbose() {
-   }
-
-   ndebug() {
-   }
-
-   dev() {
-      this.log('warn', arguments);
+  .ndebug() {
    }
 
    warn() {
@@ -136,30 +129,8 @@ class RedisLogger {
       this.log('error', arguments);
    }
 
-   wverbose() {
-      this.log('warn', arguments);
-   }
-
   .ndebug() {
       this.log('warn', arguments);
-   }
-
-   winfo() {
-      this.log('warn', arguments);
-   }
-
-   dverbose() {
-      this.log('warn', arguments);
-   }
-
-   ddebug() {
-      this.log('warn', arguments);
-   }
-
-   tdebug() {
-      if (process.env.envType === 'test') {
-         this.log('info', arguments);
-      }
    }
 
    log(level, args) {

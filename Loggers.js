@@ -161,7 +161,7 @@ function decorate(logger, name, level) {
       timer(prop, time) {
          return peak(logger, name, prop, new Date().getTime() - time);
       },
-      ndebug() {
+     .ndebug() {
       },
       debug() {
          if (level === 'debug') {
