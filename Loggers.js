@@ -161,6 +161,8 @@ function decorate(logger, name, level) {
       timer(prop, time) {
          return peak(logger, name, prop, new Date().getTime() - time);
       },
+      ndebug() {
+      },
       debug() {
          if (level === 'debug') {
             log(logger, name, level, context, 'debug', arguments);
@@ -171,39 +173,11 @@ function decorate(logger, name, level) {
             log(logger, name, level, context, 'info', arguments);
          }
       },
-      ndebug() {
-      },
-      verbose() {
-      },
-      vdebug() {
-      },
-      dev() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
       warn() {
          log(logger, name, level, context, 'warn', arguments);
       },
       error() {
          log(logger, name, level, context, 'error', arguments);
-      },
-      wverbose() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      wdebug() {
-         if (global.envType === 'dev') {
-            log(logger, name, level, context, 'warn', arguments);
-         }
-      },
-      winfo() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      dverbose() { // TODO deprecated
-      },
-      ddebug() { // TODO deprecated
-      },
-      dinfo() { // TODO deprecated
-      },
-      tdebug() { // TODO deprecated
       }
    };
    return those;

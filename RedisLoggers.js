@@ -121,7 +121,7 @@ class RedisLogger {
    verbose() {
    }
 
-   vdebug() {
+   ndebug() {
    }
 
    dev() {
@@ -140,7 +140,7 @@ class RedisLogger {
       this.log('warn', arguments);
    }
 
-   wdebug() {
+  .ndebug() {
       this.log('warn', arguments);
    }
 
