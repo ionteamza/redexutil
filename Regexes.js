@@ -10,10 +10,10 @@ export function extract(regex, string) {
    }
 }
 
-export function replace(regex, string, with) {
+export function replace(regex, string, replace) {
    let match = string.match(regex);
    if (match && match.length > 1) {
-      return string.replace(regex, with);
+      return string.replace(regex, raplace);
    }
    return string;
 }
