@@ -9,3 +9,11 @@ export function extract(regex, string) {
       return match[1];
    }
 }
+
+export function replace(regex, string, with) {
+   let match = string.match(regex);
+   if (match && match.length > 1) {
+      return string.replace(regex, with);
+   }
+   return string;
+}
