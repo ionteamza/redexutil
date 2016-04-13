@@ -168,6 +168,11 @@ function decorate(logger, name, level) {
             log(logger, name, level, context, 'debug', arguments);
          }
       },
+      dwarn() {
+         if (level === 'debug') {
+            log(logger, name, level, context, 'warn', arguments);
+         }
+      },
       info() {
          if (level !== 'warn') {
             log(logger, name, level, context, 'info', arguments);
