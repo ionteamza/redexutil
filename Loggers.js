@@ -163,14 +163,14 @@ function decorate(logger, name, level) {
       },
       ndebug() {
       },
+      wdebug() {
+         if (level === 'debug') {
+            log(logger, name, level, context, 'warn', arguments);
+         }
+      },
       debug() {
          if (level === 'debug') {
             log(logger, name, level, context, 'debug', arguments);
-         }
-      },
-      dwarn() {
-         if (level === 'debug') {
-            log(logger, name, level, context, 'warn', arguments);
          }
       },
       info() {
