@@ -13,9 +13,10 @@ export function getDefaultExport(module) {
 
 export function getDefaultExports(modules) {
    Object.keys(modules).forEach(key => {
-      var defaultExport = modules[key].default;
-      if (defaultExport) {
-         modules[key] = defaultExport;
+      var moduleValue = modules[key];
+      if (moduleValue.default) {
+         modules[key] = moduleValue.default;
       }
    });
+   return modules;
 }

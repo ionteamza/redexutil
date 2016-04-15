@@ -3,6 +3,8 @@
 
 // Warning: this automatically loads a number of modules in global
 
+const Modules = require('./Modules');
+
 module.exports = {
    Arguments: require('./Arguments'),
    ArrayLogs: require('./ArrayLogs'),
