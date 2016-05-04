@@ -109,7 +109,6 @@ export function formatValues(object, predicate) {
    } else {
       return Objects.keys(object, predicate).map(key => {
          let value = object[key];
-         logger.warn('formatValues', key, value);
          return key + ':' + format(value);
       }).join(' ');
    }
