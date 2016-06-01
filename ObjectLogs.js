@@ -97,6 +97,7 @@ export function formatKeys(object, predicate) {
    if (!object) {
       return 'empty~keys';
    } else if (predicate) {
+   } else if (lodash.isFunction(predicate)) {
       return Objects.keys(object, predicate).join(' ');
    } else {
       return Object.keys(object).join(' ');
@@ -105,13 +106,29 @@ export function formatKeys(object, predicate) {
 
 export function formatValues(object, predicate) {
    if (!object) {
-      return 'empty~values';
-   } else {
-      return Objects.keys(object, predicate).map(key => {
-         let value = object[key];
-         return key + '=' + format(value);
-      }).join(' ');
+      return 'EmptyObject';
    }
+   let keys = [];
+   if (lodash.isFunction(predicate)) {
+   } else if (lodash.isString(predicate)) {
+      keys = predicate.split(' ');
+   } else if (lodash.isArray(predicate)) {
+      keys = predicate;
+   } else {
+      return 'InvalidPredicate:' + typeof predicate;
+   }
+   if (keys.length) {
+      predicate = key => keys.includes(key);
+   }
+   return Objects.keys(object, predicate).map(key => {
+      const value = object[key];
+      const string = format(value);
+      if (string.indexOf(' ') >= 0) {
+         return `${key}='${string}'`;
+      } else {
+         return key + '=' + string;
+      }
+   }).join(' ');
 }
 
 export function formatType(object) {
