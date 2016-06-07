@@ -126,7 +126,7 @@ export function formatValues(object, predicate) {
       if (string.indexOf(' ') >= 0) {
          return `${key}='${string}'`;
       } else {
-         return key + '=' + string;
+         return key + '=' + value;
       }
    }).join(' ');
 }
