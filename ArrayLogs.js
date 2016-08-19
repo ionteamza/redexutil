@@ -26,6 +26,30 @@ export function length(array) {
    }
 }
 
+export function slice(array, begin, end) {
+   if (lodash.isEmpty(array)) {
+      return 'empty~array';
+   } else if (!lodash.isArray(array)) {
+      return 'invalid~array';
+   } else if (end && array.length < end) {
+      return array.slice(begin);
+   } else {
+      return array.slice(begin, end);
+   }
+}
+
+export function toString(array) {
+   if (lodash.isEmpty(array)) {
+      return 'empty~array';
+   } else if (!lodash.isArray(array)) {
+      return 'invalid~array';
+   } else if (array.length < 25) {
+      return array.slice(0).join(' ');
+   } else {
+      return `[${array.length}] ${array.slice(0, 15).join(' ')} ... ${array.slice(array.length - 5).join(' ')}`;
+   }
+}
+
 export function first(array, predicate) {
    if (lodash.isEmpty(array)) {
       return 'empty~array';
