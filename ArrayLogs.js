@@ -7,9 +7,9 @@ const logger = Loggers.create(__filename, 'info');
 
 export function formatProps(array, predicate) {
    if (lodash.isEmpty(array)) {
-      return 'empty~array';
+      return 'empty[]';
    } else if (!lodash.isArray(array)) {
-      return 'invalid~array';
+      return 'invalid[]';
    } else {
       return array.map(item => Objects.keys(item, predicate)
       .map(key => key + '=' + ObjectLogs.format(item[key])).join(' '));
@@ -18,9 +18,9 @@ export function formatProps(array, predicate) {
 
 export function length(array) {
    if (lodash.isEmpty(array)) {
-      return 'empty~array';
+      return 'empty[]';
    } else if (!lodash.isArray(array)) {
-      return 'invalid~array';
+      return 'invalid[]';
    } else {
       return array.length;
    }
@@ -28,9 +28,9 @@ export function length(array) {
 
 export function slice(array, begin, end) {
    if (lodash.isEmpty(array)) {
-      return 'empty~array';
+      return 'empty[]';
    } else if (!lodash.isArray(array)) {
-      return 'invalid~array';
+      return 'invalid[]';
    } else if (end && array.length < end) {
       return array.slice(begin);
    } else {
@@ -40,9 +40,9 @@ export function slice(array, begin, end) {
 
 export function toString(array) {
    if (lodash.isEmpty(array)) {
-      return 'empty~array';
+      return 'empty[]';
    } else if (!lodash.isArray(array)) {
-      return 'invalid~array';
+      return 'invalid[]';
    } else if (array.length < 25) {
       return array.slice(0).join(' ');
    } else {
@@ -52,9 +52,9 @@ export function toString(array) {
 
 export function first(array, predicate) {
    if (lodash.isEmpty(array)) {
-      return 'empty~array';
+      return 'empty[]';
    } else if (!lodash.isArray(array)) {
-      return 'invalid~array';
+      return 'invalid[]';
    } else {
       return ObjectLogs.formatValues(array[0], predicate);
    }
