@@ -7,9 +7,9 @@ const logger = Loggers.create(__filename, 'info');
 
 export function join(array) {
    if (!lodash.isArray(array)) {
-      return 'invalid~array';
+      return 'InvalidArray';
    } else if (lodash.isEmpty(array)) {
-      return 'empty~array';
+      return 'EmptyArray';
    } else {
       return array.join(' ');
    }
@@ -17,11 +17,11 @@ export function join(array) {
 
 export function keys(object) {
    if (!object) {
-      return 'none~keys';
+      return 'EmptyObject';
    } else {
       const keys = Object.keys(object);
       if (lodash.isEmpty(keys)) {
-         return 'empty~keys';
+         return 'EmptyKeys';
       } else {
          return keys.join(' ');
       }
@@ -30,7 +30,7 @@ export function keys(object) {
 
 export function hhmm(date) {
    if (!date) {
-      return 'empty~date';
+      return 'EmptyDate';
    } else {
       return new Date(date).toISOString().substring(10, 14);
    }
@@ -38,25 +38,25 @@ export function hhmm(date) {
 
 export function sha(sha) {
    if (typeof sha !== 'string') {
-      return typeof sha + '~sha'
+      return 'Sha:InvalidType:' + typeof sha;
    } else if (sha.length > 6) {
       return sha.slice(-6);
    } else {
-      return 'sha~' + sha.length;
+      return 'Sha:' + sha.length;
    }
 }
 
 export function format(object) {
    let string;
    if (!object) {
-      return 'empty~object';
+      return 'EmptyObject';
    } else if (typeof object === 'string') {
       string = object;
    } else if (lodash.isArray(object)) {
-      return 'array~' + object.length;
+      return 'Array:' + object.length;
    } else if (typeof object === 'object') {
       if (object.constructor) {
-         return object.constructor.name + '~constructor';
+         return 'Object:' + object.constructor.name;
       } else {
          logger.error('format', object);
          return object.toString();
@@ -65,7 +65,7 @@ export function format(object) {
       string = object.toString();
    }
    if (/\s/.test(string)) {
-      return 'string~' + string.length;
+      return 'String:' + string.length;
    } else {
       return string;
    }
@@ -82,11 +82,11 @@ export function valueProps(object) {
    Object.keys(object).forEach(key => {
       let value = object[key];
       if (!value) {
-         value = 'empty';
+         value = 'EmptyValue';
       } else if (lodash.isObject(value)) {
          value = Object.keys(value).join(',');
       } else if (lodash.isArray(value)) {
-         value = 'array~' + array.length;
+         value = 'Array:' + array.length;
       }
       result[key] = value;
    });
@@ -95,7 +95,7 @@ export function valueProps(object) {
 
 export function formatKeys(object, predicate) {
    if (!object) {
-      return 'empty~keys';
+      return 'EmptyKeys';
    } else if (predicate) {
    } else if (lodash.isFunction(predicate)) {
       return Objects.keys(object, predicate).join(' ');
@@ -109,11 +109,12 @@ export function formatValues(object, predicate) {
       return 'EmptyObject';
    }
    let keys = [];
-   if (lodash.isFunction(predicate)) {
+   if (!predicate) {
+      keys = Object.keys(object);
+   } else if (lodash.isFunction(predicate)) {
    } else if (lodash.isString(predicate)) {
       keys = predicate.split(' ');
    } else if (lodash.isArray(predicate)) {
-      keys = predicate;
    } else {
       return 'InvalidPredicate:' + typeof predicate;
    }
@@ -133,7 +134,7 @@ export function formatValues(object, predicate) {
 
 export function formatType(object) {
    if (!object) {
-      return 'empty~type';
+      return 'EmptyType';
    } else {
       return Object.keys(object).join(' ');
    }
