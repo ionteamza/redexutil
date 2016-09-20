@@ -221,6 +221,10 @@ export default class Redis {
       return createPromise(cb => this.client.hdel(key, fields, cb));
    }
 
+   hincrby(key, field, value) {
+      return createPromise(cb => this.client.hincrby(key, field, value, cb));
+   }
+
    hget(key, field) {
       return createPromise(cb => this.client.hget(key, field, cb));
    }
