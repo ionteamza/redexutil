@@ -217,6 +217,10 @@ export default class Redis {
       return createPromise(cb => this.client.ttl(key, cb));
    }
 
+   hexists(key, field) {
+      return createPromise(cb => this.client.hexists(key, field, cb));
+   }
+
    hdel(key, ...fields) {
       return createPromise(cb => this.client.hdel(key, fields, cb));
    }
