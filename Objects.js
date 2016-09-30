@@ -50,11 +50,7 @@ export function filter(value, predicate) {
 }
 
 export function keys(object, predicate) {
-   if (!predicate) {
-      return Object.keys(object);
-   } else {
-      return Object.keys(object).filter(key => filter(key, predicate));
-   }
+   return Object.keys(object).filter(key => filter(key, predicate));
 }
 
 export function extract(object, predicate) {
