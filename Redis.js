@@ -333,6 +333,10 @@ export default class Redis {
       return createPromise(cb => this.client.zrem(key, member, cb));
    }
 
+   zscore(key, member) {
+      return createPromise(cb => this.client.zscore(key, member, cb));
+   }
+
    zrevrange(key, start, stop) {
       return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
    }
