@@ -4,8 +4,6 @@
 import path from 'path';
 import lodash from 'lodash';
 
-import Loggers from './Loggers';
-
 const logger = Loggers.create(__filename, 'info');
 
 const mimeTypes = {

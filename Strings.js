@@ -4,32 +4,34 @@
 const logger = Loggers.create(__filename, 'info');
 
 export function formatEmpty(string, defaultString) {
-   if (string) {
-      return string;
-   } else {
-      return defaultString || '';
-   }
+  if (string) {
+    return string;
+  } else {
+    return defaultString || '';
+  }
 }
 
 export function formatNullable(string) { // deprecated
-   return formatEmpty(string);
+  return formatEmpty(string);
 }
 
 export function padLeftZero(value, length) {
-   let string = value.toString();
-   while (string.length < length) {
-      string = '0' + string;
-   }
-   return string;
+  let string = value.toString();
+  while (string.length < length) {
+    string = '0' + string;
+  }
+  return string;
 }
 
 export function joinColon() { // deprecated
-   return Array.prototype.slice.call(arguments).join(':');
+  return Array.prototype.slice.call(arguments).join(':');
 }
 
 export function extractRegex(string, regex) {
-   let match = string.match(regex);
-   if (match && match.length > 1) {
+  if (string) {
+    let match = string.match(regex);
+    if (match && match.length > 1) {
       return match[1];
-   }
+    }
+  }
 }

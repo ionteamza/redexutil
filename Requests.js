@@ -22,7 +22,7 @@ export function json(options) {
 
 export function request(options) {
    options = processOptions(options);
-   logger.vdebug('request', options);
+   logger.ndebug('request', options);
    let startTime = new Date().getTime();
    return new Promise((resolve, reject) => {
       requestf(options, (err, response, content) => {

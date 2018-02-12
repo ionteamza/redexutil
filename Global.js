@@ -4,12 +4,13 @@
 module.exports = {
   assert: require('assert'),
   path: require('path'),
-  lodash: require('lodash')
+  lodash: require('lodash'),
+  Modules: require('./Modules')
 };
 
 module.exports._ = module.exports.lodash;
 
-Object.assign(module.exports, {
+Object.assign(module.exports, module.exports.Modules.getDefaultExports({
   Arguments: require('./Arguments'),
   ArrayLogs: require('./ArrayLogs'),
   Arrays: require('./Arrays'),
@@ -19,13 +20,14 @@ Object.assign(module.exports, {
   Errors: require('./Errors'),
   ExpireMap: require('./ExpireMap'),
   Maps: require('./Maps'),
-  Millis: require('./Millis'),
   Maybe: require('./Maybe'),
+  Millis: require('./Millis'),
   Numbers: require('./Numbers'),
   ObjectLogs: require('./ObjectLogs'),
   Objects: require('./Objects'),
   Paths: require('./Paths'),
   Promises: require('./Promises'),
+  Regexes: require('./Regexes'),
   Requests: require('./Requests'),
   Seconds: require('./Seconds'),
   Stats: require('./Stats'),

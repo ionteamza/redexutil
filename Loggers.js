@@ -132,7 +132,7 @@ function decorate(logger, name, level) {
             log(logger, name, level, context, 'debug', ['start', ...arguments]);
          }
       },
-      end() {
+      finish() {
          if (level === 'debug') {
             let duration = 0;
             let logLevel = 'debug';
@@ -161,6 +161,13 @@ function decorate(logger, name, level) {
       timer(prop, time) {
          return peak(logger, name, prop, new Date().getTime() - time);
       },
+      ndebug() {
+      },
+      wdebug() {
+         if (level === 'debug') {
+            log(logger, name, level, context, 'warn', arguments);
+         }
+      },
       debug() {
          if (level === 'debug') {
             log(logger, name, level, context, 'debug', arguments);
@@ -171,41 +178,11 @@ function decorate(logger, name, level) {
             log(logger, name, level, context, 'info', arguments);
          }
       },
-      verbose() {
-      },
-      vdebug() {
-      },
-      dev() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
       warn() {
          log(logger, name, level, context, 'warn', arguments);
       },
       error() {
          log(logger, name, level, context, 'error', arguments);
-      },
-      wverbose() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      wdebug() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      winfo() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      dverbose() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      ddebug() {
-         log(logger, name, level, context, 'warn', arguments);
-      },
-      dinfo() { // TODO deprecated
-         log(logger, name, level, context, 'error', arguments);
-      },
-      tdebug() {
-         if (process.env.envType === 'test') {
-            log(logger, name, level, context, 'info', arguments);
-         }
       }
    };
    return those;

@@ -3,6 +3,8 @@
 
 // Warning: this automatically loads a number of modules in global
 
+const Modules = require('./Modules');
+
 module.exports = {
    Arguments: require('./Arguments'),
    ArrayLogs: require('./ArrayLogs'),
@@ -12,12 +14,14 @@ module.exports = {
    Errors: require('./Errors'),
    ExpireMap: require('./ExpireMap'),
    Maps: require('./Maps'),
-   Millis: require('./Millis'),
    Maybe: require('./Maybe'),
+   Millis: require('./Millis'),
+   Modules: require('./Modules'),
    Numbers: require('./Numbers'),
    ObjectLogs: require('./ObjectLogs'),
    Objects: require('./Objects'),
    Promises: require('./Promises'),
+   Regexes: require('./Regexes'),
    Seconds: require('./Seconds'),
    Strings: require('./Strings'),
    Urls: require('./Urls')

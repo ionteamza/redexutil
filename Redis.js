@@ -217,8 +217,16 @@ export default class Redis {
       return createPromise(cb => this.client.ttl(key, cb));
    }
 
+   hexists(key, field) {
+      return createPromise(cb => this.client.hexists(key, field, cb));
+   }
+
    hdel(key, ...fields) {
       return createPromise(cb => this.client.hdel(key, fields, cb));
+   }
+
+   hincrby(key, field, value) {
+      return createPromise(cb => this.client.hincrby(key, field, value, cb));
    }
 
    hget(key, field) {
@@ -310,7 +318,6 @@ export default class Redis {
    }
 
    zadd(key, score, member) {
-      //logger.tdebug('zadd', key, score, member);
       return createPromise(cb => this.client.zadd(key, score, member, cb));
    }
 
@@ -324,6 +331,10 @@ export default class Redis {
 
    zrem(key, member) {
       return createPromise(cb => this.client.zrem(key, member, cb));
+   }
+
+   zscore(key, member) {
+      return createPromise(cb => this.client.zscore(key, member, cb));
    }
 
    zrevrange(key, start, stop) {
