@@ -325,8 +325,12 @@ export default class Redis {
       return createPromise(cb => this.client.zcard(key, cb));
    }
 
-   zrange(key, start, stop) {
-      return createPromise(cb => this.client.zrange(key, start, stop, cb));
+   zrange(key, start, stop, withscores) {
+      if (withscores) {
+        return createPromise(cb => this.client.zrange(key, start, stop, withscores, cb));
+      } else {
+        return createPromise(cb => this.client.zrange(key, start, stop, cb));
+      }
    }
 
    zrem(key, member) {
@@ -337,8 +341,12 @@ export default class Redis {
       return createPromise(cb => this.client.zscore(key, member, cb));
    }
 
-   zrevrange(key, start, stop) {
-      return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
+   zrevrange(key, start, stop, withscores) {
+      if (withscores) {
+         return createPromise(cb => this.client.zrevrange(key, start, stop, withscores, cb));
+      } else {
+        return createPromise(cb => this.client.zrevrange(key, start, stop, cb));
+      }
    }
 
    // TODO all the rest, see https://github.com/mranney/node_redis/blob/master/lib/commands.js
