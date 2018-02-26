@@ -317,8 +317,8 @@ export default class Redis {
       return createPromise(cb => this.client.brpoplpush(source, destination, timeout, cb));
    }
 
-   zadd(key, score, member) {
-      return createPromise(cb => this.client.zadd(key, score, member, cb));
+   zadd(key, options, score, member) {
+      return createPromise(cb => this.client.zadd(key, options, score, member, cb));
    }
 
    zcard(key) {
