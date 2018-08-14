@@ -20,6 +20,13 @@ export function json(options) {
    return request(options);
 }
 
+export function jsonPost(options) {
+    options = processOptions(options);
+    options.json = true;
+    logger.debug('json', options.url);
+    return requestPost(options);
+ }
+
 export function request(options) {
    options = processOptions(options);
    logger.ndebug('request', options);
@@ -43,6 +50,30 @@ export function request(options) {
       });
    });
 }
+
+export function requestPost(options) {
+    options = processOptions(options);
+    logger.ndebug('request', options);
+    let startTime = new Date().getTime();
+    return new Promise((resolve, reject) => {
+       requestf.post(options, (err, response, content) => {
+          let duration = Millis.getElapsedDuration(startTime);
+          logger.debug('response', options.url || options, err || response.statusCode, Millis.formatDuration(duration));
+          if (err) {
+             err.options = options;
+             err.duration = duration;
+             reject(err);
+          } else if (response.statusCode !== 200) {
+             reject({options: options, statusCode: response.statusCode});
+          } else {
+             if (duration > options.slow) {
+                logger.warn('request slow', Millis.formatDuration(duration), options.url);
+             }
+             resolve(content);
+          }
+       });
+    });
+ }
 
 export function response(options) {
    options = processOptions(options);
